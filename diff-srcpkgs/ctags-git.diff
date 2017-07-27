@@ -1,0 +1,7 @@
+-pkgname=ctags
+-wrksrc=ctags-p${version}
++pkgname=ctags-git
++_my_field_repo=git://github.com/universal-ctags/ctags.git
++conflicts="ctags>=0"
++hostmakedepends+=" git"
++replaces="ctags>=0"

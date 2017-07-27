@@ -1,0 +1,11 @@
+-go_ldflags="-X main.version=${version} -X main.revision="
++
++_my_field_repo=https://github.com/junegunn/fzf.git
++conflicts="fzf>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="fzf>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"

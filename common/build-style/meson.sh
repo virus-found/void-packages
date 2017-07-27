@@ -117,10 +117,10 @@ do_configure() {
 		--sysconfdir=/etc \
 		--localstatedir=/var \
 		--sharedstatedir=/var/lib \
-		--buildtype=plain \
+		--buildtype=release \
 		--auto-features=auto \
 		--wrap-mode=nodownload \
-		-Db_lto=true -Db_ndebug=true \
+		-Db_lto=true -Db_ndebug=false \
 		-Db_staticpic=true \
 		${configure_args} . ${meson_builddir}
 }

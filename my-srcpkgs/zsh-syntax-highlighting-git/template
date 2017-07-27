@@ -1,0 +1,29 @@
+# Template file for 'zsh-syntax-highlighting'
+pkgname=zsh-syntax-highlighting
+version=1386f12
+revision=1
+depends="zsh"
+short_desc="Fish shell like syntax highlighting for Zsh"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="BSD-3-Clause"
+homepage="https://github.com/zsh-users/zsh-syntax-highlighting"
+changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
+distfiles="${homepage}/archive/${version}.tar.gz>${pkgname}-${version}.tar.gz"
+checksum=f5044266ee198468b1bcec881a56e6399e209657d6ed9fa6d21175bc76afdefa
+
+_my_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
+conflicts="zsh-syntax-highlighting>=0"
+depends=${depends/zsh/}
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="zsh-syntax-highlighting>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+do_install() {
+	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git}/doc
+	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
+	vlicense COPYING.md
+}

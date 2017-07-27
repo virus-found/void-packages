@@ -166,7 +166,7 @@ install_pkg_deps() {
                 templates+=" $f"
                 continue
             fi
-            local _repourl=$($XBPS_QUERY_CMD -R -prepository "$f" 2>/dev/null)
+            local _repourl=$($XBPS_QUERY_CMD --repository=hostdir/binpkgs -R -prepository "$f" 2>/dev/null)
             if [ "$_repourl" ]; then
                 echo "   [host] ${f}: found (${_repourl})"
                 host_binpkg_deps+=("$f")
@@ -181,6 +181,8 @@ install_pkg_deps() {
                 echo "   [host] ${_vpkg}: found (${_repourl})"
                 host_binpkg_deps+=("${_vpkg}")
                 continue
+            else
+                echo "   [host] ${_vpkg}: not found (${_repourl})"
             fi
             # binary package not found
             if [[ $_depname != $_subpkg ]]; then
@@ -216,7 +218,7 @@ install_pkg_deps() {
                 templates+=" $f"
                 continue
             fi
-            local _repourl=$($XBPS_QUERY_CMD -R -prepository "$f" 2>/dev/null)
+            local _repourl=$($XBPS_QUERY_CMD --repository=hostdir/binpkgs -R -prepository "$f" 2>/dev/null)
             if [ "$_repourl" ]; then
                 echo "   [host] ${f}: found (${_repourl})"
                 host_binpkg_deps+=("$f")
@@ -231,6 +233,8 @@ install_pkg_deps() {
                 echo "   [check] ${_vpkg}: found (${_repourl})"
                 host_binpkg_deps+=("${_vpkg}")
                 continue
+            else
+                echo "   [check] ${_vpkg}: not found (${_repourl})"
             fi
             # binary package not found
             if [[ $_depname != $_subpkg ]]; then
@@ -266,7 +270,7 @@ install_pkg_deps() {
                 templates+=" $f"
                 continue
             fi
-            local _repourl=$($XBPS_QUERY_XCMD -R -prepository "$f" 2>/dev/null)
+            local _repourl=$($XBPS_QUERY_XCMD --repository=hostdir/binpkgs -R -prepository "$f" 2>/dev/null)
             if [ "$_repourl" ]; then
                 echo "   [target] ${f}: found (${_repourl})"
                 binpkg_deps+=("$f")
@@ -281,6 +285,8 @@ install_pkg_deps() {
                 echo "   [target] ${_vpkg}: found (${_repourl})"
                 binpkg_deps+=("${_vpkg}")
                 continue
+            else
+                echo "   [target] ${_vpkg}: not found (${_repourl})"
             fi
             # binary package not found
             if [[ $_depname != $_subpkg ]]; then
@@ -316,7 +322,7 @@ install_pkg_deps() {
                 templates+=" $f"
                 continue
             fi
-            local _repourl=$($XBPS_QUERY_XCMD -R -prepository "$f" 2>/dev/null)
+            local _repourl=$($XBPS_QUERY_XCMD --repository=hostdir/binpkgs -R -prepository "$f" 2>/dev/null)
             if [ "$_repourl" ]; then
                 echo "   [target] ${f}: found (${_repourl})"
                 continue
@@ -329,6 +335,8 @@ install_pkg_deps() {
             if [[ ${_depver} == ${_deprepover} ]]; then
                 echo "   [runtime] ${_vpkg}: found (${_repourl})"
                 continue
+            else
+                echo "   [runtime] ${_vpkg}: not found (${_repourl})"
             fi
             # binary package not found
             if [[ $_depname != $_subpkg ]]; then

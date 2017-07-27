@@ -1,0 +1,58 @@
+# Template file for 'libsixel'
+pkgname=libsixel-git
+version=490ec15
+revision=1
+build_style=meson
+hostmakedepends="pkg-config"
+makedepends="libjpeg-turbo-devel libpng-devel"
+short_desc="SIXEL encoder/decoder"
+maintainer="Andrew Benson <abenson+void@gmail.com>"
+license="MIT"
+homepage="https://github.com/libsixel/libsixel"
+distfiles="https://github.com/libsixel/libsixel/archive/refs/tags/v${version}.tar.gz"
+checksum=028552eb8f2a37c6effda88ee5e8f6d87b5d9601182ddec784a9728865f821e0
+
+#pkgname+=-git
+_my_field_repo=https://github.com/libsixel/libsixel.git
+conflicts="libsixel>=0"
+hostmakedepends+=" git"
+replaces="libsixel>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+libsixel-devel-git_package() {
+	short_desc+=" - development files"
+	depends="${makedepends} ${sourcepkg}>=${version}_${revision}"
+
+	conflicts="libsixel-devel>=0"
+	replaces="libsixel-devel>=0"
+	pkg_install() {
+		vmove usr/bin/libsixel-config
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		#vmove "usr/lib/*.a"
+		vmove "usr/lib/*.a" || true
+		vmove "usr/lib/*.so"
+	}
+}
+
+libsixel-util-git_package() {
+	short_desc+=" - utilities"
+	depends="${sourcepkg}>=${version}_${revision}"
+
+	conflicts="libsixel-util>=0"
+	replaces="libsixel-util>=0"
+	pkg_install() {
+		vmove usr/bin/img2sixel
+		vmove usr/bin/sixel2png
+		vmove usr/share/bash-completion
+		vmove usr/share/zsh
+		vmove usr/share/man/man1
+	}
+}
+
+post_install() {
+	vlicense LICENSE
+}

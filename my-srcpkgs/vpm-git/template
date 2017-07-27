@@ -1,0 +1,25 @@
+# Template file for 'vpm'
+pkgname=vpm
+version=a2dc745
+revision=1
+short_desc="XBPS package management helper for VoidLinux"
+maintainer="Armin Jenewein <github@m2m.pm>"
+license="GPL-3.0-or-later"
+homepage="https://codeberg.org/armin/vpm"
+distfiles="https://codeberg.org/armin/${pkgname}/archive/${version}.tar.gz"
+checksum=ba5349344de9c9b3e2e0f1553792b1f8d6939d9f82d77b76b494d16a482ceb13
+
+_my_field_repo=https://codeberg.org/armin/vpm.git
+conflicts="vpm>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="vpm>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+do_install() {
+	vbin vpm
+	vcompletion bash-completion/completions/vpm bash
+}

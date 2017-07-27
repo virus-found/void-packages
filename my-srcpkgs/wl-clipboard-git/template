@@ -1,0 +1,23 @@
+# Template file for 'wl-clipboard'
+pkgname=wl-clipboard
+version=3eb912c
+revision=1
+build_style=meson
+hostmakedepends="wayland-devel pkg-config"
+makedepends="wayland-protocols wayland-devel"
+short_desc="Wayland clipboard utilities"
+maintainer="skmpz <dem.procopiou@gmail.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/bugaevc/wl-clipboard"
+distfiles="https://github.com/bugaevc/wl-clipboard/archive/v${version}.tar.gz"
+checksum=72dab9a7d3835c76d6ff2089f15ffec9e064a321e5f3cbbe961a8fa81aff5573
+
+_my_field_repo=https://github.com/bugaevc/wl-clipboard
+conflicts="wl-clipboard>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="wl-clipboard>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"

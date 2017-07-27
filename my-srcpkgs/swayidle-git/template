@@ -1,0 +1,29 @@
+# Template file for 'swayidle'
+pkgname=swayidle
+version=61d653f
+revision=1
+build_style=meson
+configure_args="-Dlogind-provider=elogind -Dwerror=false"
+hostmakedepends="pkg-config wayland-devel scdoc"
+makedepends="wayland-devel wayland-protocols elogind-devel"
+short_desc="Idle management daemon for Wayland"
+maintainer="Derriick <derriick.ensiie@yahoo.com>"
+license="MIT"
+homepage="https://swaywm.org"
+distfiles="https://github.com/swaywm/${pkgname}/archive/${version}.tar.gz"
+checksum=6aa07093be553473726e1ef601dbc5e57a3ea2ac864ef2d7afce1f971ea760a6
+
+#makedepends+=" libxml2-devel"
+_my_field_repo=https://github.com/swaywm/swayidle.git
+conflicts="swayidle>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="swayidle>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+post_install() {
+	vlicense LICENSE
+}

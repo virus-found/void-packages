@@ -1,0 +1,44 @@
++_my_field_repo=git://git.code.sf.net/p/zsh/code
++conflicts="zsh>=0"
++hostmakedepends+=" git"
++hostmakedepends=${hostmakedepends/texinfo/}
++make_build_target=${make_build_target/info/}
++make_install_args=${make_install_args/install.info/}
++pkgname+=-git
++replaces="zsh>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++
+-	vsed -i -e 's,/etc/service,/var/service,g' Completion/Unix/Command/_runit
++	#vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
++	#	Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
+-	vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
+-		Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
++	# Skip docs
++	echo '
++all: ;
++dvi: ;
++everything: ;
++help.txt: ;
++html: ;
++info: ;
++install.html: ;
++install.info: ;
++install.man: ;
++install.runhelp: ;
++install: ;
++man: ;
++pdf: ;
++ps: ;
++runhelp: ;
++texi: ;
++uninstall.html: ;
++uninstall.info: ;
++uninstall.man: ;
++uninstall.runhelp: ;
++uninstall: ;
++zsh.info: ;
++' > Doc/Makefile.in
++	./Util/preconfig

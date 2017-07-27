@@ -1,0 +1,70 @@
+-pkgname=openmw
+-wrksrc="${pkgname}-${pkgname}-${version}"
++pkgname=openmw-git
+-configure_args="-DDESIRED_QT_VERSION=5"
+-hostmakedepends="pkg-config qt5-host-tools qt5-qmake"
+-makedepends="SDL2-devel boost-devel bullet-devel ffmpeg-devel libXt-devel
+- libmygui-devel libopenal-devel libunshield-devel osg-devel qt5-devel"
++configure_args="
++-D BUILD_OPENMW=TRUE
++-D BUILD_LAUNCHER=FALSE
++-D BUILD_WIZARD=FALSE
++-D BUILD_MWINIIMPORTER=FALSE
++-D BUILD_OPENCS=FALSE
++-D BUILD_ESSIMPORTER=FALSE
++-D BUILD_BSATOOL=FALSE
++-D BUILD_ESMTOOL=FALSE
++-D BUILD_NIFTEST=FALSE
++
++-D BUILD_DOCS=FALSE
++-D BUILD_WITH_CODE_COVERAGE=FALSE
++-D BUILD_UNITTESTS=FALSE
++
++-D CMAKE_BUILD_TYPE=RELEASE
++-D OPENMW_LTO_BUILD=0
++-D BULLET_USE_DOUBLES=TRUE
++"
++hostmakedepends="git pkg-config"
++makedepends="SDL2-devel boost-devel bullet-devel-git ffmpeg-devel libXt-devel
++ libmygui-devel libopenal-devel libunshield-devel osg-devel-git liblz4-devel"
+-changelog="https://openmw.org/2018/openmw-0-44-0-released/"
++_my_field_repo=https://gitlab.com/OpenMW/openmw.git
++conflicts="openmw>=0"
++replaces="openmw>=0"
+-openmw-cs_package() {
+-	short_desc="Open Implementation of Morrowinds Creation Set"
+-	depends="openmw-${version}_${revision}"
+-	pkg_install() {
+-		vmove usr/bin/openmw-cs
+-		vmove usr/share/applications/org.openmw.cs.desktop
+-		vmove usr/share/pixmaps/openmw-cs.png
+-		vmove etc/openmw/openmw-cs.cfg
+-	}
+-}
+-
+-esmtool_package() {
+-	short_desc="Tool for inspecting and extracting Morrowind's ES files"
+-	pkg_install() {
+-		vmove usr/bin/esmtool
+-	}
+-}
+-
+-bsatool_package() {
+-	short_desc="Tool for inspecting Bethesda's BSA archives"
+-	pkg_install() {
+-		vmove usr/bin/bsatool
+-	}
+-}
++#configure_args+=" -DDESIRED_QT_VERSION=5"
++#hostmakedepends+=" qt5-qmake"
++#makedepends+=" qt5-devel"
++#openmw-cs-git_package() {
++#	short_desc="Open Implementation of Morrowinds Creation Set"
++#	depends="${sourcepkg}-${version}_${revision}"
++#	pkg_install() {
++#		vmove usr/bin/openmw-cs
++#		vmove usr/share/applications/org.openmw.cs.desktop
++#		vmove usr/share/pixmaps/openmw-cs.png
++#		vmove etc/openmw/openmw-cs.cfg
++#	}
++#}

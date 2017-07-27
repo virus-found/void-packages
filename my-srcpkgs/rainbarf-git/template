@@ -1,0 +1,23 @@
+# Template file for 'rainbarf'
+pkgname=rainbarf
+version=9626857
+revision=1
+depends="perl"
+short_desc="CPU/RAM stats chart for tmux & screen"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="GPL"
+homepage="http://freecode.com/projects/rainbarf"
+
+_my_field_repo=https://github.com/creaktive/rainbarf.git
+conflicts="rainbarf>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="rainbarf>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+do_install() {
+	vbin rainbarf
+}

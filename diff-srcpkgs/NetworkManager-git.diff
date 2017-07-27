@@ -1,0 +1,31 @@
+-pkgname=NetworkManager
++pkgname=NetworkManager-git
+-build_helper="gir qemu"
++ -Ddocs=false -Dtests=no
+-hostmakedepends="gettext-devel glib-devel libxslt-devel pkg-config
++hostmakedepends="git gettext-devel glib-devel libxslt-devel pkg-config
+-depends="dbus iproute2 openresolv wpa_supplicant mobile-broadband-provider-info"
++depends="dbus iproute2 openresolv wpa_supplicant-git mobile-broadband-provider-info"
+-conf_files="/etc/${pkgname}/${pkgname}.conf"
++conf_files="/etc/${pkgname%-git}/${pkgname%-git}.conf"
++_my_field_repo=git://github.com/NetworkManager/NetworkManager.git
++conflicts="NetworkManager>=0"
++replaces="NetworkManager>=0"
+-build_options="gir vala elogind"
+-build_options_default="gir vala elogind"
++build_options="elogind"
++build_options_default="elogind"
+-	vinstall ${FILESDIR}/${pkgname}.conf 644 etc/${pkgname}
++	vinstall ${FILESDIR}/${pkgname%-git}.conf 644 etc/${pkgname%-git}
+-	vsv ${pkgname}
++	vsv ${pkgname%-git}
+-libnm_package() {
++libnm-git_package() {
++	conflicts="libnm>=0"
++	#replaces="libnm>=0"
++	# FIXME
++	provides="libnm-999_1"
+-NetworkManager-devel_package() {
++NetworkManager-devel-git_package() {
++	conflicts="NetworkManager-devel>=0"
++	replaces="NetworkManager-devel>=0"

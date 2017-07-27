@@ -1,0 +1,25 @@
++_my_field_repo=https://github.com/swaywm/sway.git
++conflicts="sway>=0"
++depends=${depends/swaybg/}
++hostmakedepends+=" git"
++hostmakedepends=${hostmakedepends/scdoc/}
++makedepends=${makedepends/gdk-pixbuf-devel/}
++makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
++pkgname+=-git
++replaces="sway>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++
+-	vbin contrib/grimshot
+-	vman contrib/grimshot.1
+-}
+-
+-grimshot_package() {
+-	short_desc="Helper for screenshots within sway"
+-	depends="grim slurp sway wl-clipboard jq libnotify"
+-	pkg_install() {
+-		vmove usr/bin/grimshot
+-		vmove usr/share/man/man1/grimshot.1
+-	}

@@ -1,0 +1,13 @@
+-configure_args="--enable-utempter"
+-makedepends="libevent-devel libutempter-devel ncurses-devel"
++makedepends="libevent-devel ncurses-devel"
++
++_my_field_repo=https://github.com/tmux/tmux
++conflicts="tmux>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="tmux>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"

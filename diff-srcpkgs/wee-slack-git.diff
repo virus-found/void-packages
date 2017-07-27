@@ -1,0 +1,12 @@
+-depends="weechat weechat-python python3-websocket-client"
++depends="python3-websocket-client"
++_my_field_repo=https://github.com/wee-slack/wee-slack.git
++conflicts="wee-slack>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="wee-slack>=0"
++unset checksum distfiles wrksrc
++
++
++# FIXME
++# ln -si /usr/lib/weechat/python/wee_slack.py ~/.weechat/python/slack.py

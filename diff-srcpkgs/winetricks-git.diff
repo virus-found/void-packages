@@ -1,0 +1,14 @@
+-pkgname=winetricks
++pkgname=winetricks-git
+-depends="cabextract unzip xmessage" # actually it depends on wine
++depends="cabextract"
++hostmakedepends="git"
+-make_check=no # Needs python3-bashate
++_my_field_repo=https://github.com/Winetricks/winetricks.git
++conflicts="winetricks>=0"
++replaces="winetricks>=0"
++
++do_check() {
++	# Needs python3-bashate
++	:
++}

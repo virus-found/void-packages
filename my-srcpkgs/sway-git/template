@@ -1,0 +1,36 @@
+# Template file for 'sway'
+pkgname=sway
+version=89f8531
+revision=1
+build_style=meson
+configure_args="-Dwerror=false -Db_ndebug=false"
+conf_files="/etc/sway/config"
+hostmakedepends="pkg-config wayland-devel scdoc"
+makedepends="wlroots-devel pcre2-devel json-c-devel pango-devel cairo-devel
+ gdk-pixbuf-devel libevdev-devel"
+depends="libcap-progs swaybg xorg-server-xwayland libxkbcommon>=1.5.0_1"
+short_desc="Tiling Wayland compositor compatible with i3"
+maintainer="Mohammed Anas <triallax@tutanota.com>"
+license="MIT"
+homepage="https://swaywm.org"
+changelog="https://github.com/swaywm/sway/releases"
+distfiles="https://github.com/swaywm/sway/archive/refs/tags/${version}.tar.gz"
+checksum=e9f575761342fc8fe0cfeea80c90f32ddfa8c543572fec179f40922346f47dff
+
+_my_field_repo=https://github.com/swaywm/sway.git
+conflicts="sway>=0"
+depends=${depends/swaybg/}
+hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/scdoc/}
+makedepends=${makedepends/gdk-pixbuf-devel/}
+makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
+pkgname+=-git
+replaces="sway>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+post_install() {
+	vlicense LICENSE
+}

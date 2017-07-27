@@ -1,0 +1,90 @@
+-pkgname=weechat
++pkgname=weechat-git
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
++#pkgname=weechat
++_my_field_repo=https://github.com/weechat/weechat.git
++configure_args+="
++-DENABLE_CODE_COVERAGE=OFF
++-DENABLE_DOC=OFF
++-DENABLE_ENCHANT=OFF
++-DENABLE_EXEC=OFF
++-DENABLE_FIFO=OFF
++-DENABLE_HEADLESS=OFF
++-DENABLE_LOGGER=OFF
++-DENABLE_NLS=ON
++-DENABLE_PYTHON2=OFF
++-DENABLE_PYTHON=ON
++-DENABLE_RELAY=OFF
++-DENABLE_SCRIPT=ON
++-DENABLE_SCRIPTS=ON
++-DENABLE_TCL=OFF
++-DENABLE_TESTS=OFF
++-DENABLE_TRIGGER=ON
++-DENABLE_XFER=OFF
++"
++configure_args=${configure_args/-DENABLE_LUA=ON/-DENABLE_LUA=OFF}
++configure_args=${configure_args/-DENABLE_MAN=ON/-DENABLE_MAN=OFF}
++configure_args=${configure_args/-DENABLE_RUBY=ON/-DENABLE_RUBY=OFF}
++configure_args=${configure_args/-DENABLE_SPELL=ON/-DENABLE_SPELL=OFF}
++conflicts="weechat>=0"
++hostmakedepends+=" git"
++hostmakedepends=${hostmakedepends/gettext/}
++hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
++hostmakedepends=${hostmakedepends/ruby/}
++hostmakedepends=${hostmakedepends/tcl-devel/}
++# TODO remove line below also in neovim-git
++makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
++makedepends=${makedepends/aspell-devel/}
++makedepends=${makedepends/lua53-devel/}
++makedepends=${makedepends/ruby-devel/}
++makedepends=${makedepends/tcl-devel/}
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
++#pkgname+=-git
++replaces="weechat>=0"
++subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
++unset checksum distfiles wrksrc
++
+-weechat-aspell_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - aspell/enchant plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/spell.so
+-	}
+-}
+-weechat-devel_package() {
++weechat-devel-git_package() {
++	conflicts="weechat-devel>=0"
++	replaces="weechat-devel>=0"
+-weechat-perl_package() {
++weechat-perl-git_package() {
++	conflicts="weechat-perl>=0"
++	replaces="weechat-perl>=0"
+-weechat-ruby_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - ruby plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/ruby.so
+-	}
+-}
+-weechat-python_package() {
++weechat-python-git_package() {
++	conflicts="weechat-python>=0"
++	replaces="weechat-python>=0"
+-	}
+-}
+-weechat-tcl_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - tcl plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/tcl.so
+-	}
+-}
+-weechat-lua_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - lua plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/lua.so

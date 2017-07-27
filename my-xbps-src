@@ -1,0 +1,419 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+set -eu
+
+# Get cwd of this script
+# https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" 2>/dev/null
+[[ $cwd ]] && cd $cwd
+
+# Define paths
+templates_dir=srcpkgs
+custom_templates_dir=my-srcpkgs
+custom_template_diffs_dir=diff-srcpkgs
+
+l="------------------------------------------------------------------------------"
+
+_chapter() {
+    echo $l
+    echo -e $@
+    echo $l
+}
+
+# Use with || continue
+_chapter_question_build() {
+    [[ ${all:-} = true ]] && return 0
+    [[ ${all:-} = false ]] && return 1
+
+    echo $l
+
+    while true
+    do
+        echo -n "$@ [y,n,a,s,i,q,?]? "
+        read answer
+
+        unset skip all
+        case ${answer:0:1} in
+            # proceed
+            y ) echo $l ; return 0 ;;
+            n ) echo $l ; return 1 ;;
+            # proceed with special var
+            a ) all=true ; echo $l ; return 0 ;;
+            # proceed with special var
+            s ) skip=true ; echo $l ; return 0 ;;
+            # proceed with special var
+            q ) echo $l ; cd $cwd_before_main_script ; exit 0 ;;
+            * ) echo '
+y - build now
+n - do not build
+s - skip version
+q - quit
+a - build all following updates
+? - print help
+'
+                ;;
+        esac
+    done
+}
+
+# Use with || continue
+_chapter_question_build_fail_continue() {
+    echo $l
+
+    while true
+    do
+        echo -n "$p: skip this version [y,n,q]? "
+        read answer
+
+        case ${answer:0:1} in
+            y )
+                # Skip
+                sed -i '/_my_field_skip_version/d' $template
+                sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
+                echo $l
+                ;;
+            n )
+                echo $l
+                ;;
+            q )
+                echo $l
+                cd $cwd_before_main_script
+                exit 0
+                ;;
+            * )
+                # Ask again
+                continue
+                ;;
+        esac
+        break
+    done
+}
+
+_sync_my_pkgs() {
+    (
+        cd $custom_templates_dir
+
+        # Remove obsolete symlinks of custom packages
+        find ../$templates_dir -maxdepth 1 -xtype l -exec rm -iv {} +
+        # TODO becomes replaced with rsync
+        # Remove obsolete symlinks among supplementary files
+        find . -xtype l -exec rm -iv {} +
+        # TODO becomes replaced with rsync
+        # Remove empty dirs among supplementary files
+        find . -type d -empty -exec rm -riv {} +
+
+        local custom_package
+        for custom_package in *
+        do
+            local relpath_custom=../$custom_templates_dir/$custom_package
+            local relpath_custom_link=../$templates_dir/$custom_package
+            local relpath_original=../$templates_dir/${custom_package%-git}
+
+            # Create symlinks of custom packages
+            ln -svn $relpath_custom $relpath_custom_link 2>/dev/null || true
+
+            if [[ -e $relpath_original && $relpath_original != $relpath_custom_link ]]
+            then
+                # TODO here it's when
+                # ~/void-packages/my-srcpkgs/vpm-git/patches
+                # becomes
+                # ~/void-packages/my-srcpkgs/vpm-git/patches-OBSOLETE
+                #
+                # Rsync supplementary files to custom packages
+                rsync -a --exclude template --delete $relpath_original/ $custom_package
+            fi
+        done
+    )
+}
+
+_update_void_packages() {
+    _chapter 'update void-packages'
+    git fetch --all --prune
+    # true if nothing to stash
+    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    [[ ${do_stash:-} = true ]] && git stash push -m "$(date -R) automatic stash before rebase"
+    GIT_MERGE_AUTOEDIT=no git merge origin/master
+    if [[ ${do_stash:-} = true ]]
+    then
+        git stash pop --index
+    else
+        true
+    fi
+}
+
+_update_system() {
+    _update_void_packages
+
+    _sync_my_pkgs
+
+    _chapter 'update host pkgs'
+    sudo xbps-install -Suv
+    sudo xbps-remove -v -o
+    _chapter 'update build env'
+    ./xbps-src bootstrap-update
+}
+
+# common/xbps-src/shutils/common.sh
+# TODO not in use
+_get_subpkgs() {
+    local f
+    for f in $(typeset -F)
+    do
+        case "$f" in
+            *_package ) echo "${f%_package}" ;;
+        esac
+    done
+}
+
+update_my_pkgs() {
+    if [[ $@ ]]
+    then
+        local force=true
+        local mypkgs=$@
+    else
+        cd $custom_templates_dir
+        # Omit symlinks
+        # -printf '%P\n' erases leftmost dir from output
+        local mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n') || cd $cwd
+        cd $cwd
+    fi
+
+    rm -rf masterdir/{builddir,destdir}/
+
+    rm -rf hostdir/binpkgs/
+    mkdir -p hostdir/binpkgs/
+
+    # registering packages from my-binpkgs
+    cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
+    xbps-rindex -a hostdir/binpkgs/*.xbps 2>/dev/null || true
+
+    rm -f /tmp/my-xbps-log
+    mkdir -p masterdir/repos/
+
+    _update_system
+
+    # Top priority for these pkgs, as they are dependencies
+    # TODO
+    # Improve by utilizing *depends fields from template themselves
+    # Now it's but a hardcode
+    case "$mypkgs" in
+        *wlroots-git* )
+            mypkgs=${mypkgs/wlroots-git/}
+            mypkgs="wlroots-git "$mypkgs
+            # Using ;;& in place of ;; causes the shell to test the next pattern
+            # list in the statement, if any, and execute  any associated list on a
+            # successful match.
+            ;;&
+        *tree-sitter-git* )
+            mypkgs=${mypkgs/tree-sitter-git/}
+            mypkgs="tree-sitter-git "$mypkgs
+            ;;
+    esac
+
+    local p
+    for p in $mypkgs
+    do
+        template=$templates_dir/$p/template
+        [[ -f $template ]] || { echo "=> ${0##*/}: expected $(pwd)/$template to be a file" ; return 1 ; }
+        unset _my_field_autoinstall _my_field_repo _my_field_repo_branch _my_field_repo_commit _my_field_skip_version
+        # workaround for some variables possible missing in templates
+        set +u
+        # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
+        source $template &>/dev/null || true
+        set -u
+
+        [[ -n ${_my_field_repo:-} ]] && local git=true
+
+        if [[ ${git:-} = true ]]
+        then
+            echo "=> ${0##*/}: checking updates $p"
+
+            if [ -z ${_my_field_repo_commit:-} ]
+            then
+                local upstream_rev_long=$( \
+                    git ls-remote $_my_field_repo \
+                    $(test ${_my_field_repo_branch:-} && echo -n $_my_field_repo_branch || echo -n HEAD) \
+                    | awk '{print $1}' \
+                )
+                # digit expected in
+                # xbps-create: ERROR: invalid pkgver! got `foo-cabdcfb_1' expected `foo-1.0_1'
+                # increase temporarily :7 --> :14 to fix this
+                upstream_rev=${upstream_rev_long:0:7}
+            else
+                # and here
+                upstream_rev=${_my_field_repo_commit:0:7}
+            fi
+        else
+            upstream_rev=$version
+        fi
+
+        if [[ ${force:-} != true ]]
+        then
+            if [[ $upstream_rev = $version || $upstream_rev = ${_my_field_skip_version:-} ]]
+            then
+                continue
+            fi
+        fi
+
+        _chapter_question_build "build $p $upstream_rev" || continue
+
+        if [[ ${force:-} != true ]]
+        then
+            if [[ ${skip:-} = true ]]
+            then
+                sed -i '/_my_field_skip_version/d' $template
+                sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
+                continue
+            fi
+        fi
+
+        cp $template /tmp/${p}_old
+        if [[ ${git:-} = true ]]
+        then
+            sed "0,/^version/{s/^version=.*/version=$upstream_rev/}" $template > /tmp/${p}_new
+        # FIXME this is not needed
+        else
+            cp $template /tmp/${p}_new
+        fi
+
+        # Put previous template on ctrl-c
+        trap "
+            mv /tmp/${p}_old $template 2>/dev/null || true
+            _chapter_question_build_fail_continue
+            continue
+        " SIGINT
+
+        mv /tmp/${p}_new $template
+
+        # TODO implement noautoinstall
+        #[[ $_my_field_autoinstall = false ]] && local noautoinstall[$p]=$p
+
+        # TODO store latest commit revision of each PKG in diff dir
+        # g log --pretty=short -n2 . << wip
+
+        # Define and check original template
+        local original_template=$templates_dir/${p%-git}/template
+        if [[ -e $original_template && $original_template != $template ]]
+        then
+            diff --ignore-blank-lines --old-line-format=-%L --new-line-format=+%L --unchanged-line-format= \
+                <(grep -vE '^version|^revision|^distfiles|^checksum' $original_template) \
+                <(grep -vE '^version|^revision|^distfiles|^checksum' $template) \
+                > $custom_template_diffs_dir/$p.diff || true
+        fi
+
+        # Remove skip before build
+        sed -i '/_my_field_skip_version/d' $template
+
+        # Remove previously built versions of these packages
+        # Usually they come from my-binpkgs dir
+        local previous1=wlroots
+        local previous2=tree-sitter
+        case "$p" in
+            # Only e.g. wlroots* and tree-sitter* are removed, need to remove proper subpackages from template
+            $previous1* )
+                rm -f hostdir/binpkgs/$previous1*
+                ;;
+            $previous2* )
+                rm -f hostdir/binpkgs/$previous2*
+                ;;
+        esac
+
+        # Build
+        if ! ./xbps-src -C pkg $p
+        then
+            # Put previous template on build fail
+            mv /tmp/${p}_old $template 2>/dev/null || true
+            _chapter_question_build_fail_continue
+            continue
+        fi
+
+        local built=true
+
+        if [[ ${git:-} = true && -e masterdir/builddir/$p-$upstream_rev ]]
+        then
+            (
+                cd masterdir/builddir/$p-$upstream_rev
+
+                local log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit $version..$upstream_rev 2>/dev/null || true)
+                if [[ $log ]]
+                then
+                    echo -e "$p\n\n$log\n\n" >> /tmp/my-xbps-log
+                else
+                    true
+                fi
+            )
+        fi
+    done
+
+    # Show log if not empty
+    [[ -e /tmp/my-xbps-log ]] && less /tmp/my-xbps-log
+
+    if [[ ${built:-} ]]
+    then
+        # TODO don't hardcode these rules, read them from a template
+        local to_install=$(find hostdir/binpkgs \
+            '!' -name '*-dbg-*' \
+            '!' -name '*-devel-*' \
+            '!' -name 'libdrm-test-progs-*' \
+            '!' -name 'libdrm2-*' \
+            '!' -name 'meson-*' \
+            '!' -name 'ninja-*' \
+            '!' -name 'wayland-protocols-*' \
+            -name '*.xbps' \
+        )
+        local command_to_install="sudo xdowngrade $to_install"
+        _chapter $command_to_install
+        eval $command_to_install
+    else
+        _chapter 'nothing to update'
+    fi
+
+    # Store non-required packages in the file
+    xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
+
+    # Store restricted packages (all: installed and not) in the file
+    grep -rl 'restricted=' srcpkgs/ | cut -d '/' -f2 > ~/.xbps-all-restricted-pkgs
+}
+
+cleanup() {
+    _update_void_packages
+
+    _chapter 'perform cleanup'
+    sudo xbps-remove -Oo
+    ./xbps-src clean
+    ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
+    ./xbps-src remove-autodeps
+    ./xbps-src zap
+    rm -rf hostdir/sources/
+    ./xbps-src binary-bootstrap
+    _chapter 'cleanup success'
+}
+
+#
+# Main switch
+#
+cwd_before_main_script=$(pwd)
+case ${1:-} in
+    up )
+        if [[ ${2:-} ]]
+        then
+            shift
+            update_my_pkgs $@
+        else
+            update_my_pkgs
+        fi
+        ;;
+    cleanup )
+        cleanup
+        ;;
+    * )
+        echo "${0##*/}: invalid parameter ${1:-}"
+        cd $cwd_before_main_script
+        exit 1
+        ;;
+esac
+
+# TODO
+# avoid writing git versions to templates, store them elsewhere
+# use 'global' vars, and make 'local' by default
+# first check for all updates, show them, let me choose what to build, then do system updates and build

@@ -1,0 +1,25 @@
+# INFO also update them in
+#     ~/.zshenv
+#     ~/void-packages/common/xbps-src/shutils/common.sh
+
+XBPS_CFLAGS="-O2 -pipe -march=native -mtune=native"
+XBPS_CXXFLAGS="${XBPS_CFLAGS}"
+
+# TODO add more, but how?
+# profile=release
+# debug=false
+# FIXME still outputs Finished release [optimized + debuginfo]
+# this used to be here too, removed to experiment
+#-C link-arg=-fuse-ld=gold
+XBPS_RUSTFLAGS="-C target-cpu=native -C opt-level=3 -C overflow-checks=off -C debuginfo=0"
+
+#XBPS_CGO_CPPFLAGS="${XBPS_CPPFLAGS}"
+XBPS_CGO_CFLAGS="${XBPS_CFLAGS}"
+XBPS_CGO_CXXFLAGS="${XBPS_CFLAGS}"
+#XBPS_CGO_LDFLAGS="${XBPS_LDFLAGS}"
+XBPS_GOFLAGS="-modcacherw"
+
+XBPS_DEBUG_PKGS=
+XBPS_PKG_COMPTYPE=none
+XBPS_USE_GIT_REVS=
+XBPS_ALLOW_RESTRICTED=yes

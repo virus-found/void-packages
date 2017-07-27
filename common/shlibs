@@ -4283,3 +4283,5 @@ libchafa.so.0 libchafa-1.12.5_1
 libcppdap.so cppdap-1.58.0+a_1
 libkeyfinder.so.2 libkeyfinder-2.2.7_1
 libb64.so.0 libb64-1.2.1_1
+libdisplay-info.so.1 libdisplay-info-0.1.1_1
+libwlroots.so.12 wlroots-git-0

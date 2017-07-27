@@ -1,0 +1,11 @@
++#makedepends+=" libxml2-devel"
++_my_field_repo=https://github.com/swaywm/swayidle.git
++conflicts="swayidle>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="swayidle>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++

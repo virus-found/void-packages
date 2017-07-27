@@ -1,0 +1,28 @@
+# Template file for 'vsv'
+pkgname=vsv
+version=33e5a27
+revision=1
+build_style=cargo
+depends="psmisc"
+short_desc="Manage and view runit services"
+maintainer="Dave Eddy <dave@daveeddy.com>"
+license="MIT"
+homepage="https://github.com/bahamas10/vsv"
+changelog="https://raw.githubusercontent.com/bahamas10/vsv/master/CHANGES.md"
+distfiles="https://github.com/bahamas10/vsv/archive/v${version}.tar.gz"
+checksum=05c20d8e04ca37fdc47dde80a04a4709b54650748529456ebdddb4104fc805ec
+
+_my_field_repo=https://github.com/bahamas10/vsv.git
+conflicts="vsv>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="vsv>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+post_install() {
+	vman man/vsv.8
+	vlicense LICENSE
+}

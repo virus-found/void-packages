@@ -1,0 +1,41 @@
+-pkgname=alacritty
+-build_wrksrc="${pkgname}"
++pkgname=alacritty-git
++_my_field_repo=git://github.com/alacritty/alacritty
++configure_args="--no-default-features --features=wayland"
++conflicts="alacritty>=0"
++depends=${depends/alacritty-terminfo/alacritty-terminfo-git}
++hostmakedepends+=" git"
++makedepends+=" libxkbcommon-devel"
++replaces="alacritty>=0"
++
++do_build() {
++	cargo build --manifest-path alacritty/Cargo.toml --release --target ${RUST_TARGET} ${configure_args}
++}
++
++do_install() {
++	cargo install --path alacritty --target ${RUST_TARGET} --root="${DESTDIR}/usr" --locked ${configure_args}
++	rm "${DESTDIR}"/usr/.crates.toml
++}
++
+-	vinstall ../extra/linux/Alacritty.desktop 644 usr/share/applications
+-	vinstall ../extra/logo/alacritty-term.svg 644 usr/share/pixmaps Alacritty.svg
+-	vinstall ../extra/completions/alacritty.bash 644 usr/share/bash-completion/completions alacritty
+-	vinstall ../extra/completions/_alacritty 644 usr/share/zsh/site-functions
+-	vinstall ../extra/completions/alacritty.fish 644 usr/share/fish/vendor_completions.d
+-	vinstall ../extra/alacritty.info 644 usr/share/terminfo/a
+-	vman ../extra/alacritty.man alacritty.1
+-	vsconf ../alacritty.yml
++	vinstall extra/linux/Alacritty.desktop 644 usr/share/applications
++	vinstall extra/logo/alacritty-term.svg 644 usr/share/pixmaps Alacritty.svg
++	vinstall extra/completions/alacritty.bash 644 usr/share/bash-completion/completions alacritty
++	vinstall extra/completions/_alacritty 644 usr/share/zsh/site-functions
++	vinstall extra/completions/alacritty.fish 644 usr/share/fish/vendor_completions.d
++	vinstall extra/alacritty.info 644 usr/share/terminfo/a
++	vman extra/alacritty.man alacritty.1
++	vinstall alacritty.yml 644 usr/share/examples/alacritty
+-alacritty-terminfo_package() {
++alacritty-terminfo-git_package() {
++
++	conflicts="alacritty-terminfo>=0"
++	replaces="alacritty-terminfo>=0"

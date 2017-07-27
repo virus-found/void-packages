@@ -1,0 +1,18 @@
++wrksrc="$pkgname"
+-make_check_args="-k not(download)"
+-checkdepends="python3-pytest-xdist"
++checkdepends="python3-pytest flake8 python3-nose"
++
++_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
++conflicts="yt-dlp>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="yt-dlp>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++
++do_check() {
++	PYTHON=/usr/bin/python3 make offlinetest
++}

@@ -1,0 +1,35 @@
+-# MIN_LOG_LEVEL 1: INFO, 3: ERROR, upstream's release's default is 3
+-configure_args="-DCI_BUILD=OFF -DCOMPILE_LUA=OFF -DPREFER_LUA=$(vopt_if luajit OFF ON)
+- -DMIN_LOG_LEVEL=3"
+-hostmakedepends="pkg-config gettext gperf lua51-lpeg lua51-mpack lua51-BitOp
+- $(vopt_if luajit LuaJIT lua51)"
++configure_args="-DCMAKE_BUILD_TYPE=Release -DCOMPILE_LUA=OFF"
++hostmakedepends="pkg-config gettext gperf LuaJIT lua51-lpeg lua51-mpack"
+- libluv-devel tree-sitter-devel $(vopt_if luajit LuaJIT-devel lua51-devel)"
++ LuaJIT-devel libluv-devel tree-sitter-devel"
+-maintainer="Marcin Puc <tranzystorek.io@protonmail.com>"
+-license="Apache-2.0, Vim"
++maintainer="Steve Prybylski <sa.prybylx@gmail.com>"
++license="Apache-2.0, custom:Vim"
+-build_options=luajit
++# TODO remove line below also in weechat-git
++#makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
++_my_field_repo=https://github.com/neovim/neovim.git
++build_helper=${build_helper/qemu/}
++conflicts="neovim>=0"
++hostmakedepends+=" git"
++makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
++pkgname+=-git
++replaces="neovim>=0"
++unset checksum distfiles wrksrc
+-case "$XBPS_TARGET_MACHINE" in
+-	riscv64*) build_options_default="" ;;
+-	*) build_options_default="luajit" ;;
+-esac
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
+-# They want assertion
+-CFLAGS=-UNDEBUG
+-
+-	vsed -i src/nvim/po/CMakeLists.txt \
+-		-e "s|\$<TARGET_FILE:nvim|\${CMAKE_CROSSCOMPILING_EMULATOR} &|g"

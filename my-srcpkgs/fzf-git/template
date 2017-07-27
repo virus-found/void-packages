@@ -1,0 +1,41 @@
+# Template file for 'fzf'
+pkgname=fzf
+version=58835e4
+revision=1
+build_style=go
+go_import_path="github.com/junegunn/fzf"
+makedepends="ncurses-devel"
+short_desc="Command-line fuzzy finder"
+maintainer="Leah Neukirchen <leah@vuxu.org>"
+license="MIT"
+homepage="https://github.com/junegunn/fzf"
+changelog="https://raw.githubusercontent.com/junegunn/fzf/master/CHANGELOG.md"
+distfiles="https://github.com/junegunn/fzf/archive/${version}.tar.gz"
+checksum=136ddddfdb229631b08ea7e67be965bcf9c95f5fe1360b80b11f81aa64ba19ad
+
+_my_field_repo=https://github.com/junegunn/fzf.git
+conflicts="fzf>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="fzf>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+post_install() {
+	cd ${wrksrc}
+	vbin bin/fzf-tmux
+	vman man/man1/fzf.1
+	vlicense LICENSE
+
+	sed -i -e 's#source ~/\.fzf\.bash; ##' shell/key-bindings.bash
+	vinstall plugin/fzf.vim 644 usr/share/vim/vimfiles/plugin
+	vinstall plugin/fzf.vim 644 usr/share/nvim/runtime/plugin
+
+	vinstall shell/completion.bash 644 usr/share/fzf
+	vinstall shell/completion.zsh 644 usr/share/fzf
+	vinstall shell/key-bindings.zsh 644 usr/share/fzf
+	vinstall shell/key-bindings.bash 644 usr/share/fzf
+	vinstall shell/key-bindings.fish 644 usr/share/fzf
+}

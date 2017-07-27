@@ -1,0 +1,21 @@
+-pkgname=tlp
++pkgname=tlp-git
++#pkgname+=-git
++_my_field_repo=https://github.com/linrunner/TLP.git
++conflicts+=" tlp>=0 "
++hostmakedepends+=" git"
++replaces="tlp>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++
+-tlp-rdw_package() {
++tlp-rdw-git_package() {
+-	depends="tlp NetworkManager"
++	depends="${pkgname} NetworkManager"
++
++	conflicts="tlp-rdw>=0"
++	replaces="tlp-rdw>=0"
+-		vmove etc/NetworkManager/dispatcher.d/99tlp-rdw-nm
++		vmove usr/lib/NetworkManager/dispatcher.d/99tlp-rdw-nm

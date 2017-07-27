@@ -1,0 +1,15 @@
++_my_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
++conflicts="zsh-syntax-highlighting>=0"
++depends=${depends/zsh/}
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="zsh-syntax-highlighting>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++
+-	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname}/doc
+-	vinstall ${pkgname}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname}
++	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git}/doc
++	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}

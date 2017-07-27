@@ -1,0 +1,10 @@
++_my_field_repo=https://codeberg.org/armin/vpm.git
++conflicts="vpm>=0"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="vpm>=0"
++unset checksum distfiles wrksrc
++
++# TODO remove me
++makedepends+=" nghttp2-devel libssh2-devel"
++

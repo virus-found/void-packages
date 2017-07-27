@@ -1,0 +1,37 @@
+# Template file for 'tmux'
+pkgname=tmux
+version=62f6578
+revision=1
+build_style=gnu-configure
+hostmakedepends="byacc automake pkg-config"
+makedepends="libevent-devel ncurses-devel"
+depends="ncurses-base"
+short_desc="Terminal Multiplexer"
+maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
+license="ISC"
+homepage="https://tmux.github.io"
+changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
+
+_my_field_repo=https://github.com/tmux/tmux
+conflicts="tmux>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="tmux>=0"
+unset checksum distfiles wrksrc
+
+# TODO remove me
+makedepends+=" nghttp2-devel libssh2-devel"
+
+pre_configure() {
+	autoreconf -fi
+}
+
+post_install() {
+	{
+		echo ' * Copyright (c) 2007-2021 Nicholas Marriott <nicholas.marriott@gmail.com>'
+		grep -rh  'Copyright (c) .*[0-9] [a-zA-Z]' *.c compat/*.c |
+			grep -v 'Nicholas Marriott' | sort -u
+		cat COPYING
+	} >LICENSE
+	vlicense LICENSE
+}
