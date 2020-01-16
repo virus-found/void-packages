@@ -1,0 +1,30 @@
+# Template file for 'swaylock-git'
+build_style=meson
+conf_files="/etc/pam.d/swaylock"
+conflicts=swaylock
+homepage="https://swaywm.org"
+hostmakedepends="pkg-config wayland-devel scdoc git"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="
+    wayland-protocols cairo-devel gdk-pixbuf-devel pam-devel
+    libxkbcommon-devel wayland-devel
+"
+my_field_repo=git://github.com/swaywm/swaylock.git
+pkgname=swaylock-git
+provides=swaylock-0_1
+revision=1
+short_desc="Screen locker for Wayland"
+version=5da2b1d
+
+swaylock-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+post_install() {
+    vlicense LICENSE
+}

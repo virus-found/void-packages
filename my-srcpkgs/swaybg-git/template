@@ -1,0 +1,26 @@
+# Template file for 'swaybg-git'
+build_style=meson
+conflicts=swaybg
+homepage="https://swaywm.org"
+hostmakedepends="pkg-config wayland-devel scdoc git"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="wayland-protocols cairo-devel gdk-pixbuf-devel wayland-devel"
+my_field_repo=git://github.com/swaywm/swaybg.git
+pkgname=swaybg-git
+provides=swaybg-0_1
+revision=1
+short_desc="Wallpaper tool for Wayland compositors"
+version=a8f109a
+
+swaybg-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+post_install() {
+    vlicense LICENSE
+}

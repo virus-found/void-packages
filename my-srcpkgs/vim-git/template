@@ -1,0 +1,64 @@
+# Template file for 'vim-git'
+conflicts="vim vim-common"
+homepage="https://www.vim.org"
+hostmakedepends="git pkg-config"
+license="Vim"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="libXt-devel ncurses-devel"
+my_field_repo=git://github.com/vim/vim.git
+pkgname=vim-git
+provides="vim-0_1 vim-common-0_1"
+revision=1
+short_desc="Vim editor (vi clone)"
+version=2c02d38
+
+vim-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+do_configure() {
+    ./configure \
+        --disable-cscope \
+        --disable-gpm \
+        --disable-luainterp \
+        --disable-netbeans \
+        --disable-perlinterp \
+        --disable-python3interp \
+        --disable-pythoninterp \
+        --disable-rubyinterp \
+        --disable-tclinterp \
+        --enable-nls \
+        --enable-gui=no \
+        --enable-multibyte \
+        --enable-terminal \
+        --prefix=/usr \
+        --with-features=huge \
+        --with-tlib=ncursesw \
+        --with-x
+}
+
+do_build() {
+    make
+}
+
+do_install() {
+    make DESTDIR=$DESTDIR install
+
+    vlicense runtime/doc/uganda.txt LICENSE
+    rm -rf $DESTDIR/usr/share/applications
+
+    #vbin src/vim
+    #vmove usr/share/icons
+    #vmove usr/bin/rvim
+    #vmove usr/bin/vim-ex
+    #vmove usr/bin/vimdiff
+    #vmove usr/bin/*view
+    #vmove usr/bin/vimtutor
+    #vmove "usr/share/man/man1/*vim*"
+    #vmove usr/share/licenses
+    #vmove usr/share/vim
+}

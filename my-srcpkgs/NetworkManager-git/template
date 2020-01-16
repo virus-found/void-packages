@@ -1,0 +1,119 @@
+# Template file for 'NetworkManager-git'
+#build_helper="gir"
+#build_options="gir vala elogind"
+#build_options_default="gir vala elogind"
+build_options="elogind"
+build_options_default="elogind"
+build_style=meson
+conf_files="/etc/${pkgname%-git}/${pkgname%-git}.conf"
+configure_args="
+    -Ddocs=false
+    -Dtests=no
+    -Dpolkit_agent=true -Dsystemd_journal=false
+    -Dlibaudit=no -Dovs=false -Dselinux=false
+    -Dmodify_system=true -Dpolkit_agent=true -Dsystemdsystemunitdir=no
+    -Dpppd=/usr/bin/pppd -Dqt=false
+    -Dsession_tracking_consolekit=false
+    -Dpppd_plugin_dir=/usr/lib/pppd/2.4.7 -Dresolvconf=/usr/bin/resolvconf
+    -Ddhclient=/usr/bin/dhclient -Dkernel_firmware_dir=/usr/lib/firmware
+    -Ddnsmasq=/usr/bin/dnsmasq -Ddbus_conf_dir=/etc/dbus-1/system.d
+    -Diwd=true
+    -Dudev_dir=/usr/lib/udev -Dintrospection=$(vopt_if gir true false)
+    -Dvapi=$(vopt_if vala true false)
+    -Dsession_tracking=$(vopt_if elogind elogind no)
+    -Dsuspend_resume=$(vopt_if elogind elogind upower)
+    -Dconfig_dhcp_default=internal
+"
+conflicts=NetworkManager
+depends="dbus iproute2 openresolv wpa_supplicant mobile-broadband-provider-info"
+homepage="https://wiki.gnome.org/Projects/NetworkManager"
+hostmakedepends="
+    git
+    gettext-devel glib-devel libxslt-devel pkg-config
+    intltool dbus-glib-devel jansson-devel $(vopt_if vala vala)
+    $(vopt_if gir 'python3-gobject')
+"
+lib32disabled=yes
+license="GPL-2.0-or-later"
+maintainer="Orphaned <orphan@voidlinux.org>"
+make_dirs="
+    /etc/NetworkManager/system-connections 0755 root root
+    /etc/NetworkManager/dispatcher.d/pre-up.d 0750 root root
+    /etc/NetworkManager/dispatcher.d/pre-down.d 0750 root root
+    /etc/NetworkManager/VPN 0755 root root
+    /var/lib/NetworkManager 0755 root root
+"
+makedepends="
+    libuuid-devel nss-devel dbus-glib-devel libgudev-devel
+    libnl3-devel polkit-devel ppp-devel iptables-devel libcurl-devel
+    ModemManager-devel readline-devel libndp-devel newt-devel jansson-devel
+    libpsl-devel eudev-libudev-devel mobile-broadband-provider-info
+    $(vopt_if gir libgirepository-devel) $(vopt_if elogind elogind-devel)
+"
+my_field_repo=git://github.com/NetworkManager/NetworkManager.git
+pkgname=NetworkManager-git
+provides=NetworkManager-0_1
+revision=1
+short_desc="Network Management daemon"
+version=c674501
+case "$XBPS_TARGET_MACHINE" in
+    *-musl)
+        CFLAGS+=" -DRTLD_DEEPBIND=0"
+        # Fail to build on musl
+        configure_args+=" -Dtests=no"
+        ;;
+esac
+
+NetworkManager-git_package() {
+    true
+}
+
+do_fetch() {
+#    mkdir ${pkgname}-${version}
+#    cp -rp /${pkgname%-git}/* ${pkgname}-${version}
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+pre_configure() {
+    if [ "$CROSS_BUILD" ]; then
+        # Replace the values from our patch into the system itself
+        sed -i -e "s|@XBPS_CROSS_BASE@|${XBPS_CROSS_BASE}|g" libnm/meson.build
+    fi
+}
+
+post_install() {
+    vinstall ${FILESDIR}/${pkgname%-git}.conf 644 etc/${pkgname%-git}
+    vsv ${pkgname%-git}
+}
+
+libnm-git_package() {
+    conflicts=libnm
+    # FIXME ver
+    provides=libnm-999_1
+    short_desc+=" - shared libraries"
+
+    pkg_install() {
+        vmove "usr/lib/*.so.*"
+        if [ "$build_option_gir" ]; then
+            vmove usr/lib/girepository-1.0
+        fi
+    }
+}
+NetworkManager-devel-git_package() {
+    conflicts=NetworkManager-devel
+    depends="dbus-glib-devel libnm-${version}_${revision}"
+    provides=NetworkManager-devel-0_1
+    short_desc+=" - development files"
+
+    pkg_install() {
+        vmove usr/include
+        vmove usr/lib/pkgconfig
+        vmove "usr/lib/*.so"
+        if [ "$build_option_gir" ]; then
+            vmove usr/share/gir-1.0
+        fi
+        if [ "$build_option_vala" ]; then
+            vmove usr/share/vala
+        fi
+    }
+}

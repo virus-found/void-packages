@@ -1,0 +1,22 @@
+archs=noarch
+build_style=gnu-makefile
+conflicts=winetricks
+depends="cabextract unzip xmessage wine"
+homepage="http://wiki.winehq.org/winetricks"
+hostmakedepends="git"
+license="LGPL-3.0-or-later"
+maintainer="Andrea Brancaleoni <abc@pompel.me>"
+my_field_repo=git://github.com/Winetricks/winetricks.git
+pkgname=winetricks-git
+provides=winetricks-0_1
+revision=1
+short_desc="Script to install various redistributable runtime libraries in Wine"
+version=41b5009
+
+winetricks-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}

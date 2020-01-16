@@ -1,0 +1,43 @@
+# Template file for 'tlp-git'
+archs=noarch
+conf_files="/etc/default/tlp"
+conflicts="tlp laptop-mode>=0"
+depends="hdparm bash iw util-linux ethtool perl"
+homepage="https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html"
+hostmakedepends="git"
+license="GPL-2.0-or-later"
+maintainer="Orphaned <orphan@voidlinux.org>"
+my_field_repo=git://github.com/linrunner/TLP.git
+pkgname=tlp-git
+provides=tlp-0_1
+revision=1
+short_desc="Advanced power management tool for Linux"
+version=a9ada09
+
+tlp-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+do_install() {
+    make DESTDIR=${DESTDIR} \
+        TLP_SBIN=/usr/bin \
+        TLP_ULIB=/usr/lib/udev \
+        TLP_SHCPL=/usr/share/bash-completion/completions \
+        TLP_ELOD=/usr/lib/elogind/system-sleep \
+        TLP_WITH_SYSTEMD=0 \
+        install-tlp
+
+    vmkdir usr/share/man/man1
+    install -m644 man/*.1 ${DESTDIR}/usr/share/man/man1
+    vmkdir usr/share/man/man8
+    install -m644 man/*.8 ${DESTDIR}/usr/share/man/man8
+    rm -f ${DESTDIR}/usr/share/man/man8/*.service.8
+
+    vsv tlp
+
+    rm -rf ${DESTDIR}/etc/init.d
+}
