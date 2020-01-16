@@ -1,0 +1,355 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+set -e
+
+# Get cwd of this script
+# https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 2>/dev/null
+[[ $cwd ]] || exit 123
+
+_chapter() {
+    l="------------------------------------------------------------------------------"
+
+    echo $l
+    echo -e $@
+    echo $l
+}
+
+_build_usage() {
+    echo '
+y - build now
+n - do not build
+s - skip version
+i - ignore package
+q - quit
+a - build all following updates
+d - do not build all following updates
+? - print help
+    '
+}
+
+# Use with || continue
+_chapter_question_build() {
+    [[ $all = true ]] && return 0
+    [[ $all = false ]] && return 1
+
+    echo $l
+
+    while true
+    do
+        echo -n "$@ [y,n,s,i,q,a,d,?]? "
+        read answer
+
+        unset skip ignore all
+        case ${answer:0:1} in
+            # proceed
+            y ) echo ; return 0 ;;
+            n ) return 1 ;;
+            # proceed with special var
+            s ) skip=true ; return 0 ;;
+            # proceed with special var
+            i ) ignore=true ; return 0 ;;
+            q ) echo $l ; exit 0 ;;
+            # proceed with special var
+            a ) all=true ; echo ; return 0 ;;
+            d ) all=false ; return 1 ;;
+            * ) _build_usage ;;
+        esac
+    done
+
+    echo $l
+}
+
+# Use with || continue
+_chapter_question_build_fail_continue() {
+    echo $l
+
+    while true
+    do
+        echo -n "skip $p update [y,n,q]? "
+        read answer
+
+        case ${answer:0:1} in
+            y )
+                # Skip
+                sed -i '/my_field_skip_version/d' $template
+                sed -i "/^my_field_repo=/a my_field_skip_version=$upstream_rev" $template
+                ;;
+            n )
+                echo $l
+                ;;
+            q )
+                echo $l
+                exit 0
+                ;;
+            * )
+                # Ask again
+                continue
+                ;;
+        esac
+        break
+    done
+}
+
+_create_links_to_my_pkgs() {
+    cd $cwd/my-srcpkgs/
+
+    # Remove old ones
+    find -L ../srcpkgs/ -maxdepth 1 -type l -exec rm -v {} +
+
+    # Create new ones
+    local a
+    for a in * ; do
+        ln -svn ../my-srcpkgs/$a ../srcpkgs/$a 2>/dev/null || true
+    done
+}
+
+_update_system() {
+    _create_links_to_my_pkgs
+
+    cd $cwd/
+
+    _chapter 'update void-packages'
+    git fetch --all --prune
+    git stash push
+    # FIXME hardcode
+    git rebase upstream/master
+    git stash pop
+    _chapter 'update host pkgs'
+    sudo vpm up
+    sudo vpm ar
+    _chapter 'update build env'
+    ./xbps-src bootstrap-update
+}
+
+# common/xbps-src/shutils/common.sh
+_get_subpkgs() {
+    local f
+    for f in $(typeset -F)
+    do
+        case "$f" in
+            *_package) echo "${f%_package}" ;;
+        esac
+    done
+}
+
+update_my_pkgs() {
+    rm -rf $cwd/{hostdir/binpkgs,masterdir/builddir,masterdir/destdir}/
+    # TODO subpkg epic
+    #rm -rf $cwd/{hostdir/binpkgs/debug,masterdir/builddir,masterdir/destdir}/
+
+    rm -f /tmp/my-xbps-log
+
+    if [[ $@ ]]
+    then
+        force=true
+        mypkgs=$@
+    else
+        cd $cwd/my-srcpkgs/
+        mypkgs=$(echo *)
+    fi
+
+    _update_system
+
+    local p
+    for p in $mypkgs ; do
+        [[ $p =~ 'git' ]] && git=true
+
+        unset my_field_ignore my_field_repo my_field_skip_version
+        template=srcpkgs/$p/template
+        # FIXME workaround for - vopt_enable: command not found
+        . $template 2>/dev/null || true
+
+        if [[ $force != true && $my_field_ignore ]]
+        then
+            ignored_pkgs_summary+=($p)
+            continue
+        fi
+
+        if [[ $git = true ]]
+        then
+            upstream_rev_long=$(git ls-remote $my_field_repo HEAD | awk '{print $1}')
+            upstream_rev=${upstream_rev_long:0:7}
+        else
+            upstream_rev=$version
+        fi
+
+        if [[ $force != true && $upstream_rev = $version ]]
+        then
+            continue
+        else
+            # TODO optimize
+            #outdated_pkgs_summary[$p]=$p
+            if [[ $force != true && $upstream_rev = $my_field_skip_version ]]
+            then
+                continue
+            fi
+        fi
+
+        _chapter_question_build "build $p $upstream_rev" || continue
+
+        if [[ $force != true && $skip = true ]]
+        then
+            sed -i '/my_field_skip_version/d' $template
+            sed -i "/^my_field_repo=/a my_field_skip_version=$upstream_rev" $template
+            continue
+        elif [[ $force = !true && $ignore = true ]]
+        then
+            sed -i '/my_field_ignore/d' $template
+            sed -i '/^my_field_repo=/i my_field_ignore=1' $template
+            ignored_pkgs_summary+=($p)
+            continue
+        fi
+
+        cp $template /tmp/${p}_old
+        if [[ $git = true ]]
+        then
+            sed "0,/^version/{s/^version=.*/version=$upstream_rev/}" $template > /tmp/${p}_new
+        # FIXME this is not needed
+        else
+            cp $template /tmp/${p}_new
+        fi
+
+        # Put previous template on ctrl-c
+        trap "
+            mv /tmp/${p}_old $template 2>/dev/null || true
+            _chapter_question_build_fail_continue
+            continue
+        " SIGINT
+
+        mv /tmp/${p}_new $template
+
+        start=$SECONDS
+        if ! ./xbps-src -C pkg $p
+        then
+            # Put previous template on build fail
+            mv /tmp/${p}_old $template 2>/dev/null || true
+            _chapter_question_build_fail_continue
+            continue
+        fi
+        end=$SECONDS
+
+        duration=$(( end - start ))
+        duration_pretty=$(date -d@${duration} -u +%H:%M:%S)
+
+# TODO
+#printf "%s\n" "${ARRAY[@]}"
+
+#        unset subpkgs
+#        local f
+#        for f in $subpkgs
+#        do
+#            unset f_package
+#        done
+#        subpkgs=$(_get_subpkgs)
+#        built_pkgs+=($p $subpkgs)
+#_chapter "subpkgs: $subpkgs"
+#_chapter "built_pkgs: ${built_pkgs[@]}"
+#read
+#exit 123
+#        built_pkgs_summary+="${built_pkgs[@]} (built in $duration_pretty) $version => $upstream_rev"
+        built_pkgs+="$p "
+        built_pkgs_summary+="$p (built in $duration_pretty) $version => $upstream_rev"
+        #unset outdated_pkgs_summary[$p]
+
+        if [[ $git = true ]]
+        then
+            (
+                cd masterdir/builddir/$p-$upstream_rev
+
+                l=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit $version..$upstream_rev 2>/dev/null || true)
+                if [[ $l ]]
+                then
+                    echo -e "$p\n\n$l\n\n" >> /tmp/my-xbps-log
+                else
+                    true
+                fi
+            )
+        fi
+    done
+
+    # Show log if not empty
+    [[ -e /tmp/my-xbps-log ]] && less /tmp/my-xbps-log
+
+    if [[ $outdated_pkgs_summary ]]
+    then
+        if [[ $built_pkgs ]]
+        then
+            if [[ $ignored_pkgs_summary ]]
+            then
+                _chapter "updated\n\n$built_pkgs_summary\n\noutdated\n\n${outdated_pkgs_summary[@]}\n\nignored\n\n${ignored_pkgs_summary[@]}"
+            else
+                _chapter "updated\n\n$built_pkgs_summary\n\noutdated\n\n${outdated_pkgs_summary[@]}"
+            fi
+
+            sudo xdowngrade hostdir/binpkgs/*.xbps
+        else
+            if [[ $ignored_pkgs_summary ]]
+            then
+                _chapter "outdated\n\n${outdated_pkgs_summary[@]}\n\nignored\n\n${ignored_pkgs_summary[@]}"
+            else
+                _chapter "outdated\n\n${outdated_pkgs_summary[@]}"
+            fi
+        fi
+    elif [[ $built_pkgs ]]
+    then
+        if [[ $ignored_pkgs_summary ]]
+        then
+            _chapter "updated\n\n$built_pkgs_summary\n\nignored\n\n${ignored_pkgs_summary[@]}"
+        else
+            _chapter "updated\n\n$built_pkgs_summary"
+        fi
+
+        sudo xdowngrade hostdir/binpkgs/*.xbps
+    else
+        if [[ $ignored_pkgs_summary ]]
+        then
+            _chapter "ignored\n\n${ignored_pkgs_summary[@]}"
+        else
+            _chapter "everything up to date"
+        fi
+    fi
+}
+
+cleanup() {
+    cd $cwd/
+
+    _chapter 'update void-packages'
+    git fetch --all --prune
+    git stash push
+    # FIXME hardcode
+    git rebase upstream/master
+    git stash pop
+
+    _chapter 'perform cleanup'
+
+    ./xbps-src clean
+    ./xbps-src clean-repocache
+    ./xbps-src remove-autodeps
+    ./xbps-src zap
+    ./xbps-src binary-bootstrap
+
+    _chapter 'cleanup success'
+}
+
+#
+# Main switch
+#
+case $1 in
+    up)
+        if [[ $2 ]]
+        then
+            shift
+            update_my_pkgs $@
+        else
+            update_my_pkgs
+        fi
+        ;;
+    cleanup)
+        cleanup
+        ;;
+    *)
+        echo "$0: invalid parameter $1"
+        exit 1
+        ;;
+esac

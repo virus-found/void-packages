@@ -1,0 +1,54 @@
+# Template file for 'wlroots-git'
+build_style=meson
+configure_args="
+    -Dlibcap=enabled -Dlogind=enabled -Dlogind-provider=elogind
+    -Dxcb-errors=enabled -Dxcb-icccm=enabled -Dxwayland=enabled
+    -Dx11-backend=enabled -Dexamples=false
+"
+homepage="https://github.com/swaywm/wlroots"
+hostmakedepends="git pkg-config wayland-devel"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="
+    elogind-devel libcap-devel wayland-devel wayland-protocols
+    MesaLib-devel libinput-devel libxkbcommon-devel libdrm-devel pixman-devel
+    libxcb-devel xcb-util-cursor-devel xcb-util-devel xcb-util-image-devel
+    xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel
+    xcb-util-errors-devel xcb-util-xrm-devel freerdp-devel
+"
+my_field_ignore=1
+my_field_repo=git://github.com/swaywm/wlroots.git
+pkgname=wlroots-git
+revision=1
+short_desc="Modular Wayland compositor library"
+version=802ef9d
+
+do_fetch() {
+    git clone $my_field_repo ${pkgname}-${version}
+}
+
+wlroots-git_package() {
+    conflicts=wlroots
+    provides=wlroots-0_1
+
+    post_install() {
+        vlicense LICENSE
+    }
+}
+
+wlroots-devel-git_package() {
+    conflicts=wlroots-devel
+    depends="
+        MesaLib-devel elogind-devel eudev-libudev-devel libcap-devel
+        libdrm-devel libinput-devel libxkbcommon-devel pixman-devel wayland-devel
+        wayland-protocols wlroots-git-${version}_${revision}
+    "
+    provides=wlroots-devel-0_1
+    short_desc+=" - development files"
+
+    pkg_install() {
+        vmove usr/include
+        vmove usr/lib/pkgconfig
+        vmove "usr/lib/*.so"
+    }
+}

@@ -1,0 +1,107 @@
+--- srcpkgs/mpv/template	2019-11-15 13:31:40.375113993 +0300
++++ my-srcpkgs/mpv-git/template	2019-11-15 13:55:55.762052249 +0300
+@@ -1,59 +1,58 @@
+-# Template file for 'mpv'
+-pkgname=mpv
+-version=0.30.0
+-revision=3
++# Template file for 'mpv-git'
++build_options="alsa caca jack lua oss pulseaudio sdl2 smb sndio vapoursynth vdpau wayland x11 vulkan"
++build_options_default="alsa caca sndio vdpau wayland vulkan"
+ build_style=waf
+-configure_args="--confdir=/etc/mpv --docdir=/usr/share/examples/mpv
+- --enable-dvdnav --enable-dvdnav --enable-cdda --enable-libmpv-shared
+- --enable-dvbin --enable-libarchive $(vopt_enable alsa) $(vopt_enable caca)
+- $(vopt_enable jack) $(vopt_enable lua) $(vopt_enable oss oss-audio)
+- $(vopt_enable pulseaudio pulse) $(vopt_enable sdl2)
+- $(vopt_enable smb libsmbclient) $(vopt_enable sndio)
+- $(vopt_enable vapoursynth) $(vopt_enable vdpau) $(vopt_enable wayland)
+- $(vopt_enable x11) $(vopt_enable vulkan) $(vopt_enable vulkan shaderc)"
+-hostmakedepends="pkg-config python-docutils perl $(vopt_if wayland wayland-devel)"
+-makedepends="MesaLib-devel ffmpeg-devel harfbuzz-devel lcms2-devel libXv-devel
+- libass-devel libbluray-devel libcdio-paranoia-devel libdvdnav-devel
+- libdvdnav-devel libguess-devel libuuid-devel libva-glx-devel rubberband-devel
+- libarchive-devel $(vopt_if alsa alsa-lib-devel) $(vopt_if caca libcaca-devel)
+- $(vopt_if jack jack-devel) $(vopt_if lua lua52-devel)
+- $(vopt_if pulseaudio pulseaudio-devel) $(vopt_if sdl2 SDL2-devel)
+- $(vopt_if smb samba-devel) $(vopt_if sndio sndio-devel)
+- $(vopt_if vapoursynth vapoursynth-devel)
+- $(vopt_if vdpau libvdpau-devel) $(vopt_if wayland "wayland-devel
+- wayland-protocols libxkbcommon-devel")
+- $(vopt_if x11 "libXScrnSaver-devel libXinerama-devel libXrandr-devel")
+- $(vopt_if vulkan 'Vulkan-Headers vulkan-loader shaderc libplacebo-devel')"
++configure_args="
++    --confdir=/etc/mpv --docdir=/usr/share/examples/mpv
++    --enable-dvbin --enable-libarchive $(vopt_enable alsa) $(vopt_enable caca)
++    $(vopt_enable jack) $(vopt_enable lua) $(vopt_enable oss oss-audio)
++    $(vopt_enable pulseaudio pulse) $(vopt_enable sdl2)
++    $(vopt_enable smb libsmbclient) $(vopt_enable sndio)
++    $(vopt_enable vapoursynth) $(vopt_enable vdpau) $(vopt_enable wayland)
++    $(vopt_enable x11) $(vopt_enable vulkan) $(vopt_enable vulkan shaderc)
++"
+ depends="desktop-file-utils hicolor-icon-theme $(vopt_if vapoursynth vapoursynth-mvtools)"
+-short_desc="Video player based on MPlayer/mplayer2"
+-maintainer="Orphaned <orphan@voidlinux.org>"
+-license="GPL-2.0-or-later"
+-homepage="https://mpv.io"
+-changelog="https://github.com/mpv-player/mpv/releases"
+-distfiles="https://github.com/mpv-player/${pkgname}/archive/v${version}.tar.gz"
+-checksum=33a1bcb7e74ff17f070e754c15c52228cf44f2cefbfd8f34886ae81df214ca35
+-
+-build_options="alsa caca jack lua oss pulseaudio sdl2 smb sndio vapoursynth
+- vdpau wayland x11 vulkan"
+-build_options_default="alsa jack lua pulseaudio sndio vdpau wayland x11 vulkan"
+ desc_option_caca="Enable support for libcaca video output"
+ desc_option_oss="Enable support for OSS audio output"
++homepage="https://mpv.io"
++hostmakedepends="git pkg-config python-docutils perl $(vopt_if wayland wayland-devel)"
++license="GPL-2.0-or-later"
++maintainer="Orphaned <orphan@voidlinux.org>"
++makedepends="
++    MesaLib-devel ffmpeg-devel harfbuzz-devel lcms2-devel libXv-devel
++    libass-devel libbluray-devel libcdio-paranoia-devel
++    libguess-devel libuuid-devel libva-glx-devel rubberband-devel
++    libarchive-devel $(vopt_if alsa alsa-lib-devel) $(vopt_if caca libcaca-devel)
++    $(vopt_if jack jack-devel) $(vopt_if lua lua52-devel)
++    $(vopt_if pulseaudio pulseaudio-devel) $(vopt_if sdl2 SDL2-devel)
++    $(vopt_if smb samba-devel) $(vopt_if sndio sndio-devel)
++    $(vopt_if vapoursynth vapoursynth-devel)
++    $(vopt_if vdpau libvdpau-devel) $(vopt_if wayland "wayland-devel
++    wayland-protocols libxkbcommon-devel")
++    $(vopt_if x11 "libXScrnSaver-devel libXinerama-devel libXrandr-devel")
++    $(vopt_if vulkan 'Vulkan-Headers vulkan-loader shaderc libplacebo-devel')
++"
++my_field_repo=git://github.com/mpv-player/mpv
++pkgname=mpv-git
++revision=1
++short_desc="Video player based on MPlayer/mplayer2"
++version=1
+ vopt_conflict sdl2 wayland
+ 
+ if [ -z "$CROSS_BUILD" ]; then
+-	configure_args+=" --zshdir=/usr/share/zsh/site-functions"
++    configure_args+=" --zshdir=/usr/share/zsh/site-functions"
+ fi
+ 
+ pre_configure() {
+-	python2 bootstrap.py
++    python2 bootstrap.py
+ }
+ 
+-mpv-devel_package() {
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - development files"
+-	pkg_install() {
+-		vmove usr/include
+-		vmove usr/lib/pkgconfig
+-		vmove usr/lib/*.so
+-	}
++mpv-git-devel_package() {
++    depends="${sourcepkg}>=${version}_${revision}"
++    short_desc+=" - development files"
++    pkg_install() {
++        vmove usr/include
++        vmove usr/lib/pkgconfig
++        vmove usr/lib/*.so
++    }
+ }
