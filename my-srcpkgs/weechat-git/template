@@ -1,4 +1,6 @@
 # Template file for 'weechat-git'
+_my_field_repo=git://github.com/weechat/weechat.git
+_my_field_skip_version=e11075e
 build_style=cmake
 configure_args="
     -DPYTHON_EXECUTABLE=/usr/bin/python3
@@ -22,21 +24,18 @@ lib32disabled=yes
 license="GPL-3.0-or-later"
 maintainer="Orphaned <orphan@voidlinux.org>"
 makedepends="gnutls-devel libcurl-devel python3-devel perl"
-my_field_repo=git://github.com/weechat/weechat.git
-my_field_skip_version=e11075e
 pkgname=weechat-git
 provides=weechat-0_1
 revision=1
 short_desc="Fast, light and extensible IRC client"
-subpackages="weechat-python-git weechat-perl-git"
-version=4d67af3
+version=c6e9e18
 
 weechat-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 if [ "$CROSS_BUILD" ]
@@ -77,5 +76,18 @@ weechat-python-git_package() {
 
     pkg_install() {
         vmove usr/lib/weechat/plugins/python.so
+    }
+}
+
+weechat-devel-git_package() {
+    conflicts=weechat-devel
+    depends="${sourcepkg}>=${version}_${revision} ncurses-devel"
+    lib32disabled=yes
+    provides=weechat-devel-0_1
+    short_desc+=" - development package"
+
+    pkg_install() {
+        vmove usr/include
+        vmove usr/lib/pkgconfig
     }
 }

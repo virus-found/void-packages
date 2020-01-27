@@ -72,8 +72,8 @@ _chapter_question_build_fail_continue() {
         case ${answer:0:1} in
             y )
                 # Skip
-                sed -i '/my_field_skip_version/d' $template
-                sed -i "/^my_field_repo=/a my_field_skip_version=$upstream_rev" $template
+                sed -i '/_my_field_skip_version/d' $template
+                sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
                 ;;
             n )
                 echo $l
@@ -111,10 +111,12 @@ _update_system() {
 
     _chapter 'update void-packages'
     git fetch --all --prune
-    git stash push
+    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    [[ $do_stash = true ]] && git stash push
     # FIXME hardcode
-    git rebase upstream/master
-    git stash pop
+    git rebase origin/master
+    [[ $do_stash = true ]] && git stash pop --index
+
     _chapter 'update host pkgs'
     sudo vpm up
     sudo vpm ar
@@ -135,9 +137,6 @@ _get_subpkgs() {
 
 update_my_pkgs() {
     rm -rf $cwd/{hostdir/binpkgs,masterdir/builddir,masterdir/destdir}/
-    # TODO subpkg epic
-    #rm -rf $cwd/{hostdir/binpkgs/debug,masterdir/builddir,masterdir/destdir}/
-
     rm -f /tmp/my-xbps-log
 
     if [[ $@ ]]
@@ -146,7 +145,8 @@ update_my_pkgs() {
         mypkgs=$@
     else
         cd $cwd/my-srcpkgs/
-        mypkgs=$(echo *)
+        # Omitting symlinks
+        mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n')
     fi
 
     _update_system
@@ -155,32 +155,24 @@ update_my_pkgs() {
     for p in $mypkgs ; do
         [[ $p =~ 'git' ]] && git=true
 
-        unset my_field_ignore my_field_repo my_field_skip_version
+        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
         template=srcpkgs/$p/template
         # FIXME workaround for - vopt_enable: command not found
         . $template 2>/dev/null || true
 
-        if [[ $force != true && $my_field_ignore ]]
-        then
-            ignored_pkgs_summary+=($p)
-            continue
-        fi
+        [[ $force != true && $_my_field_ignore ]] && continue
 
         if [[ $git = true ]]
         then
-            upstream_rev_long=$(git ls-remote $my_field_repo HEAD | awk '{print $1}')
+            upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
             upstream_rev=${upstream_rev_long:0:7}
         else
             upstream_rev=$version
         fi
 
-        if [[ $force != true && $upstream_rev = $version ]]
+        if [[ $force != true ]]
         then
-            continue
-        else
-            # TODO optimize
-            #outdated_pkgs_summary[$p]=$p
-            if [[ $force != true && $upstream_rev = $my_field_skip_version ]]
+            if [[ $upstream_rev = $version || $upstream_rev = $_my_field_skip_version ]]
             then
                 continue
             fi
@@ -190,14 +182,13 @@ update_my_pkgs() {
 
         if [[ $force != true && $skip = true ]]
         then
-            sed -i '/my_field_skip_version/d' $template
-            sed -i "/^my_field_repo=/a my_field_skip_version=$upstream_rev" $template
+            sed -i '/_my_field_skip_version/d' $template
+            sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
             continue
         elif [[ $force = !true && $ignore = true ]]
         then
-            sed -i '/my_field_ignore/d' $template
-            sed -i '/^my_field_repo=/i my_field_ignore=1' $template
-            ignored_pkgs_summary+=($p)
+            sed -i '/_my_field_ignore/d' $template
+            sed -i '/^_my_field_repo=/i _my_field_ignore=1' $template
             continue
         fi
 
@@ -219,6 +210,9 @@ update_my_pkgs() {
 
         mv /tmp/${p}_new $template
 
+        # TODO implement noautoinstall
+        #[[ $_my_field_autoinstall = false ]] && noautoinstall[$p]=$p
+
         start=$SECONDS
         if ! ./xbps-src -C pkg $p
         then
@@ -232,27 +226,9 @@ update_my_pkgs() {
         duration=$(( end - start ))
         duration_pretty=$(date -d@${duration} -u +%H:%M:%S)
 
-# TODO
-#printf "%s\n" "${ARRAY[@]}"
+        built=true
 
-#        unset subpkgs
-#        local f
-#        for f in $subpkgs
-#        do
-#            unset f_package
-#        done
-#        subpkgs=$(_get_subpkgs)
-#        built_pkgs+=($p $subpkgs)
-#_chapter "subpkgs: $subpkgs"
-#_chapter "built_pkgs: ${built_pkgs[@]}"
-#read
-#exit 123
-#        built_pkgs_summary+="${built_pkgs[@]} (built in $duration_pretty) $version => $upstream_rev"
-        built_pkgs+="$p "
-        built_pkgs_summary+="$p (built in $duration_pretty) $version => $upstream_rev"
-        #unset outdated_pkgs_summary[$p]
-
-        if [[ $git = true ]]
+        if [[ $git = true && -e masterdir/builddir/$p-$upstream_rev ]]
         then
             (
                 cd masterdir/builddir/$p-$upstream_rev
@@ -271,43 +247,11 @@ update_my_pkgs() {
     # Show log if not empty
     [[ -e /tmp/my-xbps-log ]] && less /tmp/my-xbps-log
 
-    if [[ $outdated_pkgs_summary ]]
+    if [[ $built ]]
     then
-        if [[ $built_pkgs ]]
-        then
-            if [[ $ignored_pkgs_summary ]]
-            then
-                _chapter "updated\n\n$built_pkgs_summary\n\noutdated\n\n${outdated_pkgs_summary[@]}\n\nignored\n\n${ignored_pkgs_summary[@]}"
-            else
-                _chapter "updated\n\n$built_pkgs_summary\n\noutdated\n\n${outdated_pkgs_summary[@]}"
-            fi
-
-            sudo xdowngrade hostdir/binpkgs/*.xbps
-        else
-            if [[ $ignored_pkgs_summary ]]
-            then
-                _chapter "outdated\n\n${outdated_pkgs_summary[@]}\n\nignored\n\n${ignored_pkgs_summary[@]}"
-            else
-                _chapter "outdated\n\n${outdated_pkgs_summary[@]}"
-            fi
-        fi
-    elif [[ $built_pkgs ]]
-    then
-        if [[ $ignored_pkgs_summary ]]
-        then
-            _chapter "updated\n\n$built_pkgs_summary\n\nignored\n\n${ignored_pkgs_summary[@]}"
-        else
-            _chapter "updated\n\n$built_pkgs_summary"
-        fi
-
         sudo xdowngrade hostdir/binpkgs/*.xbps
     else
-        if [[ $ignored_pkgs_summary ]]
-        then
-            _chapter "ignored\n\n${ignored_pkgs_summary[@]}"
-        else
-            _chapter "everything up to date"
-        fi
+        _chapter "nothing to install"
     fi
 }
 
@@ -316,13 +260,13 @@ cleanup() {
 
     _chapter 'update void-packages'
     git fetch --all --prune
-    git stash push
+    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    [[ $do_stash = true ]] && git stash push
     # FIXME hardcode
-    git rebase upstream/master
-    git stash pop
+    git rebase origin/master
+    [[ $do_stash = true ]] && git stash pop
 
     _chapter 'perform cleanup'
-
     ./xbps-src clean
     ./xbps-src clean-repocache
     ./xbps-src remove-autodeps

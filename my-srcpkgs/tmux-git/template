@@ -1,4 +1,6 @@
 # Template file for 'tmux-git'
+_my_field_repo=git://github.com/tmux/tmux
+_my_field_skip_version=7922f4e
 build_style=gnu-configure
 conflicts=tmux
 homepage="https://tmux.github.io"
@@ -15,20 +17,18 @@ makedepends="
     libevent-devel
     ncurses-devel
 "
-my_field_repo=git://github.com/tmux/tmux
-my_field_skip_version=7922f4e
 pkgname=tmux-git
 provides=tmux-0_1
 revision=1
 short_desc="Terminal Multiplexer"
-version=cdf1383
+version=37919a6
 
 tmux-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 pre_configure() {

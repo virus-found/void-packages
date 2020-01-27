@@ -1,4 +1,5 @@
 # Template file for 'wpa_supplicant-git'
+_my_field_repo=git://w1.fi/hostap.git
 build_options="dbus readline"
 build_options_default="dbus readline"
 build_wrksrc="${pkgname%-git}"
@@ -9,19 +10,18 @@ hostmakedepends="pkg-config git"
 license="BSD-3-Clause"
 maintainer="Orphaned <orphan@voidlinux.org>"
 makedepends="libnl3-devel libressl-devel $(vopt_if dbus dbus-devel) $(vopt_if readline readline-devel)"
-my_field_repo=git://w1.fi/hostap.git
 pkgname=wpa_supplicant-git
 provides=wpa_supplicant-0_1
 revision=1
 short_desc="WPA/WPA2/IEEE 802.1X Supplicant"
-version=ca10117
+version=46cb046
 
 wpa_supplicant-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 pre_build() {

@@ -1,4 +1,5 @@
 # Template file for 'tlp-git'
+_my_field_repo=git://github.com/linrunner/TLP.git
 archs=noarch
 conf_files="/etc/default/tlp"
 conflicts="tlp laptop-mode>=0"
@@ -7,19 +8,18 @@ homepage="https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.h
 hostmakedepends="git"
 license="GPL-2.0-or-later"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/linrunner/TLP.git
 pkgname=tlp-git
 provides=tlp-0_1
 revision=1
 short_desc="Advanced power management tool for Linux"
-version=a9ada09
+version=ab788ab
 
 tlp-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

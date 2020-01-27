@@ -1,0 +1,27 @@
+# Template file for 'libsixel-git'
+_my_field_repo=git://github.com/saitoha/libsixel.git
+build_style=gnu-configure
+configure_args="--enable-python --disable-tests"
+conflicts=libsixel
+homepage="https://saitoha.github.io/libsixel/"
+hostmakedepends="git pkg-config"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="libcurl-devel libjpeg-turbo-devel libpng-devel python3-devel"
+pkgname=libsixel-git
+provides=libsixel-0_1
+revision=1
+short_desc="provides a codec for DEC SIXEL graphics, and some converter programs"
+version=6a5be8b
+
+libsixel-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $_my_field_repo ${pkgname}-${version}
+}
+
+post_install() {
+    vlicense LICENSE
+}
