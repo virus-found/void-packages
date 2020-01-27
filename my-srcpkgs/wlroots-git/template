@@ -1,4 +1,6 @@
 # Template file for 'wlroots-git'
+_my_field_ignore=1
+_my_field_repo=git://github.com/swaywm/wlroots.git
 build_style=meson
 configure_args="
     -Dlibcap=enabled -Dlogind=enabled -Dlogind-provider=elogind
@@ -16,15 +18,13 @@ makedepends="
     xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel
     xcb-util-errors-devel xcb-util-xrm-devel freerdp-devel
 "
-my_field_ignore=1
-my_field_repo=git://github.com/swaywm/wlroots.git
 pkgname=wlroots-git
 revision=1
 short_desc="Modular Wayland compositor library"
 version=802ef9d
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 wlroots-git_package() {
@@ -37,6 +37,7 @@ wlroots-git_package() {
 }
 
 wlroots-devel-git_package() {
+    _my_field_autoinstall=false
     conflicts=wlroots-devel
     depends="
         MesaLib-devel elogind-devel eudev-libudev-devel libcap-devel

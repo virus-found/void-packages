@@ -1,4 +1,5 @@
 # Template file for 'edit-weechat-git'
+_my_field_repo=git://github.com/keith/edit-weechat.git
 archs=noarch
 conflicts=edit-weechat
 depends="weechat weechat-python python3-websocket-client"
@@ -6,8 +7,6 @@ homepage="https://github.com/keith/edit-weechat"
 hostmakedepends="git"
 license="MIT"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_ignore=1
-my_field_repo=git://github.com/keith/edit-weechat.git
 pkgname=edit-weechat-git
 provides=edit-weechat-0_1
 revision=1
@@ -19,7 +18,7 @@ edit-weechat-git_package() {
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

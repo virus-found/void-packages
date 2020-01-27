@@ -1,11 +1,11 @@
 # Template file for 'rainbarf-git'
+_my_field_repo=git://github.com/creaktive/rainbarf.git
 conflicts=rainbarf
 depends="perl"
 homepage="http://freecode.com/projects/rainbarf"
 hostmakedepends="git"
 license="GPL"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/creaktive/rainbarf.git
 pkgname=rainbarf-git
 provides=rainbarf-0_1
 revision=1
@@ -17,7 +17,7 @@ rainbarf-git_package() {
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

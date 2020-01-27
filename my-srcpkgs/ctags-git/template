@@ -1,22 +1,23 @@
+# Template file for 'ctags-git'
+_my_field_repo=git://github.com/universal-ctags/ctags.git
 build_style=gnu-configure
 conflicts=ctags
 homepage="http://ctags.sourceforge.net/"
 hostmakedepends="automake git pkg-config"
 license="GPL-3"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/universal-ctags/ctags.git
 pkgname=ctags-git
 provides=ctags-0_1
 revision=1
 short_desc="Generates an index file of language objects found in source files"
-version=fefbad2
+version=381d6ba
 
 ctags-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 pre_configure() {

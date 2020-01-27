@@ -1,5 +1,7 @@
 # Template file for 'ffmpeg-git'
 # audacity also needs to be bumped when a new ffmpeg version bumps libavformat's soname!
+_my_field_ignore=1
+_my_field_repo=git://github.com/FFmpeg/FFmpeg
 build_options="x265 v4l2 vaapi vdpau vpx faac fdk_aac aom nvenc sndio pulseaudio dav1d"
 build_options_default="x265 v4l2 vpx sndio dav1d"
 conflicts=ffmpeg
@@ -20,8 +22,6 @@ makedepends="
     $(vopt_if nvenc nv-codec-headers) $(vopt_if sndio sndio-devel)
     $(vopt_if dav1d libdav1d-devel)
 "
-my_field_ignore=1
-my_field_repo=git://github.com/FFmpeg/FFmpeg
 pkgname=ffmpeg-git
 provides=ffmpeg-0_1
 revision=1
@@ -35,7 +35,7 @@ case "$XBPS_TARGET_MACHINE" in
 esac
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_configure() {
@@ -152,6 +152,7 @@ libswresample-git_package() {
     }
 }
 ffmpeg-devel-git_package() {
+    _my_field_autoinstall=false
     conflicts=ffmpeg-devel
     depends="
         libavcodec-git>=${version}_${revision}

@@ -1,24 +1,26 @@
+# Template file for 'alacritty-git'
+_my_field_repo=git://github.com/jwilm/alacritty
+_my_field_skip_version=5651c3f
 build_style=cargo
 conflicts=alacritty
 depends="libXxf86vm ncurses"
 homepage="https://github.com/jwilm/alacritty"
-hostmakedepends="fontconfig-devel freetype-devel git libxcb-devel pkg-config python3"
+hostmakedepends="git pkg-config"
 license="Apache-2.0"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/jwilm/alacritty
-my_field_skip_version=5651c3f
+makedepends="fontconfig-devel freetype-devel libxcb-devel"
 pkgname=alacritty-git
 provides=alacritty-0_1
 revision=1
 short_desc="Cross-platform, GPU-accelerated terminal emulator"
-version=cc33bec
+version=933b2e2
 
 alacritty-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

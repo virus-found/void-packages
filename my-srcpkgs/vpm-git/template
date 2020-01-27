@@ -1,9 +1,9 @@
+_my_field_repo=git://github.com/netzverweigerer/vpm
 conflicts=vpm
 homepage="https://github.com/netzverweigerer/vpm"
 hostmakedepends="git"
 license="GPL-3"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/netzverweigerer/vpm
 pkgname=vpm-git
 provides=vpm-0_1
 revision=1
@@ -15,7 +15,7 @@ vpm-git_package() {
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

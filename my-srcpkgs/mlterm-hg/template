@@ -1,0 +1,58 @@
+# Template file for 'mlterm-hg'
+_my_field_ignore=1
+_my_field_repo=https://bitbucket.org/arakiken/mlterm
+build_style=gnu-configure
+configure_args="
+    --disable-debug
+    --disable-pty-helper
+    --disable-ssh2
+    --disable-static
+    --disable-utmp
+    --enable-anti-alias
+    --enable-image
+    --enable-optimize-redrawing
+    --enable-otl
+    --with-gui=wayland
+    --without-gtk
+    --without-scrollbars
+"
+conflicts=mlterm
+depends=libutempter # FIXME remove
+homepage="http://mlterm.sourceforge.net/"
+hostmakedepends="mercurial pkg-config"
+license="BSD-3-Clause"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="
+    freetype-devel
+    fribidi-devel
+    harfbuzz-devel
+    libXft-devel
+    libutempter-devel
+    wlroots-devel
+"
+pkgname=mlterm-hg
+provides=mlterm-0_1
+revision=1
+short_desc="Multi Lingual TERMinal emulator for X"
+version=0
+
+mlterm-hg_package() {
+    true
+}
+
+do_fetch() {
+    hg clone $_my_field_repo ${pkgname}-${version}
+}
+
+pre_configure() {
+    export ac_cv_func_posix_openpt=yes
+}
+
+do_check() {
+    # requires xserver
+    :
+}
+
+post_install() {
+    vlicense LICENCE
+}

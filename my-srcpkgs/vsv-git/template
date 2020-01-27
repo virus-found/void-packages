@@ -1,22 +1,22 @@
 # Template file for 'vsv-git'
+_my_field_repo=git://github.com/bahamas10/vsv.git
 conflicts=vsv
 homepage="https://github.com/bahamas10/vsv"
 hostmakedepends="git"
 license="MIT"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/bahamas10/vsv.git
 pkgname=vsv-git
 provides=vsv-0_1
 revision=1
 short_desc="Manage and view runit services"
-version=4d7f3f6
+version=76e57b8
 
 vsv-git_package() {
     true
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 do_install() {

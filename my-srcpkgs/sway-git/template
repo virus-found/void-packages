@@ -1,4 +1,6 @@
 # Template file for 'sway-git'
+_my_field_repo=git://github.com/swaywm/sway.git
+_my_field_ignore=1
 build_options="elogind"
 build_style=meson
 conf_files="/etc/sway/config"
@@ -9,8 +11,6 @@ homepage="https://swaywm.org"
 hostmakedepends="pkg-config scdoc git"
 license="MIT"
 maintainer="Orphaned <orphan@voidlinux.org>"
-my_field_repo=git://github.com/swaywm/sway.git
-my_field_ignore=1
 pkgname=sway-git
 provides=sway-0_1
 revision=1
@@ -33,7 +33,7 @@ sway-git_package() {
 }
 
 do_fetch() {
-    git clone $my_field_repo ${pkgname}-${version}
+    git clone $_my_field_repo ${pkgname}-${version}
 }
 
 post_patch() {
