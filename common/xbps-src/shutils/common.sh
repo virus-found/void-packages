@@ -599,6 +599,7 @@ setup_pkg() {
         export FFLAGS="$XBPS_TARGET_FFLAGS $FFLAGS"
         export CPPFLAGS="$XBPS_TARGET_CPPFLAGS $CPPFLAGS"
         export LDFLAGS="$XBPS_TARGET_LDFLAGS $LDFLAGS"
+        export RUSTFLAGS="$XBPS_RUSTFLAGS"
         # Tools
         export CC="cc"
         export CXX="g++"
@@ -624,7 +625,7 @@ setup_pkg() {
         unset CC_host CXX_host CPP_host GCC_host FC_host LD_host AR_host AS_host
         unset RANLIB_host STRIP_host OBJDUMP_host OBJCOPY_host NM_host READELF_host
         unset CFLAGS_host CXXFLAGS_host CPPFLAGS_host LDFLAGS_host FFLAGS_host
-        unset RUSTFLAGS
+        #unset RUSTFLAGS
     fi
 
     # Setup some specific package vars.
