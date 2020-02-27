@@ -10,7 +10,7 @@ pkgname=ripgrep-git
 provides=ripgrep-0_1
 revision=1
 short_desc="Fast search tool inspired by ag and grep"
-version=0874aa1
+version=5bfdd3a
 
 ripgrep-git_package() {
     true

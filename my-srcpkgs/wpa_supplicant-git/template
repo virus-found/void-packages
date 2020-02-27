@@ -14,7 +14,7 @@ pkgname=wpa_supplicant-git
 provides=wpa_supplicant-0_1
 revision=1
 short_desc="WPA/WPA2/IEEE 802.1X Supplicant"
-version=46cb046
+version=b8f6b07
 
 wpa_supplicant-git_package() {
     true

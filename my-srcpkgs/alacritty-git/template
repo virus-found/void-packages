@@ -13,7 +13,7 @@ pkgname=alacritty-git
 provides=alacritty-0_1
 revision=1
 short_desc="Cross-platform, GPU-accelerated terminal emulator"
-version=933b2e2
+version=50c1fd0
 
 alacritty-git_package() {
     true

@@ -11,7 +11,7 @@ pkgname=wee-slack-git
 provides=wee-slack-0_1
 revision=1
 short_desc="WeeChat plugin for Slack.com"
-version=958296f
+version=95f1ac7
 
 wee-slack-git_package() {
     true

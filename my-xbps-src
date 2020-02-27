@@ -153,6 +153,7 @@ update_my_pkgs() {
 
     local p
     for p in $mypkgs ; do
+        # TODO support hg
         [[ $p =~ 'git' ]] && git=true
 
         unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
@@ -164,6 +165,7 @@ update_my_pkgs() {
 
         if [[ $git = true ]]
         then
+            echo '=> my-xbps-src: checking updates ' $p
             upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
             upstream_rev=${upstream_rev_long:0:7}
         else
@@ -249,7 +251,7 @@ update_my_pkgs() {
 
     if [[ $built ]]
     then
-        sudo xdowngrade hostdir/binpkgs/*.xbps
+        sudo xdowngrade $(find hostdir/binpkgs '!' -name '*-devel-*' '!' -name '*-dbg-*' -name '*.xbps')
     else
         _chapter "nothing to install"
     fi
