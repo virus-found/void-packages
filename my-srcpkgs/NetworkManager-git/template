@@ -52,7 +52,7 @@ pkgname=NetworkManager-git
 provides=NetworkManager-0_1
 revision=1
 short_desc="Network Management daemon"
-version=eb74d5f
+version=e9ca7ee
 case "$XBPS_TARGET_MACHINE" in
     *-musl)
         CFLAGS+=" -DRTLD_DEEPBIND=0"

@@ -1,0 +1,37 @@
+# Template file for 'youtube-dl-git'
+_my_field_repo=git://github.com/ytdl-org/youtube-dl.git
+archs=noarch
+build_style=python3-module
+conflicts=youtube-dl
+depends="python3-setuptools"
+homepage="https://ytdl-org.github.io/youtube-dl/"
+# make zip pandoc - prereqs for shell completions
+hostmakedepends="git make zip pandoc python3-setuptools"
+license="Unlicense"
+maintainer="Orphaned <orphan@voidlinux.org>"
+pkgname=youtube-dl-git
+provides=youtube-dl-0_1
+revision=1
+short_desc="CLI program to download videos from YouTube and other sites"
+version=bee6451
+
+youtube-dl-git_package() {
+    true
+}
+
+do_fetch() {
+    git clone $_my_field_repo ${pkgname}-${version}
+}
+
+# shell completion
+# INFO runs before do_build, just what we want
+do_configure() {
+    make
+}
+
+post_install() {
+    rm -rf ${DESTDIR}/usr/etc
+    vinstall youtube-dl.bash-completion 644 usr/share/bash-completion/completions youtube-dl
+    vinstall youtube-dl.zsh 644 usr/share/zsh/site-functions _youtube-dl
+    vinstall youtube-dl.fish 644 usr/share/fish/completions youtube-dl.fish
+}

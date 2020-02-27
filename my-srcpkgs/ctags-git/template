@@ -10,7 +10,7 @@ pkgname=ctags-git
 provides=ctags-0_1
 revision=1
 short_desc="Generates an index file of language objects found in source files"
-version=381d6ba
+version=c8945ca
 
 ctags-git_package() {
     true
