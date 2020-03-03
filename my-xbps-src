@@ -91,6 +91,67 @@ _chapter_question_build_fail_continue() {
     done
 }
 
+_check_diff() {
+    previous_diff_template=diff-srcpkgs/$p-diff
+    current_diff_template=/tmp/$p-diff
+    diff -U0 --label old --label new <(grep -vE '^version|^revision|^distfiles|^checksum' $1) <(grep -vE '^version|^revision|^distfiles|^checksum' $2) > $current_diff_template
+
+    if [[ -s $previous_diff_template ]]
+    then
+        diff_changes=/tmp/$p-diff-diff
+        diff -U0 --label old --label new $previous_diff_template $current_diff_template > $diff_changes
+
+        # Skips question diff if there are no changes (and returns true)
+        [[ -s /tmp/$p-diff-diff ]] && _chapter_question_diff $current_diff_template $diff_changes || true
+    else
+        _chapter_question_diff $current_diff_template
+    fi
+}
+
+_chapter_question_diff() {
+    cat $1
+    [[ $2 ]] && echo -e "\nLAST CHANGES\n\n" && cat $2
+    echo $l
+
+    while true
+    do
+        echo -n "approve this template and proceed [y,n,q]? "
+        read answer
+
+        case ${answer:0:1} in
+            y )
+                mv $current_diff_template $previous_diff_template
+
+                echo $l
+                true
+                return
+                ;;
+            n )
+                # FIXME improve
+                # Put previous template on unapproval
+                mv /tmp/${p}_old $template 2>/dev/null || true
+
+                echo $l
+                false
+                return
+                ;;
+            q )
+                # FIXME improve
+                # Put previous template on unapproval
+                mv /tmp/${p}_old $template 2>/dev/null || true
+
+                echo $l
+                exit 0
+                ;;
+            * )
+                # Ask again
+                continue
+                ;;
+        esac
+        break
+    done
+}
+
 _create_links_to_my_pkgs() {
     cd $cwd/my-srcpkgs/
 
@@ -111,11 +172,13 @@ _update_system() {
 
     _chapter 'update void-packages'
     git fetch --all --prune
-    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
-    [[ $do_stash = true ]] && git stash push
+    #[[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    #[[ $do_stash = true ]] && git stash push
+    ## FIXME hardcode
+    #git rebase origin/master
     # FIXME hardcode
-    git rebase origin/master
-    [[ $do_stash = true ]] && git stash pop --index
+    git merge origin/master --no-commit --no-ff
+    #[[ $do_stash = true ]] && git stash pop --index
 
     _chapter 'update host pkgs'
     sudo vpm up
@@ -161,11 +224,13 @@ update_my_pkgs() {
         # FIXME workaround for - vopt_enable: command not found
         . $template 2>/dev/null || true
 
+        # Skip build if it's ignored and not forced
         [[ $force != true && $_my_field_ignore ]] && continue
 
         if [[ $git = true ]]
         then
             echo '=> my-xbps-src: checking updates ' $p
+
             upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
             upstream_rev=${upstream_rev_long:0:7}
         else
@@ -215,7 +280,14 @@ update_my_pkgs() {
         # TODO implement noautoinstall
         #[[ $_my_field_autoinstall = false ]] && noautoinstall[$p]=$p
 
-        start=$SECONDS
+        # Define and check original template
+        # TODO support hg
+        original_template=srcpkgs/${p%-git}/template
+        if [[ -e $original_template && $original_template != $template ]]
+        then
+            _check_diff $original_template $template || continue
+        fi
+
         if ! ./xbps-src -C pkg $p
         then
             # Put previous template on build fail
@@ -223,10 +295,6 @@ update_my_pkgs() {
             _chapter_question_build_fail_continue
             continue
         fi
-        end=$SECONDS
-
-        duration=$(( end - start ))
-        duration_pretty=$(date -d@${duration} -u +%H:%M:%S)
 
         built=true
 
@@ -262,11 +330,13 @@ cleanup() {
 
     _chapter 'update void-packages'
     git fetch --all --prune
-    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
-    [[ $do_stash = true ]] && git stash push
+    #[[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    #[[ $do_stash = true ]] && git stash push
+    ## FIXME hardcode
+    #git rebase origin/master
     # FIXME hardcode
-    git rebase origin/master
-    [[ $do_stash = true ]] && git stash pop
+    git merge origin/master --no-commit --no-ff
+    #[[ $do_stash = true ]] && git stash pop --index
 
     _chapter 'perform cleanup'
     ./xbps-src clean
