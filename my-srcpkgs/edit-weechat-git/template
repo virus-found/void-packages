@@ -2,7 +2,7 @@
 _my_field_repo=git://github.com/keith/edit-weechat.git
 archs=noarch
 conflicts=edit-weechat
-depends="weechat weechat-python python3-websocket-client"
+depends="weechat"
 homepage="https://github.com/keith/edit-weechat"
 hostmakedepends="git"
 license="MIT"

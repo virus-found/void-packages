@@ -1,27 +1,23 @@
-# Template file for 'swayidle-git'
+# Template file for 'swayidle'
 _my_field_repo=git://github.com/swaywm/swayidle.git
+pkgname=swayidle-git
+conflicts=swayidle
+provides=swayidle-0_1
+version=f6ebf4a
+revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind"
-conflicts=swayidle
-homepage="https://swaywm.org"
-hostmakedepends="git pkg-config wayland-devel scdoc"
-license="MIT"
-maintainer="Orphaned <orphan@voidlinux.org>"
-makedepends="wayland-devel wayland-protocols elogind-devel"
-pkgname=swayidle-git
-provides=swayidle-0_1
-revision=1
+hostmakedepends="git pkg-config scdoc"
+makedepends="wayland-devel wayland-protocols elogind-devel libffi-devel"
 short_desc="Idle management daemon for Wayland"
-version=7ead378
-
-swayidle-git_package() {
-    true
-}
+maintainer="Derriick <derriick.ensiie@yahoo.com>"
+license="MIT"
+homepage="https://swaywm.org"
 
 do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
+	git clone $_my_field_repo ${pkgname}-${version}
 }
 
 post_install() {
-    vlicense LICENSE
+	vlicense LICENSE
 }

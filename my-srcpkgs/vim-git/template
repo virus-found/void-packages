@@ -11,7 +11,7 @@ pkgname=vim-git
 provides="vim-0_1 vim-common-0_1"
 revision=1
 short_desc="Vim editor (vi clone)"
-version=12f2003
+version=36ddf93
 
 vim-git_package() {
     true

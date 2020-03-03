@@ -43,8 +43,8 @@ _chapter_question_build() {
         unset skip ignore all
         case ${answer:0:1} in
             # proceed
-            y ) echo ; return 0 ;;
-            n ) return 1 ;;
+            y ) echo $l ; return 0 ;;
+            n ) echo $l ; return 1 ;;
             # proceed with special var
             s ) skip=true ; return 0 ;;
             # proceed with special var
