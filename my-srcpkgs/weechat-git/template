@@ -28,7 +28,7 @@ pkgname=weechat-git
 provides=weechat-0_1
 revision=1
 short_desc="Fast, light and extensible IRC client"
-version=3f67cfe
+version=7af8e6c
 
 weechat-git_package() {
     true

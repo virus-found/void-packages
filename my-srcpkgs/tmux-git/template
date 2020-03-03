@@ -20,7 +20,7 @@ pkgname=tmux-git
 provides=tmux-0_1
 revision=1
 short_desc="Terminal Multiplexer"
-version=549b359
+version=ccd24c9
 
 tmux-git_package() {
     true

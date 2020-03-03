@@ -1,4 +1,6 @@
 # Template file for 'swaylock-git'
+# TODO move to separate template
+#_my_field_repo=git://github.com/mortie/swaylock-effects.git
 _my_field_repo=git://github.com/swaywm/swaylock.git
 build_style=meson
 conf_files="/etc/pam.d/swaylock"

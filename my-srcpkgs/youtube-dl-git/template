@@ -13,7 +13,7 @@ pkgname=youtube-dl-git
 provides=youtube-dl-0_1
 revision=1
 short_desc="CLI program to download videos from YouTube and other sites"
-version=bee6451
+version=12ee431
 
 youtube-dl-git_package() {
     true
