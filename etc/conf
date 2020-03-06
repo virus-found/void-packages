@@ -1,0 +1,10 @@
+# see .zshenv
+XBPS_CFLAGS="${CFLAGS}"
+XBPS_CXXFLAGS="${CXXFLAGS}"
+# FIXME Also update them in .zshenv
+# FIXME still outputs Finished release [optimized + debuginfo]
+XBPS_RUSTFLAGS="-C target-cpu=native -C link-arg=-fuse-ld=gold -C opt-level=3 -C overflow-checks=off -C debuginfo=0"
+
+XBPS_DEBUG_PKGS=
+XBPS_PKG_COMPTYPE=none
+XBPS_USE_GIT_REVS=
