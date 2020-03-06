@@ -1,7 +1,6 @@
 # Template file for 'tmux-git'
 _my_field_repo=git://github.com/tmux/tmux
 build_style=gnu-configure
-conflicts=tmux
 homepage="https://tmux.github.io"
 hostmakedepends="
     autoconf
@@ -17,23 +16,16 @@ makedepends="
     ncurses-devel
 "
 pkgname=tmux-git
-provides=tmux-0_1
+conflicts="tmux>=0"
+replaces="tmux>=0"
 revision=1
 short_desc="Terminal Multiplexer"
-version=ccd24c9
-
-tmux-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
+version=7e6db00
 
 pre_configure() {
-    ./autogen.sh
+	./autogen.sh
 }
 
 post_install() {
-    vlicense COPYING
+	vlicense COPYING
 }

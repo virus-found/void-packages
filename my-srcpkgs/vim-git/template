@@ -1,25 +1,16 @@
 # Template file for 'vim-git'
 _my_field_repo=git://github.com/vim/vim.git
-conflicts="vim vim-common"
 homepage="https://www.vim.org"
 hostmakedepends="git pkg-config"
 license="Vim"
 maintainer="Orphaned <orphan@voidlinux.org>"
 makedepends="libXt-devel ncurses-devel"
-# TODO git://github.com/brammool/vim9.git
 pkgname=vim-git
-provides="vim-0_1 vim-common-0_1"
+conflicts="vim>=0 vim-common>=0"
+replaces="vim>=0 vim-common>=0"
 revision=1
 short_desc="Vim editor (vi clone)"
-version=36ddf93
-
-vim-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
+version=25b70c7
 
 do_configure() {
     ./configure \

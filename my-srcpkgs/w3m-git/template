@@ -1,38 +1,32 @@
-# Template file for 'w3m-git'
+# Template file for 'w3m'
 _my_field_repo=git://github.com/tats/w3m.git
+pkgname=w3m-git
+conflicts="w3m>=0"
+replaces="w3m>=0"
+version=3e46046
+revision=1
+wrksrc="${pkgname}-${version/.git/-git}"
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --with-termlib=ncurses --disable-w3mmailer --enable-image"
-conflicts=w3m
-homepage="https://tracker.debian.org/pkg/w3m"
 hostmakedepends="git pkg-config gc-devel perl"
-license="MIT"
-maintainer="Orphaned <orphan@voidlinux.org>"
-makedepends="zlib-devel ncurses-devel gc-devel libressl-devel libsixel"
-pkgname=w3m-git
-provides=w3m-0_1
-revision=1
+makedepends="zlib-devel ncurses-devel gc-devel libressl-devel libsixel-git"
 short_desc="Text-based Web browser and pager (with Debian patches)"
-version=74efea9
-
-w3m-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="MIT"
+homepage="https://tracker.debian.org/pkg/w3m"
+changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
 
 pre_build() {
-    # build host mktable
-    if [ "$CROSS_BUILD" ]; then
-        make CC=cc CFLAGS=-Os LD=ld LDFLAGS= mktable
-        mv mktable host-mktable
-        chmod 755 host-mktable
-        make clean
-        sed -e 's,./mktable$(EXT),./host-mktable$(EXT),g' -i Makefile
-    fi
+	# build host mktable
+	if [ "$CROSS_BUILD" ]; then
+		make CC=cc CFLAGS=-Os LD=ld LDFLAGS= mktable
+		mv mktable host-mktable
+		chmod 755 host-mktable
+		make clean
+		sed -e 's,./mktable$(EXT),./host-mktable$(EXT),g' -i Makefile
+	fi
 }
 
 post_install() {
-    vlicense doc/README
+	vlicense ${wrksrc}/doc/README
 }

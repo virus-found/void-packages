@@ -1,0 +1,32 @@
+-pkgname=wpa_supplicant
+-build_wrksrc="$pkgname"
++_my_field_repo=git://w1.fi/hostap.git
++makedepends="libnl3-devel libressl-devel $(vopt_if dbus dbus-devel) $(vopt_if readline readline-devel)"
++pkgname=wpa_supplicant-git
++conflicts="wpa_supplicant>=0"
++replaces="wpa_supplicant>=0"
++build_wrksrc="${pkgname%-git}"
+-hostmakedepends="pkg-config"
++hostmakedepends="git pkg-config"
+-conf_files="/etc/${pkgname}/${pkgname}.conf"
++conf_files="/etc/${pkgname%-git}/${pkgname%-git}.conf"
+-		vinstall dbus/dbus-${pkgname}.conf 644 etc/dbus-1/system.d ${pkgname}.conf
++		vinstall dbus/dbus-${pkgname%-git}.conf 644 etc/dbus-1/system.d ${pkgname%-git}.conf
+-	vinstall ${FILESDIR}/${pkgname}.conf 640 etc/$pkgname
++	vinstall ${FILESDIR}/${pkgname%-git}.conf 640 etc/${pkgname%-git}
+-	for d in doc/docbook/*.[58]; do
+-		vman $d
+-	done
+-
+-	rm ${DESTDIR}/usr/share/man/man8/wpa_gui.8
+-	rm ${DESTDIR}/usr/share/man/man8/wpa_priv.8
+-	rm ${DESTDIR}/usr/share/man/man8/eapol_test.8
++# FIXME uncomment
++#	for d in doc/docbook/*.[58]; do
++#		vman $d
++#	done
++
++	# FIXME should be no -f
++	rm -f ${DESTDIR}/usr/share/man/man8/wpa_gui.8
++	rm -f ${DESTDIR}/usr/share/man/man8/wpa_priv.8
++	rm -f ${DESTDIR}/usr/share/man/man8/eapol_test.8

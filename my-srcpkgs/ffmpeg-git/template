@@ -4,7 +4,6 @@ _my_field_ignore=1
 _my_field_repo=git://github.com/FFmpeg/FFmpeg
 build_options="x265 v4l2 vaapi vdpau vpx faac fdk_aac aom nvenc sndio pulseaudio dav1d"
 build_options_default="x265 v4l2 vpx sndio dav1d"
-conflicts=ffmpeg
 homepage="https://www.ffmpeg.org"
 hostmakedepends="git pkg-config perl yasm"
 license="GPL-3.0-or-later"
@@ -23,7 +22,8 @@ makedepends="
     $(vopt_if dav1d libdav1d-devel)
 "
 pkgname=ffmpeg-git
-provides=ffmpeg-0_1
+conflicts="ffmpeg>=0"
+replaces="ffmpeg>=0"
 revision=1
 short_desc="Decoding, encoding and streaming software"
 version=0
@@ -33,10 +33,6 @@ case "$XBPS_TARGET_MACHINE" in
     ppc64*) build_options_default+=" vaapi vdpau";;
     mips*) CFLAGS="-mnan=legacy";;
 esac
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
 
 do_configure() {
     # Fix gcc on x86_64-musl only
@@ -80,7 +76,6 @@ do_install() {
 }
 
 libavcodec-git_package() {
-    conflicts=libavcodec
     short_desc="FFmpeg codec library"
 
     pkg_install() {
@@ -88,7 +83,6 @@ libavcodec-git_package() {
     }
 }
 libavdevice-git_package() {
-    conflicts=libavdevice
     short_desc="FFmpeg device handling library"
 
     pkg_install() {
@@ -96,7 +90,6 @@ libavdevice-git_package() {
     }
 }
 libavresample-git_package() {
-    conflicts=libavresample
     short_desc="FFmpeg audio resampling library"
 
     pkg_install() {
@@ -104,7 +97,6 @@ libavresample-git_package() {
     }
 }
 libavformat-git_package() {
-    conflicts=libavformat
     short_desc="FFmpeg file format library"
 
     pkg_install() {
@@ -112,7 +104,6 @@ libavformat-git_package() {
     }
 }
 libavutil-git_package() {
-    conflicts=libavutil
     short_desc="FFmpeg utility library"
 
     pkg_install() {
@@ -120,7 +111,6 @@ libavutil-git_package() {
     }
 }
 libavfilter-git_package() {
-    conflicts=libavfilter
     short_desc="FFmpeg audio/video filter library"
 
     pkg_install() {
@@ -128,7 +118,6 @@ libavfilter-git_package() {
     }
 }
 libpostproc-git_package() {
-    conflicts=libpostproc
     short_desc="FFmpeg video postprocessing library"
 
     pkg_install() {
@@ -136,7 +125,6 @@ libpostproc-git_package() {
     }
 }
 libswscale-git_package() {
-    conflicts=libswscale
     short_desc="FFmpeg video scaling library"
 
     pkg_install() {
@@ -144,7 +132,6 @@ libswscale-git_package() {
     }
 }
 libswresample-git_package() {
-    conflicts=libswresample
     short_desc="FFmpeg video resampling library"
 
     pkg_install() {
@@ -152,8 +139,6 @@ libswresample-git_package() {
     }
 }
 ffmpeg-devel-git_package() {
-    _my_field_autoinstall=false
-    conflicts=ffmpeg-devel
     depends="
         libavcodec-git>=${version}_${revision}
         libavdevice-git>=${version}_${revision}

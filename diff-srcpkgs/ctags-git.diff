@@ -1,0 +1,10 @@
+-pkgname=ctags
++_my_field_repo=git://github.com/universal-ctags/ctags.git
++pkgname=ctags-git
++conflicts="ctags>=0"
++replaces="ctags>=0"
++hostmakedepends="automake git pkg-config"
++
++pre_configure() {
++	./autogen.sh
++}

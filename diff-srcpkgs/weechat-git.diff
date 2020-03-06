@@ -1,0 +1,68 @@
+-pkgname=weechat
++_my_field_repo=git://github.com/weechat/weechat.git
++pkgname=weechat-git
++conflicts="weechat>=0"
++replaces="weechat>=0"
+-configure_args="-DENABLE_MAN=ON -DENABLE_ENCHANT=ON -DENABLE_PERL=ON
+- -DENABLE_LUA=ON -DENABLE_RUBY=ON -DENABLE_SPELL=ON
+- -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF
++configure_args="-DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
++ -DENABLE_EXEC=OFF -DENABLE_FIFO=OFF -DENABLE_LOGGER=OFF
++ -DENABLE_RELAY=OFF -DENABLE_SCRIPT=ON -DENABLE_SCRIPTS=ON
++ -DENABLE_PERL=ON -DENABLE_PYTHON=ON -DENABLE_PYTHON2=OFF
++ -DENABLE_RUBY=OFF -DENABLE_LUA=OFF -DENABLE_TCL=OFF
++ -DENABLE_GUILE=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PHP=OFF
++ -DENABLE_SPELL=OFF -DENABLE_ENCHANT=OFF -DENABLE_TRIGGER=ON
++ -DENABLE_XFER=OFF -DENABLE_MAN=OFF -DENABLE_DOC=OFF
++ -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF
+-hostmakedepends="ruby-asciidoctor libgcrypt-devel pkg-config python3 tcl-devel"
+-makedepends="enchant-devel gnutls-devel libcurl-devel lua-devel ncurses-devel
+- perl python3-devel ruby-devel tcl-devel"
++hostmakedepends="git libgcrypt-devel pkg-config python3"
++makedepends="gnutls-devel libcurl-devel python3-devel perl"
+-subpackages="weechat-aspell weechat-devel weechat-ruby weechat-python weechat-tcl weechat-lua weechat-perl"
++subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
+-weechat-aspell_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - aspell/enchant plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/spell.so
+-	}
+-}
+-weechat-devel_package() {
++weechat-devel-git_package() {
++	conflicts="weechat-devel>=0"
++	replaces="weechat-devel>=0"
+-weechat-perl_package() {
++weechat-perl-git_package() {
++	conflicts="weechat-perl>=0"
++	replaces="weechat-perl>=0"
+-weechat-ruby_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - ruby plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/ruby.so
+-	}
+-}
+-weechat-python_package() {
++weechat-python-git_package() {
++	conflicts="weechat-python>=0"
++	replaces="weechat-python>=0"
+-	}
+-}
+-weechat-tcl_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - tcl plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/tcl.so
+-	}
+-}
+-weechat-lua_package() {
+-	lib32disabled=yes
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - lua plugin"
+-	pkg_install() {
+-		vmove usr/lib/weechat/plugins/lua.so

@@ -1,0 +1,23 @@
+-pkgname=w3m
++_my_field_repo=git://github.com/tats/w3m.git
++pkgname=w3m-git
++conflicts="w3m>=0"
++replaces="w3m>=0"
+-configure_args="--libexecdir=/usr/lib --enable-image=x11,fb
+- --with-imagelib=imlib2 --with-termlib=ncurses --disable-w3mmailer"
+-hostmakedepends="pkg-config gc-devel perl"
+-makedepends="zlib-devel ncurses-devel gc-devel libressl-devel imlib2-devel libX11-devel"
++configure_args="--libexecdir=/usr/lib --with-termlib=ncurses --disable-w3mmailer --enable-image"
++hostmakedepends="git pkg-config gc-devel perl"
++makedepends="zlib-devel ncurses-devel gc-devel libressl-devel libsixel-git"
+-LDFLAGS="-lX11"
+-
+-}
+-
+-w3m-img_package() {
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" - image display support"
+-	pkg_install() {
+-		vmove /usr/lib/w3m/w3mimgdisplay
+-		vmove /usr/lib/w3m/xface2xpm
+-	}

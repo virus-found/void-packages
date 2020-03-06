@@ -1,21 +1,18 @@
 # Template file for 'wee-slack'
 _my_field_repo=git://github.com/wee-slack/wee-slack.git
 pkgname=wee-slack-git
-conflicts=wee-slack
-provides=wee-slack-0_1
-version=334b047
+conflicts="wee-slack>=0"
+replaces="wee-slack>=0"
+version=f224e2f
 revision=1
 archs=noarch
-depends="weechat weechat-python python3-websocket-client"
+# FIXME why git pkgs needed?
+depends="weechat-git weechat-python-git python3-websocket-client"
 hostmakedepends="git"
 short_desc="WeeChat plugin for Slack.com"
 maintainer="Renato Aguiar <renato@renatoaguiar.net>"
 license="MIT"
 homepage="https://github.com/wee-slack/wee-slack"
-
-do_fetch() {
-	git clone $_my_field_repo ${pkgname}-${version}
-}
 
 do_install() {
 	vinstall wee_slack.py 644 usr/lib/weechat/python/
