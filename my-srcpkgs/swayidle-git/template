@@ -1,9 +1,9 @@
 # Template file for 'swayidle'
 _my_field_repo=git://github.com/swaywm/swayidle.git
 pkgname=swayidle-git
-conflicts=swayidle
-provides=swayidle-0_1
-version=f6ebf4a
+conflicts="swayidle>=0"
+replaces="swayidle>=0"
+version=85b57cc
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind"
@@ -13,10 +13,6 @@ short_desc="Idle management daemon for Wayland"
 maintainer="Derriick <derriick.ensiie@yahoo.com>"
 license="MIT"
 homepage="https://swaywm.org"
-
-do_fetch() {
-	git clone $_my_field_repo ${pkgname}-${version}
-}
 
 post_install() {
 	vlicense LICENSE

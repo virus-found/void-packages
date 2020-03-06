@@ -1,0 +1,15 @@
+-pkgname=tlp
++_my_field_repo=git://github.com/linrunner/TLP.git
++pkgname=tlp-git
++replaces="tlp>=0"
+-wrksrc="TLP-${version}"
++hostmakedepends="git"
+-conflicts="laptop-mode>=0"
++conflicts="tlp>=0 laptop-mode>=0"
+-tlp-rdw_package() {
++tlp-rdw-git_package() {
++	conflicts="tlp-rdw>=0"
++	replaces="tlp-rdw>=0"
+-	depends="tlp NetworkManager"
++	# FIXME -git
++	depends="tlp-git-${version}_${revision} NetworkManager-git"

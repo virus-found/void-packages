@@ -91,35 +91,33 @@ _chapter_question_build_fail_continue() {
     done
 }
 
-_create_links_to_my_pkgs() {
+_sync_my_pkgs() {
     (
         cd $custom_templates_dir
 
-        # Remove obsolete symlinks (and empty dirs) for custom packages and supplementary files
+        # Remove obsolete symlinks of custom packages
         find ../$templates_dir -maxdepth 1 -xtype l -exec rm -iv {} +
+        # TODO becomes replaced with rsync
+        # Remove obsolete symlinks among supplementary files
         find . -xtype l -exec rm -iv {} +
+        # TODO becomes replaced with rsync
+        # Remove empty dirs among supplementary files
         find . -type d -empty -exec rm -riv {} +
 
         local custom_package
         for custom_package in *
         do
-            # Create symlinks for custom packages
-            ln -svn ../$custom_templates_dir/$custom_package ../$templates_dir/$custom_package 2>/dev/null || true
+            local relpath_custom=../$custom_templates_dir/$custom_package
+            local relpath_custom_link=../$templates_dir/$custom_package
+            local relpath_original=../$templates_dir/${custom_package%-git}
 
-            local relpath_to_package="../$templates_dir/${custom_package%-git}"
-            if [[ -d $relpath_to_package ]]
+            # Create symlinks of custom packages
+            ln -svn $relpath_custom $relpath_custom_link 2>/dev/null || true
+
+            if [[ -e $relpath_original && $relpath_original != $relpath_custom_link ]]
             then
-                # cut -d / -f 4- - erases 3 leftmost dirs from output
-                # FIXME hardcoded git
-                local supplementary_file
-                for supplementary_file in $(find $relpath_to_package ! -name 'template' -type f | cut -d / -f 4-)
-                do
-                    # Create symlinks (recursively) for custom packages supplementary files
-                    [[ $supplementary_file =~ / ]] && mkdir -p $custom_package/${supplementary_file%/*}
-                    local depth=$(grep -o / <<< $supplementary_file | wc -l)
-                    local v=$(printf "%${depth}s")
-                    ln -svn ${v// /'../'}../$relpath_to_package/$supplementary_file $custom_package/$supplementary_file 2>/dev/null || true
-                done
+                # Rsync supplementary files to custom packages
+                rsync -a --exclude template --delete $relpath_original/ $custom_package
             fi
         done
     )
@@ -139,7 +137,7 @@ _update_void_packages() {
 _update_system() {
     _update_void_packages
 
-    _create_links_to_my_pkgs
+    _sync_my_pkgs
 
     _chapter 'update host pkgs'
     sudo vpm up
@@ -190,12 +188,12 @@ update_my_pkgs() {
     for p in $mypkgs
     do
         template=$templates_dir/$p/template
-        [[ -f $template ]] || { echo '=> my-xbps-src: skip non-existing package ' $p ; continue ; }
+        [[ -f $template ]] || { echo "=> ${0##*/}: expected $template to be a file" ; return 1 ; }
+        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
         # workaround for some variables possible missing in templates
         set +u
         # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
-        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
-        source $template 2>/dev/null || true
+        source $template &>/dev/null || true
         set -u
 
         # FIXME hardcoded git
@@ -206,7 +204,7 @@ update_my_pkgs() {
 
         if [[ ${git:-} = true ]]
         then
-            echo '=> my-xbps-src: checking updates ' $p
+            echo "=> ${0##*/}: checking updates $p"
 
             local upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
             upstream_rev=${upstream_rev_long:0:7}
@@ -224,20 +222,24 @@ update_my_pkgs() {
 
         _chapter_question_build "build $p $upstream_rev" || continue
 
-        if [[ ${force:-} != true && ${skip:-} = true ]]
+        if [[ ${force:-} != true ]]
         then
-            sed -i '/_my_field_skip_version/d' $template
-            sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
-            continue
-        elif [[ ${force:-} = !true && $ignore = true ]]
-        then
-            sed -i '/_my_field_ignore/d' $template
-            sed -i '/^_my_field_repo=/i _my_field_ignore=1' $template
-            continue
+            if [[ ${skip:-} = true ]]
+            then
+                sed -i '/_my_field_skip_version/d' $template
+                sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
+                continue
+            # TODO improve: now if forcing build 1 pkg and choosing "i" - then it's not added to ignore and it's built - should be the opposite
+            elif [[ ${ignore:-} = true ]]
+            then
+                sed -i '/_my_field_ignore/d' $template
+                sed -i '/^_my_field_repo=/i _my_field_ignore=1' $template
+                continue
+            fi
         fi
 
         cp $template /tmp/${p}_old
-        if [[ $git = true ]]
+        if [[ ${git:-} = true ]]
         then
             sed "0,/^version/{s/^version=.*/version=$upstream_rev/}" $template > /tmp/${p}_new
         # FIXME this is not needed
@@ -281,7 +283,7 @@ update_my_pkgs() {
 
         local built=true
 
-        if [[ $git = true && -e masterdir/builddir/$p-$upstream_rev ]]
+        if [[ ${git:-} = true && -e masterdir/builddir/$p-$upstream_rev ]]
         then
             (
                 cd masterdir/builddir/$p-$upstream_rev
@@ -319,7 +321,6 @@ cleanup() {
     ./xbps-src zap
     rm -rf hostdir/sources/
     ./xbps-src binary-bootstrap
-
     _chapter 'cleanup success'
 }
 
@@ -340,7 +341,7 @@ case ${1:-} in
         cleanup
         ;;
     *)
-        echo "$0: invalid parameter ${1:-}"
+        echo "${0##*/}: invalid parameter ${1:-}"
         exit 1
         ;;
 esac

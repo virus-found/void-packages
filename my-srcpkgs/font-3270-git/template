@@ -2,7 +2,6 @@
 _my_field_repo=git://github.com/rbanffy/3270font.git
 archs=noarch
 build_style=gnu-makefile
-conflicts=font-3270
 font_dirs="/usr/share/fonts/TTF"
 homepage="https://github.com/rbanffy/3270font"
 hostmakedepends="git font-util fontforge"
@@ -10,18 +9,11 @@ license="BSD-3-Clause"
 maintainer="Orphaned <orphan@voidlinux.org>"
 make_build_target="font"
 pkgname=font-3270-git
-provides=font-3270-0_1
+conflicts="font-3270>=0"
+replaces="font-3270>=0"
 revision=1
 short_desc="3270 font in a modern format"
 version=0843931
-
-font-3270-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
 
 do_install() {
     vmkdir usr/share/fonts/TTF

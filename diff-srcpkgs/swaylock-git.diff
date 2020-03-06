@@ -1,0 +1,6 @@
+-pkgname=swaylock
++_my_field_ignore=1
++_my_field_repo=git://github.com/swaywm/swaylock.git
++pkgname=swaylock-git
++conflicts="swaylock>=0"
++replaces="swaylock>=0"

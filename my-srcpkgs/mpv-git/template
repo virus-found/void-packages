@@ -13,7 +13,6 @@ configure_args="
     $(vopt_enable vapoursynth) $(vopt_enable vdpau) $(vopt_enable wayland)
     $(vopt_enable x11) $(vopt_enable vulkan) $(vopt_enable vulkan shaderc)
 "
-conflicts=mpv
 depends="desktop-file-utils hicolor-icon-theme $(vopt_if vapoursynth vapoursynth-mvtools)"
 desc_option_caca="Enable support for libcaca video output"
 desc_option_oss="Enable support for OSS audio output"
@@ -37,7 +36,8 @@ makedepends="
     $(vopt_if vulkan 'Vulkan-Headers vulkan-loader shaderc libplacebo-devel')
 "
 pkgname=mpv-git
-provides=mpv-0_1
+conflicts="mpv>=0"
+replaces="mpv>=0"
 revision=1
 short_desc="Video player based on MPlayer/mplayer2"
 version=0
@@ -47,18 +47,14 @@ if [ -z "$CROSS_BUILD" ]; then
     configure_args+=" --zshdir=/usr/share/zsh/site-functions"
 fi
 
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
-
 pre_configure() {
     python2 bootstrap.py
 }
 
 mpv-devel-git_package() {
-    conflicts=mpv-devel
     depends="${sourcepkg}>=${version}_${revision}"
-    provides=mpv-devel-0_1
+	conflicts="mpv-devel>=0"
+	replaces="mpv-devel>=0"
     short_desc+=" - development files"
 
     pkg_install() {

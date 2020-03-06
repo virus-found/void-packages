@@ -1,23 +1,16 @@
+# Template file for 'vpm'
 _my_field_repo=git://github.com/netzverweigerer/vpm
-conflicts=vpm
 homepage="https://github.com/netzverweigerer/vpm"
 hostmakedepends="git"
 license="GPL-3"
 maintainer="Orphaned <orphan@voidlinux.org>"
 pkgname=vpm-git
-provides=vpm-0_1
+conflicts="vpm>=0"
+replaces="vpm>=0"
 revision=1
 short_desc="An XBPS package management helper for VoidLinux"
 version=3c729dd
 
-vpm-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
-
 do_install() {
-    vbin vpm
+	vbin vpm
 }

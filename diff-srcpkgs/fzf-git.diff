@@ -1,0 +1,5 @@
+-pkgname=fzf
++_my_field_repo=git://github.com/junegunn/fzf.git
++pkgname=fzf-git
++conflicts="fzf>=0"
++replaces="fzf>=0"

@@ -1,25 +1,17 @@
 # Template file for 'Deferral-git'
 _my_field_repo=git://github.com/brianbruggeman/Deferral.git
 archs=noarch
-conflicts=Deferral
+conflicts="Deferral>=0"
+replaces="Deferral>=0"
 font_dirs="/usr/share/fonts/TTF"
 homepage="https://github.com/brianbruggeman/Deferral"
 hostmakedepends="git"
 license="MIT"
 maintainer="Orphaned <orphan@voidlinux.org>"
 pkgname=Deferral-git
-provides=Deferral-0_1
 revision=1
 short_desc="A square, monospaced font"
 version=7075ac3
-
-Deferral-git_package() {
-    true
-}
-
-do_fetch() {
-    git clone $_my_field_repo ${pkgname}-${version}
-}
 
 do_install() {
     vmkdir usr/share/fonts/TTF
