@@ -198,101 +198,123 @@ try_mirrors() {
 
 hook() {
 	local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
-	local dfcount=0 dfgood=0 errors=0 max_retries
 
-	if [ ! -d "$srcdir" ]; then
-		mkdir -p -m775 "$srcdir"
-		chgrp $(id -g) "$srcdir"
-	fi
+	if [[ $_my_field_repo ]]
+	then
+		# FIXME hardcoded git
+		local gitdir="/repos/$pkgname"
 
-	cd $srcdir || msg_error "$pkgver: cannot change dir to $srcdir!\n"
-
-	# Disable trap on ERR; the code is smart enough to report errors and abort.
-	trap - ERR
-
-	# Detect bsdtar and GNU tar (in that order of preference)
-	TAR_CMD="$(command -v bsdtar)"
-	if [ -z "$TAR_CMD" ]; then
-		TAR_CMD="$(command -v tar)"
-	fi
-
-	# Detect distfiles with obsolete checksum and purge them from the cache
-	for f in ${distfiles}; do
-		curfile="${f#*>}"
-		curfile="${curfile##*/}"
-		distfile="$srcdir/$curfile"
-
-		if [ -f "$distfile" ]; then
-			cksum=$(get_cksum $curfile $dfcount)
-			if [ "${cksum:0:1}" = "@" ]; then
-				cksum=${cksum:1}
-				filesum=$(contents_cksum "$distfile")
-			else
-				filesum=$(${XBPS_DIGEST_CMD} "$distfile")
-			fi
-			if [ "$cksum" = "$filesum" ]; then
-				dfgood=$((dfgood + 1))
-			else
-				inode=$(stat "$distfile" --printf "%i")
-				msg_warn "$pkgver: wrong checksum found for ${curfile} - purging\n"
-				find ${XBPS_SRCDISTDIR} -inum ${inode} -delete -print
-			fi
-		fi
-		dfcount=$((dfcount + 1))
-	done
-
-	# We're done, if all distfiles were found and had good checksums
-	[ $dfcount -eq $dfgood ] && return
-
-	# Download missing distfiles and verify their checksums
-	dfcount=0
-	for f in ${distfiles}; do
-		curfile="${f#*>}"
-		curfile="${curfile##*/}"
-		distfile="$srcdir/$curfile"
-
-		# If file lock cannot be acquired wait until it's available.
-		while true; do
-			flock -w 1 ${distfile}.part true
-			[ $? -eq 0 ] && break
-			msg_warn "$pkgver: ${curfile} is already being downloaded, waiting for 1s ...\n"
-		done
-		# If distfile does not exist, try to link to it.
-		if [ ! -f "$distfile" ]; then
-			link_cksum $curfile $distfile $dfcount
-		fi
-		# If distfile does not exist, download it from a mirror location.
-		if [ ! -f "$distfile" ]; then
-			try_mirrors $curfile $distfile $dfcount $pkgname-$version $f
-		fi
-		# If distfile does not exist, download it from the original location.
-		if [[ "$FTP_RETRIES" && "${f}" =~ ^ftp:// ]]; then
-			max_retries="$FTP_RETRIES"
+		if [[ ! -s $gitdir ]]
+		then
+			git clone $_my_field_repo $gitdir
 		else
-			max_retries=1
+			(
+				cd $gitdir
+
+				git checkout -- .
+				git clean -df
+				git pull
+			)
 		fi
-		for retry in $(seq 1 1 $max_retries); do
-			if [ ! -f "$distfile" ]; then
-				if [ "$retry" == 1 ]; then
-					msg_normal "$pkgver: fetching distfile '$curfile'...\n"
+
+		cp -r $gitdir $srcdir
+	else
+		local dfcount=0 dfgood=0 errors=0 max_retries
+
+		if [ ! -d "$srcdir" ]; then
+			mkdir -p -m775 "$srcdir"
+			chgrp $(id -g) "$srcdir"
+		fi
+
+		cd $srcdir || msg_error "$pkgver: cannot change dir to $srcdir!\n"
+
+		# Disable trap on ERR; the code is smart enough to report errors and abort.
+		trap - ERR
+
+		# Detect bsdtar and GNU tar (in that order of preference)
+		TAR_CMD="$(command -v bsdtar)"
+		if [ -z "$TAR_CMD" ]; then
+			TAR_CMD="$(command -v tar)"
+		fi
+
+		# Detect distfiles with obsolete checksum and purge them from the cache
+		for f in ${distfiles}; do
+			curfile="${f#*>}"
+			curfile="${curfile##*/}"
+			distfile="$srcdir/$curfile"
+
+			if [ -f "$distfile" ]; then
+				cksum=$(get_cksum $curfile $dfcount)
+				if [ "${cksum:0:1}" = "@" ]; then
+					cksum=${cksum:1}
+					filesum=$(contents_cksum "$distfile")
 				else
-					msg_normal "$pkgver: fetch attempt $retry of $max_retries...\n"
+					filesum=$(${XBPS_DIGEST_CMD} "$distfile")
 				fi
-				flock "${distfile}.part" $fetch_cmd "$f"
+				if [ "$cksum" = "$filesum" ]; then
+					dfgood=$((dfgood + 1))
+				else
+					inode=$(stat "$distfile" --printf "%i")
+					msg_warn "$pkgver: wrong checksum found for ${curfile} - purging\n"
+					find ${XBPS_SRCDISTDIR} -inum ${inode} -delete -print
+				fi
 			fi
+			dfcount=$((dfcount + 1))
 		done
-		if [ ! -f "$distfile" ]; then
-			msg_error "$pkgver: failed to fetch $curfile.\n"
+
+		# We're done, if all distfiles were found and had good checksums
+		[ $dfcount -eq $dfgood ] && return
+
+		# Download missing distfiles and verify their checksums
+		dfcount=0
+		for f in ${distfiles}; do
+			curfile="${f#*>}"
+			curfile="${curfile##*/}"
+			distfile="$srcdir/$curfile"
+
+			# If file lock cannot be acquired wait until it's available.
+			while true; do
+				flock -w 1 ${distfile}.part true
+				[ $? -eq 0 ] && break
+				msg_warn "$pkgver: ${curfile} is already being downloaded, waiting for 1s ...\n"
+			done
+			# If distfile does not exist, try to link to it.
+			if [ ! -f "$distfile" ]; then
+				link_cksum $curfile $distfile $dfcount
+			fi
+			# If distfile does not exist, download it from a mirror location.
+			if [ ! -f "$distfile" ]; then
+				try_mirrors $curfile $distfile $dfcount $pkgname-$version $f
+			fi
+			# If distfile does not exist, download it from the original location.
+			if [[ "$FTP_RETRIES" && "${f}" =~ ^ftp:// ]]; then
+				max_retries="$FTP_RETRIES"
+			else
+				max_retries=1
+			fi
+			for retry in $(seq 1 1 $max_retries); do
+				if [ ! -f "$distfile" ]; then
+					if [ "$retry" == 1 ]; then
+						msg_normal "$pkgver: fetching distfile '$curfile'...\n"
+					else
+						msg_normal "$pkgver: fetch attempt $retry of $max_retries...\n"
+					fi
+					flock "${distfile}.part" $fetch_cmd "$f"
+				fi
+			done
+			if [ ! -f "$distfile" ]; then
+				msg_error "$pkgver: failed to fetch $curfile.\n"
+			fi
+			# distfile downloaded, verify sha256 hash.
+			flock -n ${distfile}.part rm -f ${distfile}.part
+			verify_cksum $curfile $distfile $dfcount
+			dfcount=$((dfcount + 1))
+		done
+
+		unset TAR_CMD
+
+		if [ $errors -gt 0 ]; then
+			msg_error "$pkgver: couldn't verify distfiles, exiting...\n"
 		fi
-		# distfile downloaded, verify sha256 hash.
-		flock -n ${distfile}.part rm -f ${distfile}.part
-		verify_cksum $curfile $distfile $dfcount
-		dfcount=$((dfcount + 1))
-	done
-
-	unset TAR_CMD
-
-	if [ $errors -gt 0 ]; then
-		msg_error "$pkgver: couldn't verify distfiles, exiting...\n"
 	fi
 }

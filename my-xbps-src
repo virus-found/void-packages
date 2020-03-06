@@ -1,43 +1,35 @@
 #!/bin/bash
 # vim: set ts=4 sw=4 et:
-set -e
+set -eu
 
 # Get cwd of this script
 # https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
-cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 2>/dev/null
-[[ $cwd ]] || exit 123
+cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" 2>/dev/null
+[[ $cwd ]] && cd $cwd || exit 123
+
+# Define paths
+templates_dir=srcpkgs
+custom_templates_dir=my-srcpkgs
+custom_template_diffs_dir=diff-srcpkgs
+
+l="------------------------------------------------------------------------------"
 
 _chapter() {
-    l="------------------------------------------------------------------------------"
-
     echo $l
     echo -e $@
     echo $l
 }
 
-_build_usage() {
-    echo '
-y - build now
-n - do not build
-s - skip version
-i - ignore package
-q - quit
-a - build all following updates
-d - do not build all following updates
-? - print help
-    '
-}
-
 # Use with || continue
 _chapter_question_build() {
-    [[ $all = true ]] && return 0
-    [[ $all = false ]] && return 1
+    [[ ${all:-} = true ]] && return 0
+    [[ ${all:-} = false ]] && return 1
 
     echo $l
 
     while true
     do
-        echo -n "$@ [y,n,s,i,q,a,d,?]? "
+        echo -n "$@ [y,n,a,d,s,i,q,?]? "
         read answer
 
         unset skip ignore all
@@ -46,18 +38,26 @@ _chapter_question_build() {
             y ) echo $l ; return 0 ;;
             n ) echo $l ; return 1 ;;
             # proceed with special var
-            s ) skip=true ; return 0 ;;
+            a ) all=true ; echo $l ; return 0 ;;
+            d ) all=false ; echo $l ; return 1 ;;
             # proceed with special var
-            i ) ignore=true ; return 0 ;;
+            s ) skip=true ; echo $l ; return 0 ;;
+            # proceed with special var
+            i ) ignore=true ; echo $l ; return 0 ;;
             q ) echo $l ; exit 0 ;;
-            # proceed with special var
-            a ) all=true ; echo ; return 0 ;;
-            d ) all=false ; return 1 ;;
-            * ) _build_usage ;;
+            * ) echo '
+y - build now
+n - do not build
+s - skip version
+i - ignore package
+q - quit
+a - build all following updates
+d - do not build all following updates
+? - print help
+'
+                ;;
         esac
     done
-
-    echo $l
 }
 
 # Use with || continue
@@ -91,94 +91,55 @@ _chapter_question_build_fail_continue() {
     done
 }
 
-_check_diff() {
-    previous_diff_template=diff-srcpkgs/$p-diff
-    current_diff_template=/tmp/$p-diff
-    diff -U0 --label old --label new <(grep -vE '^version|^revision|^distfiles|^checksum' $1) <(grep -vE '^version|^revision|^distfiles|^checksum' $2) > $current_diff_template
-
-    if [[ -s $previous_diff_template ]]
-    then
-        diff_changes=/tmp/$p-diff-diff
-        diff -U0 --label old --label new $previous_diff_template $current_diff_template > $diff_changes
-
-        # Skips question diff if there are no changes (and returns true)
-        [[ -s /tmp/$p-diff-diff ]] && _chapter_question_diff $current_diff_template $diff_changes || true
-    else
-        _chapter_question_diff $current_diff_template
-    fi
-}
-
-_chapter_question_diff() {
-    cat $1
-    [[ $2 ]] && echo -e "\nLAST CHANGES\n\n" && cat $2
-    echo $l
-
-    while true
-    do
-        echo -n "approve this template and proceed [y,n,q]? "
-        read answer
-
-        case ${answer:0:1} in
-            y )
-                mv $current_diff_template $previous_diff_template
-
-                echo $l
-                true
-                return
-                ;;
-            n )
-                # FIXME improve
-                # Put previous template on unapproval
-                mv /tmp/${p}_old $template 2>/dev/null || true
-
-                echo $l
-                false
-                return
-                ;;
-            q )
-                # FIXME improve
-                # Put previous template on unapproval
-                mv /tmp/${p}_old $template 2>/dev/null || true
-
-                echo $l
-                exit 0
-                ;;
-            * )
-                # Ask again
-                continue
-                ;;
-        esac
-        break
-    done
-}
-
 _create_links_to_my_pkgs() {
-    cd $cwd/my-srcpkgs/
+    (
+        cd $custom_templates_dir
 
-    # Remove old ones
-    find -L ../srcpkgs/ -maxdepth 1 -type l -exec rm -v {} +
+        # Remove obsolete symlinks (and empty dirs) for custom packages and supplementary files
+        find ../$templates_dir -maxdepth 1 -xtype l -exec rm -iv {} +
+        find . -xtype l -exec rm -iv {} +
+        find . -type d -empty -exec rm -riv {} +
 
-    # Create new ones
-    local a
-    for a in * ; do
-        ln -svn ../my-srcpkgs/$a ../srcpkgs/$a 2>/dev/null || true
-    done
+        local custom_package
+        for custom_package in *
+        do
+            # Create symlinks for custom packages
+            ln -svn ../$custom_templates_dir/$custom_package ../$templates_dir/$custom_package 2>/dev/null || true
+
+            local relpath_to_package="../$templates_dir/${custom_package%-git}"
+            if [[ -d $relpath_to_package ]]
+            then
+                # cut -d / -f 4- - erases 3 leftmost dirs from output
+                # FIXME hardcoded git
+                local supplementary_file
+                for supplementary_file in $(find $relpath_to_package ! -name 'template' -type f | cut -d / -f 4-)
+                do
+                    # Create symlinks (recursively) for custom packages supplementary files
+                    [[ $supplementary_file =~ / ]] && mkdir -p $custom_package/${supplementary_file%/*}
+                    local depth=$(grep -o / <<< $supplementary_file | wc -l)
+                    local v=$(printf "%${depth}s")
+                    ln -svn ${v// /'../'}../$relpath_to_package/$supplementary_file $custom_package/$supplementary_file 2>/dev/null || true
+                done
+            fi
+        done
+    )
+}
+
+_update_void_packages() {
+    _chapter 'update void-packages'
+    git fetch --all --prune
+    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    [[ ${do_stash:-} = true ]] && git stash push
+    # FIXME hardcode
+    # || true - avoids branch is up to date
+    git rebase origin/master || true
+    [[ ${do_stash:-} = true ]] && git stash pop --index
 }
 
 _update_system() {
+    _update_void_packages
+
     _create_links_to_my_pkgs
-
-    cd $cwd/
-
-    _chapter 'update void-packages'
-    git fetch --all --prune
-    #[[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
-    #[[ $do_stash = true ]] && git stash push
-    ## FIXME hardcode
-    #git rebase origin/master
-    # FIXME hardcode
-    git merge origin/master --no-commit --no-ff
-    #[[ $do_stash = true ]] && git stash pop --index
 
     _chapter 'update host pkgs'
     sudo vpm up
@@ -199,47 +160,63 @@ _get_subpkgs() {
 }
 
 update_my_pkgs() {
-    rm -rf $cwd/{hostdir/binpkgs,masterdir/builddir,masterdir/destdir}/
-    rm -f /tmp/my-xbps-log
-
     if [[ $@ ]]
     then
-        force=true
-        mypkgs=$@
+        local force=true
+        local mypkgs=$@
     else
-        cd $cwd/my-srcpkgs/
+        cd $custom_templates_dir
         # Omitting symlinks
-        mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n')
+        # -printf '%P\n' - erases leftmost dir from output
+        local mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n') || cd $cwd
+        cd $cwd
     fi
+
+    # FIXME
+    # workaround for silly issue https://github.com/golang/go/issues/27161
+    # makes all unremovable (by rm) files to become removable - by adding +w to their dirs
+    [[ -d masterdir/builddir ]] && \
+        find masterdir/builddir \
+            -type d ! -perm -u+w ! -perm -g+w ! -perm -o+w ! -perm -a+w \
+            -exec chmod +w {} +
+    # FIXME possible hazard
+    rm -rf hostdir/binpkgs/ masterdir/{builddir,destdir}/
+    rm -f /tmp/my-xbps-log
+    mkdir -p masterdir/repos/
 
     _update_system
 
     local p
-    for p in $mypkgs ; do
-        # TODO support hg
-        [[ $p =~ 'git' ]] && git=true
-
+    for p in $mypkgs
+    do
+        template=$templates_dir/$p/template
+        [[ -f $template ]] || { echo '=> my-xbps-src: skip non-existing package ' $p ; continue ; }
+        # workaround for some variables possible missing in templates
+        set +u
+        # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
         unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
-        template=srcpkgs/$p/template
-        # FIXME workaround for - vopt_enable: command not found
-        . $template 2>/dev/null || true
+        source $template 2>/dev/null || true
+        set -u
+
+        # FIXME hardcoded git
+        [[ $p =~ 'git' ]] && local git=true
 
         # Skip build if it's ignored and not forced
-        [[ $force != true && $_my_field_ignore ]] && continue
+        [[ ${force:-} != true && ${_my_field_ignore:-} ]] && continue
 
-        if [[ $git = true ]]
+        if [[ ${git:-} = true ]]
         then
             echo '=> my-xbps-src: checking updates ' $p
 
-            upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
+            local upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
             upstream_rev=${upstream_rev_long:0:7}
         else
             upstream_rev=$version
         fi
 
-        if [[ $force != true ]]
+        if [[ ${force:-} != true ]]
         then
-            if [[ $upstream_rev = $version || $upstream_rev = $_my_field_skip_version ]]
+            if [[ $upstream_rev = $version || $upstream_rev = ${_my_field_skip_version:-} ]]
             then
                 continue
             fi
@@ -247,12 +224,12 @@ update_my_pkgs() {
 
         _chapter_question_build "build $p $upstream_rev" || continue
 
-        if [[ $force != true && $skip = true ]]
+        if [[ ${force:-} != true && ${skip:-} = true ]]
         then
             sed -i '/_my_field_skip_version/d' $template
             sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
             continue
-        elif [[ $force = !true && $ignore = true ]]
+        elif [[ ${force:-} = !true && $ignore = true ]]
         then
             sed -i '/_my_field_ignore/d' $template
             sed -i '/^_my_field_repo=/i _my_field_ignore=1' $template
@@ -278,16 +255,22 @@ update_my_pkgs() {
         mv /tmp/${p}_new $template
 
         # TODO implement noautoinstall
-        #[[ $_my_field_autoinstall = false ]] && noautoinstall[$p]=$p
+        #[[ $_my_field_autoinstall = false ]] && local noautoinstall[$p]=$p
 
         # Define and check original template
-        # TODO support hg
-        original_template=srcpkgs/${p%-git}/template
+        # FIXME hardcoded git
+        local original_template=$templates_dir/${p%-git}/template
         if [[ -e $original_template && $original_template != $template ]]
         then
-            _check_diff $original_template $template || continue
+            diff --ignore-blank-lines --old-line-format=-%L --new-line-format=+%L --unchanged-line-format= \
+                <(grep -vE '^version|^revision|^distfiles|^checksum' $original_template) \
+                <(grep -vE '^version|^revision|^distfiles|^checksum' $template) \
+                > $custom_template_diffs_dir/$p.diff || true
         fi
 
+        # Remove skip before build
+        sed -i '/_my_field_skip_version/d' $template
+        # Build
         if ! ./xbps-src -C pkg $p
         then
             # Put previous template on build fail
@@ -296,17 +279,17 @@ update_my_pkgs() {
             continue
         fi
 
-        built=true
+        local built=true
 
         if [[ $git = true && -e masterdir/builddir/$p-$upstream_rev ]]
         then
             (
                 cd masterdir/builddir/$p-$upstream_rev
 
-                l=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit $version..$upstream_rev 2>/dev/null || true)
-                if [[ $l ]]
+                local log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit $version..$upstream_rev 2>/dev/null || true)
+                if [[ $log ]]
                 then
-                    echo -e "$p\n\n$l\n\n" >> /tmp/my-xbps-log
+                    echo -e "$p\n\n$log\n\n" >> /tmp/my-xbps-log
                 else
                     true
                 fi
@@ -317,32 +300,24 @@ update_my_pkgs() {
     # Show log if not empty
     [[ -e /tmp/my-xbps-log ]] && less /tmp/my-xbps-log
 
-    if [[ $built ]]
+    if [[ ${built:-} ]]
     then
         sudo xdowngrade $(find hostdir/binpkgs '!' -name '*-devel-*' '!' -name '*-dbg-*' -name '*.xbps')
+        xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
     else
         _chapter "nothing to install"
     fi
 }
 
 cleanup() {
-    cd $cwd/
-
-    _chapter 'update void-packages'
-    git fetch --all --prune
-    #[[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
-    #[[ $do_stash = true ]] && git stash push
-    ## FIXME hardcode
-    #git rebase origin/master
-    # FIXME hardcode
-    git merge origin/master --no-commit --no-ff
-    #[[ $do_stash = true ]] && git stash pop --index
+    _update_void_packages
 
     _chapter 'perform cleanup'
     ./xbps-src clean
     ./xbps-src clean-repocache
     ./xbps-src remove-autodeps
     ./xbps-src zap
+    rm -rf hostdir/sources/
     ./xbps-src binary-bootstrap
 
     _chapter 'cleanup success'
@@ -351,9 +326,9 @@ cleanup() {
 #
 # Main switch
 #
-case $1 in
+case ${1:-} in
     up)
-        if [[ $2 ]]
+        if [[ ${2:-} ]]
         then
             shift
             update_my_pkgs $@
@@ -365,7 +340,10 @@ case $1 in
         cleanup
         ;;
     *)
-        echo "$0: invalid parameter $1"
+        echo "$0: invalid parameter ${1:-}"
         exit 1
         ;;
 esac
+
+# TODO
+# use 'global' vars, and make 'local' by default
