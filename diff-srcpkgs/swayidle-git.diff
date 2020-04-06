@@ -1,0 +1,9 @@
+-pkgname=swayidle
++_my_field_repo=git://github.com/swaywm/swayidle.git
++pkgname=swayidle-git
++conflicts="swayidle>=0"
++replaces="swayidle>=0"
+-hostmakedepends="pkg-config wayland-devel scdoc"
+-makedepends="wayland-devel wayland-protocols elogind-devel"
++hostmakedepends="git pkg-config scdoc"
++makedepends="wayland-devel wayland-protocols elogind-devel libffi-devel"

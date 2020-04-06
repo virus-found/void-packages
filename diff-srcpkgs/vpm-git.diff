@@ -1,0 +1,6 @@
+-pkgname=vpm
++_my_field_repo=git://github.com/netzverweigerer/vpm
++pkgname=vpm-git
++conflicts="vpm>=0"
++replaces="vpm>=0"
++hostmakedepends="git"
