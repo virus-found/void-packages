@@ -1,23 +1,26 @@
-# Template file for 'ripgrep-git'
+# Template file for 'ripgrep'
 _my_field_repo=git://github.com/BurntSushi/ripgrep.git
-build_style=cargo
-homepage="https://github.com/BurntSushi/ripgrep/"
-hostmakedepends="git asciidoc"
-license="Public Domain, MIT"
-maintainer="Orphaned <orphan@voidlinux.org>"
 pkgname=ripgrep-git
 conflicts="ripgrep>=0"
 replaces="ripgrep>=0"
+version=49de7b1
 revision=1
+build_style=cargo
+configure_args="--features=pcre2"
+hostmakedepends="git asciidoc"
+makedepends="pcre2-devel"
 short_desc="Fast search tool inspired by ag and grep"
-version=3d6a58f
+maintainer="Leah Neukirchen <leah@vuxu.org>"
+license="Unlicense, MIT"
+homepage="https://github.com/BurntSushi/ripgrep/"
 
 post_install() {
 	vlicense LICENSE-MIT
 	vlicense UNLICENSE
 
 	vinstall complete/_rg 0644 usr/share/zsh/site-functions
-	cd target/${RUST_TARGET}/release/build/ripgrep-*/out
+	cd "target/${RUST_TARGET}/release/build/ripgrep-"*/out
 	vman rg.1
 	vinstall rg.bash 0644 usr/share/bash-completion/completions rg
+	vinstall rg.fish 0644 usr/share/fish/vendor_completions.d
 }

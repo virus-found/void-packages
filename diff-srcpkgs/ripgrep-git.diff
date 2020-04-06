@@ -1,0 +1,7 @@
+-pkgname=ripgrep
++_my_field_repo=git://github.com/BurntSushi/ripgrep.git
++pkgname=ripgrep-git
++conflicts="ripgrep>=0"
++replaces="ripgrep>=0"
+-hostmakedepends="asciidoc pkg-config"
++hostmakedepends="git asciidoc"

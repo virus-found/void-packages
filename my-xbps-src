@@ -129,8 +129,8 @@ _update_void_packages() {
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
     [[ ${do_stash:-} = true ]] && git stash push
     # FIXME hardcode
-    # || true - avoids branch is up to date
-    git rebase origin/master || true
+    # && true || true - avoids branch is up to date
+    git rebase origin/master && true || true
     [[ ${do_stash:-} = true ]] && git stash pop --index
 }
 

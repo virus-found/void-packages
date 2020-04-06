@@ -1,16 +1,20 @@
-# Template file for 'vsv-git'
+# Template file for 'vsv'
 _my_field_repo=git://github.com/bahamas10/vsv.git
-homepage="https://github.com/bahamas10/vsv"
-hostmakedepends="git"
-license="MIT"
-maintainer="Orphaned <orphan@voidlinux.org>"
 pkgname=vsv-git
 conflicts="vsv>=0"
 replaces="vsv>=0"
-revision=1
-short_desc="Manage and view runit services"
 version=76e57b8
+revision=1
+archs=noarch
+depends="bash coreutils psmisc"
+hostmakedepends="git"
+short_desc="Manage and view runit services"
+maintainer="Dave Eddy <dave@daveeddy.com>"
+license="MIT"
+homepage="https://github.com/bahamas10/vsv"
 
 do_install() {
 	vbin vsv
+	vman man/vsv.8
+	vlicense LICENSE
 }

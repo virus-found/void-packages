@@ -4,7 +4,7 @@ makedepends="libnl3-devel libressl-devel $(vopt_if dbus dbus-devel) $(vopt_if re
 pkgname=wpa_supplicant-git
 conflicts="wpa_supplicant>=0"
 replaces="wpa_supplicant>=0"
-version=7c8f540
+version=ec182d5
 revision=1
 build_wrksrc="${pkgname%-git}"
 short_desc="WPA/WPA2/IEEE 802.1X Supplicant"

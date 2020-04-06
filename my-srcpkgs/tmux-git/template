@@ -1,26 +1,18 @@
-# Template file for 'tmux-git'
+# Template file for 'tmux'
 _my_field_repo=git://github.com/tmux/tmux
-build_style=gnu-configure
-homepage="https://tmux.github.io"
-hostmakedepends="
-    autoconf
-    automake
-    bison
-    git
-    pkg-config
-"
-license="ISC"
-maintainer="Orphaned <orphan@voidlinux.org>"
-makedepends="
-    libevent-devel
-    ncurses-devel
-"
 pkgname=tmux-git
 conflicts="tmux>=0"
 replaces="tmux>=0"
+version=8fa0b0c
 revision=1
+build_style=gnu-configure
+hostmakedepends="git pkg-config autoconf automake byacc"
+makedepends="libevent-devel ncurses-devel"
 short_desc="Terminal Multiplexer"
-version=7e6db00
+maintainer="Nathan Owens <ndowens04@gmail.com>"
+license="ISC"
+homepage="https://tmux.github.io"
+changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
 
 pre_configure() {
 	./autogen.sh
