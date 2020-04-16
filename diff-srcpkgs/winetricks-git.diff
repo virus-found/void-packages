@@ -4,4 +4,5 @@
 +conflicts="winetricks>=0"
 +replaces="winetricks>=0"
 -depends="cabextract unzip xmessage" # actually it depends on wine
++depends="cabextract"
 +hostmakedepends="git"

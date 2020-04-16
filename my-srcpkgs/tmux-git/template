@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/tmux/tmux
 pkgname=tmux-git
 conflicts="tmux>=0"
 replaces="tmux>=0"
-version=8fa0b0c
+version=b3cadf8
 revision=1
 build_style=gnu-configure
 hostmakedepends="git pkg-config autoconf automake byacc"
