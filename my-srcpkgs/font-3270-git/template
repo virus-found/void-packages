@@ -1,22 +1,23 @@
-# Template file for 'font-3270-git'
+# Template file for 'font-3270'
 _my_field_repo=git://github.com/rbanffy/3270font.git
-archs=noarch
-build_style=gnu-makefile
-font_dirs="/usr/share/fonts/TTF"
-homepage="https://github.com/rbanffy/3270font"
-hostmakedepends="git font-util fontforge"
-license="BSD-3-Clause"
-maintainer="Orphaned <orphan@voidlinux.org>"
-make_build_target="font"
+_my_field_repo_branch=develop
 pkgname=font-3270-git
 conflicts="font-3270>=0"
 replaces="font-3270>=0"
+version=1cf7c67
 revision=1
+archs=noarch
+build_style=gnu-makefile
+make_build_target="font"
+hostmakedepends="git font-util fontforge"
 short_desc="3270 font in a modern format"
-version=0843931
+maintainer="Diogo Leal <diogo@diogoleal.com>"
+license="BSD-3-Clause"
+homepage="https://github.com/rbanffy/3270font"
+font_dirs="/usr/share/fonts/TTF"
 
 do_install() {
-    vmkdir usr/share/fonts/TTF
-    vcopy build/*.ttf usr/share/fonts/TTF
-    vlicense LICENSE.txt
+	vmkdir usr/share/fonts/TTF
+	vcopy build/*.ttf usr/share/fonts/TTF
+	vlicense LICENSE.txt
 }

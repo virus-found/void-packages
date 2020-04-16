@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/universal-ctags/ctags.git
 pkgname=ctags-git
 conflicts="ctags>=0"
 replaces="ctags>=0"
-version=3f64f1f
+version=1e37c13
 revision=1
 build_style=gnu-configure
 short_desc="Generates an index file of language objects found in source files"

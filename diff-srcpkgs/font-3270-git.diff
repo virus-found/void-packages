@@ -1,0 +1,9 @@
+-pkgname=font-3270
++_my_field_repo=git://github.com/rbanffy/3270font.git
++_my_field_repo_branch=develop
++pkgname=font-3270-git
++conflicts="font-3270>=0"
++replaces="font-3270>=0"
+-wrksrc="3270font-${version}"
+-hostmakedepends="font-util fontforge"
++hostmakedepends="git font-util fontforge"

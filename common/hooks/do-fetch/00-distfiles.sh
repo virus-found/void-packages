@@ -206,7 +206,9 @@ hook() {
 
 		if [[ ! -s $gitdir ]]
 		then
-			git clone $_my_field_repo $gitdir
+			git clone \
+				$(test $_my_field_repo_branch && echo -n "-b $_my_field_repo_branch --single-branch") \
+				$_my_field_repo $gitdir
 		else
 			(
 				cd $gitdir

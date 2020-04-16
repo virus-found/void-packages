@@ -29,7 +29,7 @@ _chapter_question_build() {
 
     while true
     do
-        echo -n "$@ [y,n,a,d,s,i,q,?]? "
+        echo -n "$@ [y,n,a,s,i,q,?]? "
         read answer
 
         unset skip ignore all
@@ -39,7 +39,6 @@ _chapter_question_build() {
             n ) echo $l ; return 1 ;;
             # proceed with special var
             a ) all=true ; echo $l ; return 0 ;;
-            d ) all=false ; echo $l ; return 1 ;;
             # proceed with special var
             s ) skip=true ; echo $l ; return 0 ;;
             # proceed with special var
@@ -52,7 +51,6 @@ s - skip version
 i - ignore package
 q - quit
 a - build all following updates
-d - do not build all following updates
 ? - print help
 '
                 ;;
@@ -129,8 +127,7 @@ _update_void_packages() {
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
     [[ ${do_stash:-} = true ]] && git stash push
     # FIXME hardcode
-    # && true || true - avoids branch is up to date
-    git rebase origin/master && true || true
+    git rebase origin/master
     [[ ${do_stash:-} = true ]] && git stash pop --index
 }
 
@@ -188,8 +185,8 @@ update_my_pkgs() {
     for p in $mypkgs
     do
         template=$templates_dir/$p/template
-        [[ -f $template ]] || { echo "=> ${0##*/}: expected $template to be a file" ; return 1 ; }
-        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_skip_version
+        [[ -f $template ]] || { echo "=> ${0##*/}: expected $(pwd)/$template to be a file" ; return 1 ; }
+        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_repo_branch _my_field_skip_version
         # workaround for some variables possible missing in templates
         set +u
         # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
@@ -206,7 +203,11 @@ update_my_pkgs() {
         then
             echo "=> ${0##*/}: checking updates $p"
 
-            local upstream_rev_long=$(git ls-remote $_my_field_repo HEAD | awk '{print $1}')
+            local upstream_rev_long=$( \
+                git ls-remote $_my_field_repo \
+                $(test ${_my_field_repo_branch:-} && echo -n $_my_field_repo_branch || echo -n HEAD) \
+                | awk '{print $1}' \
+            )
             upstream_rev=${upstream_rev_long:0:7}
         else
             upstream_rev=$version
@@ -347,4 +348,6 @@ case ${1:-} in
 esac
 
 # TODO
+# save original template among diffs
 # use 'global' vars, and make 'local' by default
+# first check for updates, then do system updates and build pkgs...
