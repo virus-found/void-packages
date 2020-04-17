@@ -10,7 +10,7 @@ conflicts="vim>=0 vim-common>=0"
 replaces="vim>=0 vim-common>=0"
 revision=1
 short_desc="Vim editor (vi clone)"
-version=cb711ab
+version=2695de6
 
 do_configure() {
     ./configure \

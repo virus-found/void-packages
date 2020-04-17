@@ -1,0 +1,37 @@
+-pkgname=zsh
++_my_field_repo=git://git.code.sf.net/p/zsh/code
++pkgname=zsh-git
++conflicts="zsh>=0"
++replaces="zsh>=0"
+-make_build_target="all info"
+-make_install_args="install.info"
++make_build_target="all"
+-hostmakedepends="automake texinfo"
++hostmakedepends="git automake"
++	# Skip docs
++	echo '
++all: ;
++dvi: ;
++everything: ;
++help.txt: ;
++html: ;
++info: ;
++install.html: ;
++install.info: ;
++install.man: ;
++install.runhelp: ;
++install: ;
++man: ;
++pdf: ;
++ps: ;
++runhelp: ;
++texi: ;
++uninstall.html: ;
++uninstall.info: ;
++uninstall.man: ;
++uninstall.runhelp: ;
++uninstall: ;
++zsh.info: ;
++' > Doc/Makefile.in
++	./Util/preconfig
++
