@@ -72,6 +72,7 @@ _chapter_question_build_fail_continue() {
                 # Skip
                 sed -i '/_my_field_skip_version/d' $template
                 sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
+                echo $l
                 ;;
             n )
                 echo $l
@@ -348,6 +349,5 @@ case ${1:-} in
 esac
 
 # TODO
-# save original template among diffs
 # use 'global' vars, and make 'local' by default
 # first check for updates, then do system updates and build pkgs...

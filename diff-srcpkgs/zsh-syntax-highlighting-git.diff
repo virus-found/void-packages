@@ -4,7 +4,7 @@
 +conflicts="zsh-syntax-highlighting>=0"
 +replaces="zsh-syntax-highlighting>=0"
 -depends="zsh"
-+depends="zsh-git"
++#depends="zsh"
 +hostmakedepends="git"
 -changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
 -	vinstall ${pkgname}.zsh 644 usr/share/zsh/plugins/${pkgname}
