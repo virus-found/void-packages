@@ -8,6 +8,7 @@
 +make_build_target="all"
 -hostmakedepends="automake texinfo"
 +hostmakedepends="git automake"
++
 +	# Skip docs
 +	echo '
 +all: ;
@@ -33,5 +34,5 @@
 +uninstall: ;
 +zsh.info: ;
 +' > Doc/Makefile.in
-+	./Util/preconfig
 +
++	./Util/preconfig

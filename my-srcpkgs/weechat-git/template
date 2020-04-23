@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/weechat/weechat.git
 pkgname=weechat-git
 conflicts="weechat>=0"
 replaces="weechat>=0"
-version=95b2d68
+version=6e18f31
 revision=1
 build_style=cmake
 configure_args="-DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
