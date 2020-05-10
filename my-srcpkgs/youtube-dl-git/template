@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/ytdl-org/youtube-dl.git
 pkgname=youtube-dl-git
 conflicts="youtube-dl>=0"
 replaces="youtube-dl>=0"
-version=00eb865
+version=384bf91
 revision=1
 archs=noarch
 build_style=python3-module

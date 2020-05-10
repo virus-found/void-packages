@@ -1,6 +1,6 @@
 # Template file for 'vim-git'
 _my_field_repo=git://github.com/vim/vim.git
-_my_field_skip_version=1df8b3f
+_my_field_skip_version=7714d7b
 homepage="https://www.vim.org"
 hostmakedepends="git pkg-config"
 license="Vim"

@@ -10,6 +10,7 @@
 +configure_args="--libexecdir=/usr/lib --with-termlib=ncurses --disable-w3mmailer --enable-image"
 +hostmakedepends="git pkg-config gc-devel perl"
 +makedepends="zlib-devel ncurses-devel gc-devel libressl-devel libsixel-git"
++depends="" # libsixel-git
 -LDFLAGS="-lX11"
 -
 -}
