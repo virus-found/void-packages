@@ -197,7 +197,9 @@ try_mirrors() {
 }
 
 hook() {
-	local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
+	#local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
+	# FIXME I don't remember why I changed this; investigate
+	local srcdir="$XBPS_BUILDDIR/$pkgname-$version"
 
 	if [[ $_my_field_repo ]]
 	then

@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 pkgname=NetworkManager-git
 conflicts="NetworkManager>=0"
 replaces="NetworkManager>=0"
-version=25583de
+version=8d2f6df
 revision=1
 build_style=meson
 configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
