@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 pkgname=NetworkManager-git
 conflicts="NetworkManager>=0"
 replaces="NetworkManager>=0"
-version=8d2f6df
+version=88e8f28
 revision=1
 build_style=meson
 configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
@@ -69,14 +69,16 @@ pre_configure() {
 
 post_install() {
 	vinstall ${FILESDIR}/${pkgname%-git}.conf 644 etc/${pkgname%-git}
+	vinstall ${FILESDIR}/50-org.freedesktop.NetworkManager.rules 644 \
+		/usr/share/polkit-1/rules.d
 	vsv ${pkgname%-git}
 }
 
 libnm-git_package() {
 	conflicts="libnm>=0"
-	#replaces="libnm>=0"
+	replaces="libnm>=0"
 	# FIXME
-	provides="libnm-999_1"
+	#provides="libnm-999_1"
 	short_desc+=" - shared libraries"
 	pkg_install() {
 		vmove "usr/lib/*.so.*"

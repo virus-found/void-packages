@@ -5,7 +5,7 @@
 +replaces="wee-slack>=0"
 -depends="weechat weechat-python python3-websocket-client"
 +# FIXME why git pkgs needed?
-+depends="weechat-git weechat-python-git python3-websocket-client"
++depends="python3-websocket-client" #weechat-git weechat-python-git
 +hostmakedepends="git"
 +
 +# FIXME
