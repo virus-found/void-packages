@@ -261,6 +261,9 @@ update_my_pkgs() {
         # TODO implement noautoinstall
         #[[ $_my_field_autoinstall = false ]] && local noautoinstall[$p]=$p
 
+        # TODO store latest commit revision of each PKG in diff dir
+        # g log --pretty=short -n2 . << wip
+
         # Define and check original template
         # FIXME hardcoded git
         local original_template=$templates_dir/${p%-git}/template
@@ -306,7 +309,12 @@ update_my_pkgs() {
 
     if [[ ${built:-} ]]
     then
-        sudo xdowngrade $(find hostdir/binpkgs '!' -name '*-devel-*' '!' -name '*-dbg-*' -name '*.xbps')
+        # TODO don't hardcode these rules, calculate them
+        sudo xdowngrade $(find hostdir/binpkgs \
+            '!' -name '*-devel-*' \
+            '!' -name '*-dbg-*' \
+            -name '*.xbps' \
+        )
         xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
     else
         _chapter "nothing to install"

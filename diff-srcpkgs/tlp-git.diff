@@ -11,5 +11,4 @@
 +	conflicts="tlp-rdw>=0"
 +	replaces="tlp-rdw>=0"
 -	depends="tlp NetworkManager"
-+	# FIXME -git
-+	depends="tlp-git-${version}_${revision} NetworkManager-git"
++	depends="tlp-git-${version}_${revision}" #also NetworkManager

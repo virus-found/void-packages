@@ -2,7 +2,7 @@
 _my_field_repo=git://github.com/linrunner/TLP.git
 pkgname=tlp-git
 replaces="tlp>=0"
-version=e83b6ac
+version=c22ef4f
 revision=1
 archs=noarch
 depends="hdparm bash iw util-linux ethtool perl"
@@ -42,8 +42,7 @@ tlp-rdw-git_package() {
 	replaces="tlp-rdw>=0"
 	short_desc="Control the radio device wizard"
 	archs=noarch
-	# FIXME -git
-	depends="tlp-git-${version}_${revision} NetworkManager-git"
+	depends="tlp-git-${version}_${revision}" #also NetworkManager
 	pkg_install() {
 		vmove usr/bin/tlp-rdw
 		vmove usr/lib/udev/rules.d/85-tlp-rdw.rules

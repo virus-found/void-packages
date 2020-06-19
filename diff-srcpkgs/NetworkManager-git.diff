@@ -16,15 +16,15 @@
 +build_options="elogind"
 +build_options_default="elogind"
 -	vinstall ${FILESDIR}/${pkgname}.conf 644 etc/${pkgname}
--	vsv ${pkgname}
 +	vinstall ${FILESDIR}/${pkgname%-git}.conf 644 etc/${pkgname%-git}
+-	vsv ${pkgname}
 +	vsv ${pkgname%-git}
 -libnm_package() {
 +libnm-git_package() {
 +	conflicts="libnm>=0"
-+	#replaces="libnm>=0"
++	replaces="libnm>=0"
 +	# FIXME
-+	provides="libnm-999_1"
++	#provides="libnm-999_1"
 -NetworkManager-devel_package() {
 +NetworkManager-devel-git_package() {
 +	conflicts="NetworkManager-devel>=0"
