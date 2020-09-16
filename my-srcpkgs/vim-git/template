@@ -1,4 +1,5 @@
 # Template file for 'vim-git'
+_my_field_ignore=1
 _my_field_repo=git://github.com/vim/vim.git
 _my_field_skip_version=7714d7b
 homepage="https://www.vim.org"

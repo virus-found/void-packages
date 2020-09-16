@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
 pkgname=zsh-syntax-highlighting-git
 conflicts="zsh-syntax-highlighting>=0"
 replaces="zsh-syntax-highlighting>=0"
-version=91d2eea
+version=62c5575
 revision=1
 archs=noarch
 #depends="zsh"

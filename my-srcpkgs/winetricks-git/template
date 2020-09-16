@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/Winetricks/winetricks.git
 pkgname=winetricks-git
 conflicts="winetricks>=0"
 replaces="winetricks>=0"
-version=670fb71
+version=e9e9f9b
 revision=1
 archs=noarch
 build_style=gnu-makefile

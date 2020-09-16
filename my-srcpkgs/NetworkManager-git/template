@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 pkgname=NetworkManager-git
 conflicts="NetworkManager>=0"
 replaces="NetworkManager>=0"
-version=88e8f28
+version=f15c7bb
 revision=1
 build_style=meson
 configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
@@ -76,9 +76,9 @@ post_install() {
 
 libnm-git_package() {
 	conflicts="libnm>=0"
-	replaces="libnm>=0"
+	#replaces="libnm>=0"
 	# FIXME
-	#provides="libnm-999_1"
+	provides="libnm-999_1"
 	short_desc+=" - shared libraries"
 	pkg_install() {
 		vmove "usr/lib/*.so.*"
