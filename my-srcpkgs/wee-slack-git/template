@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/wee-slack/wee-slack.git
 pkgname=wee-slack-git
 conflicts="wee-slack>=0"
 replaces="wee-slack>=0"
-version=55d96a7
+version=a7b9e7d
 revision=1
 archs=noarch
 # FIXME why git pkgs needed?

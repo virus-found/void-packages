@@ -22,9 +22,9 @@
 -libnm_package() {
 +libnm-git_package() {
 +	conflicts="libnm>=0"
-+	replaces="libnm>=0"
++	#replaces="libnm>=0"
 +	# FIXME
-+	#provides="libnm-999_1"
++	provides="libnm-999_1"
 -NetworkManager-devel_package() {
 +NetworkManager-devel-git_package() {
 +	conflicts="NetworkManager-devel>=0"

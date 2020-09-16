@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/jwilm/alacritty
 pkgname=alacritty-git
 conflicts="alacritty>=0"
 replaces="alacritty>=0"
-version=87e5b1a
+version=56cff18
 revision=1
 build_style=cargo
 configure_args="--no-default-features --features wayland"

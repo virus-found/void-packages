@@ -3,7 +3,7 @@ _my_field_repo=git://git.code.sf.net/p/zsh/code
 pkgname=zsh-git
 conflicts="zsh>=0"
 replaces="zsh>=0"
-version=baf4fa3
+version=04bd9a4
 revision=1
 build_style=gnu-configure
 make_build_target="all"
