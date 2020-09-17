@@ -7,7 +7,7 @@ version=f511849
 revision=1
 build_style=cargo
 configure_args="--features=pcre2"
-hostmakedepends="git asciidoc"
+hostmakedepends="git ruby-asciidoctor"
 makedepends="pcre2-devel"
 short_desc="Fast search tool inspired by ag and grep"
 maintainer="Leah Neukirchen <leah@vuxu.org>"

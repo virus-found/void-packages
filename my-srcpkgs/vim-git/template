@@ -1,58 +1,108 @@
-# Template file for 'vim-git'
-_my_field_ignore=1
+# Template file for 'vim'
 _my_field_repo=git://github.com/vim/vim.git
-_my_field_skip_version=7714d7b
-homepage="https://www.vim.org"
-hostmakedepends="git pkg-config"
-license="Vim"
-maintainer="Orphaned <orphan@voidlinux.org>"
-makedepends="libXt-devel ncurses-devel"
 pkgname=vim-git
-conflicts="vim>=0 vim-common>=0"
-replaces="vim>=0 vim-common>=0"
+conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
+replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
+version=77e5dcc
 revision=1
+hostmakedepends="git pkg-config"
+makedepends="libXt-devel ncurses-devel"
+depends="vim-common-git-${version}_${revision}"
 short_desc="Vim editor (vi clone)"
-version=e770598
+maintainer="Neel Chotai <neel@chot.ai>"
+license="Vim"
+homepage="https://www.vim.org"
+#python_version missing in template: unable to convert shebang in /usr/share/vim/vim82/tools/demoserver.py
+python_version=3
+
+subpackages="vim-common-git"
+# XXX vim-huge cannot be cross compiled for now.
+if [ -z "$CROSS_BUILD" ]; then
+	subpackages+=""
+fi
+
+alternatives="vim:vim:/usr/bin/vim-normal"
+
+pre_configure() {
+	for f in ${subpackages/vim-common-git/}; do
+		mkdir -p /tmp/${f}
+		cp -a $wrksrc/* /tmp/${f}
+		mv /tmp/${f} $wrksrc/${f}
+	done
+}
 
 do_configure() {
-    ./configure \
-        --disable-cscope \
-        --disable-gpm \
-        --disable-luainterp \
-        --disable-netbeans \
-        --disable-perlinterp \
-        --disable-python3interp \
-        --disable-pythoninterp \
-        --disable-rubyinterp \
-        --disable-tclinterp \
-        --enable-nls \
-        --enable-gui=no \
-        --enable-multibyte \
-        --enable-terminal \
-        --prefix=/usr \
-        --with-features=huge \
-        --with-tlib=ncursesw \
-        --with-x
+	args="--enable-cscope --enable-multibyte --with-tlib=ncursesw
+		--with-ex-name=vim-ex --with-view-name=vim-view"
+
+	#configure: WARNING: unrecognized options: --disable-workshop, --disable-hangulinput
+	nohuge_args="--disable-perlinterp --disable-pythoninterp
+		--disable-rubyinterp --disable-workshop
+		--disable-netbeans --disable-gpm
+		--disable-hangulinput"
+
+	if [ "$CROSS_BUILD" ]; then
+		configure_args+="
+			--host=${XBPS_CROSS_TRIPLET}
+			vim_cv_toupper_broken=no vim_cv_terminfo=yes
+			vim_cv_tty_group=world vim_cv_getcwd_broken=no
+			vim_cv_stat_ignores_slash=yes
+			vim_cv_memmove_handles_overlap=yes
+			vim_cv_tgetent=zero
+			ac_cv_small_wchar_t=no"
+	fi
+
+	# Normal version.
+	my_args="--with-features=huge --disable-cscope --disable-python3interp --disable-luainterp --disable-tclinterp --with-x=yes --enable-terminal"
+	cd $wrksrc
+	./configure ${configure_args} ${args} ${nohuge_args} --disable-xim --enable-gui=no --with-x=no ${my_args}
 }
 
 do_build() {
-    make
+	cd $wrksrc
+	make ${makejobs}
+
+	for f in ${subpackages/vim-common-git/}; do
+		cd $wrksrc/$f
+		make ${makejobs}
+	done
+
 }
 
 do_install() {
-    make DESTDIR=$DESTDIR install
+	make DESTDIR=$DESTDIR install
+	vlicense runtime/doc/uganda.txt LICENSE
 
-    vlicense runtime/doc/uganda.txt LICENSE
-    rm -rf $DESTDIR/usr/share/applications
+	mv ${DESTDIR}/usr/bin/vim ${DESTDIR}/usr/bin/vim-normal
 
-    #vbin src/vim
-    #vmove usr/share/icons
-    #vmove usr/bin/rvim
-    #vmove usr/bin/vim-ex
-    #vmove usr/bin/vimdiff
-    #vmove usr/bin/*view
-    #vmove usr/bin/vimtutor
-    #vmove "usr/share/man/man1/*vim*"
-    #vmove usr/share/licenses
-    #vmove usr/share/vim
+	# Create vim-ex symlink.
+	cd ${DESTDIR}/usr/bin
+	ln -sf vim vim-ex
+	rm -f ${DESTDIR}/usr/bin/{ex,view}
+}
+
+vim-common-git_package() {
+	conflicts="vim-common>=0"
+	replaces="vim-common>=0"
+	short_desc+=" - common files"
+	alternatives="
+	 vi:ex:/usr/bin/vim
+	 vi:ex.1:/usr/share/man/man1/vim.1
+	 vi:vi:/usr/bin/vim
+	 vi:vi.1:/usr/share/man/man1/vim.1
+	 vi:view:/usr/bin/vim
+	 vi:view.1:/usr/share/man/man1/vim.1
+	"
+	pkg_install() {
+		vmove usr/share/icons
+		vmove usr/bin/rvim
+		vmove usr/bin/vim-ex
+		vmove usr/bin/vimdiff
+		vmove usr/bin/vimtutor
+		vmove usr/bin/*view
+		vmove "usr/share/man/man1/*vim*"
+		vmove usr/share/licenses
+		vmove usr/share/vim
+		vinstall ${FILESDIR}/vimrc 644 usr/share/vim
+	}
 }

@@ -6,6 +6,8 @@
 -depends="zsh"
 +#depends="zsh"
 +hostmakedepends="git"
+-maintainer="Orphaned <orphan@voidlinux.org>"
++maintainer="Eivind Uggedal <eivind@uggedal.com>"
 -changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
 -	vinstall ${pkgname}.zsh 644 usr/share/zsh/plugins/${pkgname}
 -	vinstall .version 644 usr/share/zsh/plugins/${pkgname}

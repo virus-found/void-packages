@@ -7,10 +7,10 @@
 -hostmakedepends="pkg-config python3"
 +configure_args="--no-default-features --features wayland"
 +hostmakedepends="git pkg-config"
--depends="libXxf86vm ncurses alacritty-terminfo-${version}_${revision}"
+-depends="libXi libXxf86vm ncurses alacritty-terminfo-${version}_${revision}"
 +depends="libXxf86vm ncurses alacritty-terminfo-git-${version}_${revision}"
--homepage="https://github.com/jwilm/${pkgname}"
--changelog="https://raw.githubusercontent.com/jwilm/${pkgname}/v${version}/CHANGELOG.md"
+-homepage="https://github.com/alacritty/alacritty"
+-changelog="https://raw.githubusercontent.com/alacritty/alacritty/v${version}/CHANGELOG.md"
 +homepage="https://github.com/jwilm/alacritty"
 +
 +do_build() {

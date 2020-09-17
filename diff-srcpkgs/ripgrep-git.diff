@@ -3,5 +3,5 @@
 +pkgname=ripgrep-git
 +conflicts="ripgrep>=0"
 +replaces="ripgrep>=0"
--hostmakedepends="asciidoc pkg-config"
+-hostmakedepends="ruby-asciidoctor pkg-config"
 +hostmakedepends="git asciidoc"

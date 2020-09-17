@@ -10,6 +10,6 @@ build_style=gnu-makefile
 depends="cabextract"
 hostmakedepends="git"
 short_desc="Script to install various redistributable runtime libraries in Wine"
-maintainer="Andrea Brancaleoni <abc@pompel.me>"
+maintainer="mater11234 <mater11234@riseup.net>"
 license="LGPL-3.0-or-later"
 homepage="http://wiki.winehq.org/winetricks"

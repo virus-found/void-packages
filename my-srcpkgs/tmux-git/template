@@ -3,13 +3,13 @@ _my_field_repo=git://github.com/tmux/tmux
 pkgname=tmux-git
 conflicts="tmux>=0"
 replaces="tmux>=0"
-version=3c1f34c
+version=eea85fb
 revision=1
 build_style=gnu-configure
 hostmakedepends="git pkg-config autoconf automake byacc"
 makedepends="libevent-devel ncurses-devel"
 short_desc="Terminal Multiplexer"
-maintainer="Nathan Owens <ndowens04@gmail.com>"
+maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="ISC"
 homepage="https://tmux.github.io"
 changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"

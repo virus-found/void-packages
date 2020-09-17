@@ -1,5 +1,5 @@
 # Template file for 'alacritty'
-_my_field_repo=git://github.com/jwilm/alacritty
+_my_field_repo=git://github.com/alacritty/alacritty
 pkgname=alacritty-git
 conflicts="alacritty>=0"
 replaces="alacritty>=0"
@@ -9,11 +9,11 @@ build_style=cargo
 configure_args="--no-default-features --features wayland"
 hostmakedepends="git pkg-config"
 makedepends="freetype-devel fontconfig-devel libxcb-devel"
-depends="libXxf86vm ncurses alacritty-terminfo-git-${version}_${revision}"
+depends="libXi libXxf86vm ncurses alacritty-terminfo-git-${version}_${revision}"
 short_desc="Cross-platform, GPU-accelerated terminal emulator"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
 license="Apache-2.0"
-homepage="https://github.com/jwilm/alacritty"
+homepage="https://github.com/alacritty/alacritty"
 
 do_build() {
 	cargo build --manifest-path alacritty/Cargo.toml --release --target ${RUST_TARGET} ${configure_args}

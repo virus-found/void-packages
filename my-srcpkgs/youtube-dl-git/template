@@ -3,9 +3,8 @@ _my_field_repo=git://github.com/ytdl-org/youtube-dl.git
 pkgname=youtube-dl-git
 conflicts="youtube-dl>=0"
 replaces="youtube-dl>=0"
-version=e8c5d40
+version=6e65a2a
 revision=1
-archs=noarch
 build_style=python3-module
 # make zip pandoc - prereqs for shell completions
 hostmakedepends="git make zip pandoc python3-setuptools"
@@ -28,7 +27,7 @@ do_configure() {
 
 post_install() {
 	rm -rf ${DESTDIR}/usr/etc
-	vinstall youtube-dl.bash-completion 644 usr/share/bash-completion/completions youtube-dl
-	vinstall youtube-dl.zsh 644 usr/share/zsh/site-functions _youtube-dl
-	vinstall youtube-dl.fish 644 usr/share/fish/vendor_completions.d
+	vcompletion youtube-dl.bash-completion bash
+	vcompletion youtube-dl.zsh zsh
+	vcompletion youtube-dl.fish fish
 }
