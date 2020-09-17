@@ -4,7 +4,7 @@ _my_field_repo_branch=develop
 pkgname=font-3270-git
 conflicts="font-3270>=0"
 replaces="font-3270>=0"
-version=c6aa5ac
+version=8f909e7
 revision=1
 archs=noarch
 build_style=gnu-makefile

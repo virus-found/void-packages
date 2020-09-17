@@ -8,11 +8,11 @@ revision=1
 wrksrc="${pkgname}-${version/.git/-git}"
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --with-termlib=ncurses --disable-w3mmailer --enable-image"
-hostmakedepends="git pkg-config gc-devel perl"
+hostmakedepends="git pkg-config gc-devel perl gettext"
 makedepends="zlib-devel ncurses-devel gc-devel libressl-devel" # libsixel-git
 depends="" # libsixel-git
 short_desc="Text-based Web browser and pager (with Debian patches)"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="MIT"
 homepage="https://tracker.debian.org/pkg/w3m"
 changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
