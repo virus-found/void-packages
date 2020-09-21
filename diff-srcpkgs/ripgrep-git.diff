@@ -4,4 +4,4 @@
 +conflicts="ripgrep>=0"
 +replaces="ripgrep>=0"
 -hostmakedepends="ruby-asciidoctor pkg-config"
-+hostmakedepends="git asciidoc"
++hostmakedepends="git ruby-asciidoctor"

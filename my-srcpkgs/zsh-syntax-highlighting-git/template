@@ -1,17 +1,15 @@
 # Template file for 'zsh-syntax-highlighting'
-_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
 pkgname=zsh-syntax-highlighting-git
-conflicts="zsh-syntax-highlighting>=0"
-replaces="zsh-syntax-highlighting>=0"
-version=62c5575
+version=2ebfa6a
 revision=1
-archs=noarch
-#depends="zsh"
 hostmakedepends="git"
 short_desc="Fish shell like syntax highlighting for Zsh"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="BSD-3-Clause"
 homepage="https://github.com/zsh-users/zsh-syntax-highlighting"
+_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
+conflicts="zsh-syntax-highlighting>=0"
+replaces="zsh-syntax-highlighting>=0"
 
 do_install() {
 	vinstall ${pkgname%-git}.zsh 644 usr/share/zsh/plugins/${pkgname%-git}

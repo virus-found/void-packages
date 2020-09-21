@@ -1,9 +1,11 @@
 # Template file for 'NetworkManager'
+# when updating to 1.24 or newer, drop the compat
+# patch in gnome-control-center and rebuild it
 _my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 pkgname=NetworkManager-git
 conflicts="NetworkManager>=0"
 replaces="NetworkManager>=0"
-version=026389f
+version=e55f0a2
 revision=1
 build_style=meson
 configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
