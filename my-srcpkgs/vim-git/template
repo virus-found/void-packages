@@ -1,9 +1,6 @@
 # Template file for 'vim'
-_my_field_repo=git://github.com/vim/vim.git
 pkgname=vim-git
-conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
-replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
-version=77e5dcc
+version=692d1a5
 revision=1
 hostmakedepends="git pkg-config"
 makedepends="libXt-devel ncurses-devel"
@@ -12,8 +9,10 @@ short_desc="Vim editor (vi clone)"
 maintainer="Neel Chotai <neel@chot.ai>"
 license="Vim"
 homepage="https://www.vim.org"
-#python_version missing in template: unable to convert shebang in /usr/share/vim/vim82/tools/demoserver.py
 python_version=3
+_my_field_repo=git://github.com/vim/vim.git
+conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
+replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 
 subpackages="vim-common-git"
 # XXX vim-huge cannot be cross compiled for now.

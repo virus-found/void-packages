@@ -1,14 +1,11 @@
 -pkgname=zsh-syntax-highlighting
-+_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
+-depends="zsh"
 +pkgname=zsh-syntax-highlighting-git
++hostmakedepends="git"
+-changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
++_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
 +conflicts="zsh-syntax-highlighting>=0"
 +replaces="zsh-syntax-highlighting>=0"
--depends="zsh"
-+#depends="zsh"
-+hostmakedepends="git"
--maintainer="Orphaned <orphan@voidlinux.org>"
-+maintainer="Eivind Uggedal <eivind@uggedal.com>"
--changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
 -	vinstall ${pkgname}.zsh 644 usr/share/zsh/plugins/${pkgname}
 -	vinstall .version 644 usr/share/zsh/plugins/${pkgname}
 -	vinstall .revision-hash 644 usr/share/zsh/plugins/${pkgname}

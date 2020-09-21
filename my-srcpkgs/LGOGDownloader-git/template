@@ -1,28 +1,20 @@
-# Template file for 'LGOGDownloader-git'
-_my_field_repo=git://github.com/Sude-/lgogdownloader.git
-build_style=cmake
-homepage="https://github.com/Sude-/lgogdownloader"
-hostmakedepends="git pkg-config"
-license="WTFPL"
-maintainer="Orphaned <orphan@voidlinux.org>"
-makedepends="htmlcxx-devel tinyxml2-devel libcurl-devel liboauth-devel rhash-devel jsoncpp-devel boost-devel libressl-devel zlib-devel"
+# Template file for 'LGOGDownloader'
 pkgname=LGOGDownloader-git
+version=26315b2
+revision=1
+build_style=cmake
+hostmakedepends="git pkg-config"
+makedepends="htmlcxx-devel tinyxml2-devel libcurl-devel rhash-devel
+ jsoncpp-devel boost-devel libressl-devel zlib-devel"
+short_desc="Open source downloader for GOG.com games that uses the GOG.com API"
+maintainer="RunningDroid <runningdroid@zoho.com>"
+license="WTFPL"
+homepage="https://github.com/Sude-/lgogdownloader"
+_my_field_repo=git://github.com/Sude-/lgogdownloader.git
 conflicts="LGOGDownloader>=0"
 replaces="LGOGDownloader>=0"
-revision=1
-short_desc="Open source downloader for GOG.com games that uses the GOG.com API"
-version=43bca1f
 
-if [ -z "$CROSS_BUILD" ]; then
-    hostmakedepends+=" help2man"
+
+if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+	makedepends+=" libatomic-devel"
 fi
-
-case "$XBPS_TARGET_MACHINE" in
-    armv6*|ppc|ppc-musl) makedepends+=" libatomic-devel" # Need libatomic for __atomic_fetch_add_8 etc.
-esac
-
-pre_configure() {
-    case "$XBPS_TARGET_MACHINE" in
-        armv6*|ppc|ppc-musl) sed -i 's/PRIVATE ${ZLIB_LIBRARIES}/\0\n  atomic/' CMakeLists.txt
-    esac
-}

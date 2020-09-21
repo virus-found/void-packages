@@ -1,0 +1,5 @@
+-pkgname=swaybg
++pkgname=swaybg-git
++_my_field_repo=git://github.com/swaywm/swaybg.git
++conflicts="swaybg>=0"
++replaces="swaybg>=0"

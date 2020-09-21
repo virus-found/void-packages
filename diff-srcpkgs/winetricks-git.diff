@@ -6,5 +6,3 @@
 -depends="cabextract unzip xmessage" # actually it depends on wine
 +depends="cabextract"
 +hostmakedepends="git"
--maintainer="mater11234 <mater11234@riseup.net>"
-+maintainer="Andrea Brancaleoni <abc@pompel.me>"

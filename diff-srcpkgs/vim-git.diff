@@ -3,14 +3,13 @@
 -makedepends="acl-devel gtk+3-devel libXt-devel lua53-devel ncurses-devel
 - perl python3-devel ruby-devel"
 -depends="vim-common>=${version}"
-+_my_field_repo=git://github.com/vim/vim.git
 +pkgname=vim-git
-+conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
-+replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 +hostmakedepends="git pkg-config"
 +makedepends="libXt-devel ncurses-devel"
 +depends="vim-common-git-${version}_${revision}"
-+#python_version missing in template: unable to convert shebang in /usr/share/vim/vim82/tools/demoserver.py
++_my_field_repo=git://github.com/vim/vim.git
++conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
++replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 -subpackages="xxd vim-common vim-x11 gvim"
 +subpackages="vim-common-git"
 -	subpackages+=" vim-huge vim-huge-python3 gvim-huge"

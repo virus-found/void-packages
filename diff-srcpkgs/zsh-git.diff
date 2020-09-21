@@ -1,13 +1,19 @@
 -pkgname=zsh
-+_my_field_repo=git://git.code.sf.net/p/zsh/code
 +pkgname=zsh-git
-+conflicts="zsh>=0"
-+replaces="zsh>=0"
 -make_build_target="all info"
 -make_install_args="install.info"
++#make_build_target="all info"
++#make_install_args="install.info"
 +make_build_target="all"
 -hostmakedepends="automake texinfo"
 +hostmakedepends="git automake"
++_my_field_repo=git://git.code.sf.net/p/zsh/code
++conflicts="zsh>=0"
++replaces="zsh>=0"
+-	vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
+-		Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
++	#vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
++	#	Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
 +
 +	# Skip docs
 +	echo '
