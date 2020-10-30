@@ -317,7 +317,7 @@ update_my_pkgs() {
         )
         xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
     else
-        _chapter "nothing to install"
+        _chapter "nothing to update"
     fi
 }
 
