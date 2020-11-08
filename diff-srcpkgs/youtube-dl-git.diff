@@ -1,12 +1,13 @@
 -pkgname=youtube-dl
--wrksrc=youtube-dl
-+_my_field_repo=git://github.com/ytdl-org/youtube-dl.git
+-wrksrc="${pkgname}"
 +pkgname=youtube-dl-git
+-hostmakedepends="python3-setuptools"
++# make zip pandoc - prereqs for shell completion
++hostmakedepends="git python3-setuptools make zip pandoc"
+-changelog="https://gitlab.com/dstftw/youtube-dl/-/raw/master/ChangeLog"
++_my_field_repo=git://github.com/ytdl-org/youtube-dl.git
 +conflicts="youtube-dl>=0"
 +replaces="youtube-dl>=0"
--hostmakedepends="python3-setuptools"
-+# make zip pandoc - prereqs for shell completions
-+hostmakedepends="git make zip pandoc python3-setuptools"
 +# shell completion
 +do_configure() {
 +	make

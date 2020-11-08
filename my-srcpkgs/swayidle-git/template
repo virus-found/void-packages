@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/swaywm/swayidle.git
 pkgname=swayidle-git
 conflicts="swayidle>=0"
 replaces="swayidle>=0"
-version=da3dd17
+version=0689427
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind"

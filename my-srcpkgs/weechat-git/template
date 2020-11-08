@@ -1,31 +1,29 @@
 # Template file for 'weechat'
-_my_field_repo=git://github.com/weechat/weechat.git
 pkgname=weechat-git
-conflicts="weechat>=0"
-replaces="weechat>=0"
-version=0ff08e5
+version=21eadc9
 revision=1
 build_style=cmake
-configure_args="-DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
+configure_args="-DENABLE_MAN=OFF -DENABLE_ENCHANT=OFF -DENABLE_PERL=ON
+ -DENABLE_LUA=OFF -DENABLE_RUBY=OFF -DENABLE_SPELL=OFF
+ -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF
+ -DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
  -DENABLE_EXEC=OFF -DENABLE_FIFO=OFF -DENABLE_LOGGER=OFF
  -DENABLE_RELAY=OFF -DENABLE_SCRIPT=ON -DENABLE_SCRIPTS=ON
- -DENABLE_PERL=ON -DENABLE_PYTHON=ON -DENABLE_PYTHON2=OFF
- -DENABLE_RUBY=OFF -DENABLE_LUA=OFF -DENABLE_TCL=OFF
- -DENABLE_GUILE=OFF -DENABLE_JAVASCRIPT=OFF -DENABLE_PHP=OFF
- -DENABLE_SPELL=OFF -DENABLE_ENCHANT=OFF -DENABLE_TRIGGER=ON
- -DENABLE_XFER=OFF -DENABLE_MAN=OFF -DENABLE_DOC=OFF
- -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF
- -DPYTHON_EXECUTABLE=/usr/bin/python3
- -DPYTHON_LIBRARY=${XBPS_CROSS_BASE}/usr/lib/libpython3.so"
+ -DENABLE_PYTHON=ON -DENABLE_PYTHON2=OFF -DENABLE_TCL=OFF
+ -DENABLE_TRIGGER=ON -DENABLE_XFER=OFF -DENABLE_DOC=OFF
+ -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF"
 hostmakedepends="git libgcrypt-devel pkg-config python3"
-makedepends="gnutls-devel libcurl-devel python3-devel perl"
+makedepends="gnutls-devel libcurl-devel ncurses-devel
+ perl python3-devel"
 depends="ca-certificates"
 short_desc="Fast, light and extensible IRC client"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-3.0-or-later"
 homepage="https://www.weechat.org"
-changelog="https://raw.githubusercontent.com/weechat/weechat/master/ChangeLog.adoc"
 lib32disabled=yes
+_my_field_repo=git://github.com/weechat/weechat.git
+conflicts="weechat>=0"
+replaces="weechat>=0"
 
 subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
 
@@ -40,32 +38,32 @@ if [ "$CROSS_BUILD" ]; then
 fi
 
 weechat-devel-git_package() {
-	conflicts="weechat-devel>=0"
-	replaces="weechat-devel>=0"
 	lib32disabled=yes
 	depends="${sourcepkg}>=${version}_${revision} ncurses-devel"
 	short_desc+=" - development package"
+	conflicts="weechat-devel>=0"
+	replaces="weechat-devel>=0"
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
 	}
 }
 weechat-perl-git_package() {
-	conflicts="weechat-perl>=0"
-	replaces="weechat-perl>=0"
 	lib32disabled=yes
 	depends="${sourcepkg}>=${version}_${revision}"
 	short_desc+=" - perl plugin"
+	conflicts="weechat-perl>=0"
+	replaces="weechat-perl>=0"
 	pkg_install() {
 		vmove usr/lib/weechat/plugins/perl.so
 	}
 }
 weechat-python-git_package() {
-	conflicts="weechat-python>=0"
-	replaces="weechat-python>=0"
 	lib32disabled=yes
 	depends="${sourcepkg}>=${version}_${revision}"
 	short_desc+=" - python plugin"
+	conflicts="weechat-python>=0"
+	replaces="weechat-python>=0"
 	pkg_install() {
 		vmove usr/lib/weechat/plugins/python.so
 	}

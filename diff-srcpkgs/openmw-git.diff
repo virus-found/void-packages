@@ -1,0 +1,26 @@
+-pkgname=openmw
+-wrksrc="${pkgname}-${pkgname}-${version}"
++pkgname=openmw-git
+-hostmakedepends="pkg-config qt5-host-tools qt5-qmake"
++hostmakedepends="git pkg-config qt5-host-tools qt5-qmake"
+- libmygui-devel libopenal-devel libunshield-devel osg-devel qt5-devel"
++ libmygui-devel libopenal-devel libunshield-devel osg-devel qt5-devel liblz4-devel"
+-changelog="https://openmw.org/2018/openmw-0-44-0-released/"
++_my_field_repo=https://gitlab.com/OpenMW/openmw.git
++conflicts="openmw>=0"
++depends="osg libunshield libmygui bullet"
++replaces="openmw>=0"
+-openmw-cs_package() {
++openmw-cs-git_package() {
+-	depends="openmw-${version}_${revision}"
++	depends="openmw-git-${version}_${revision}"
++	conflicts="openmw-cs>=0"
++	replaces="openmw-cs>=0"
+-esmtool_package() {
++esmtool-git_package() {
++	conflicts="esmtool>=0"
++	replaces="esmtool>=0"
+-bsatool_package() {
++bsatool-git_package() {
++	conflicts="bsatool>=0"
++	replaces="bsatool>=0"

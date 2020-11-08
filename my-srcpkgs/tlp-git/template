@@ -2,7 +2,7 @@
 _my_field_repo=git://github.com/linrunner/TLP.git
 pkgname=tlp-git
 replaces="tlp>=0"
-version=739fb91
+version=d0e6fb6
 revision=1
 archs=noarch
 depends="hdparm bash iw util-linux ethtool perl"
