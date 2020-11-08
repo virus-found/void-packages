@@ -358,4 +358,4 @@ esac
 
 # TODO
 # use 'global' vars, and make 'local' by default
-# first check for updates, then do system updates and build pkgs...
+# first check for all updates, show them, let me choose what to build, then do system updates and build

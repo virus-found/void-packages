@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/netzverweigerer/vpm
 pkgname=vpm-git
 conflicts="vpm>=0"
 replaces="vpm>=0"
-version=7c979c7
+version=6d7c483
 revision=1
 hostmakedepends="git"
 archs=noarch

@@ -1,10 +1,11 @@
 -pkgname=tmux
-+_my_field_repo=git://github.com/tmux/tmux
 +pkgname=tmux-git
-+conflicts="tmux>=0"
-+replaces="tmux>=0"
 -hostmakedepends="byacc"
 +hostmakedepends="git pkg-config autoconf automake byacc"
+-changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
++_my_field_repo=git://github.com/tmux/tmux
++conflicts="tmux>=0"
++replaces="tmux>=0"
 +
 +pre_configure() {
 +	./autogen.sh

@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/mortie/swaylock-effects.git
 pkgname=swaylock-effects-git
 conflicts="swaylock>=0"
 replaces="swaylock>=0"
-version=ac353b7
+version=912c8bc
 revision=1
 build_style=meson
 conf_files="/etc/pam.d/swaylock"
