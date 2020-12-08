@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/bahamas10/vsv.git
 pkgname=vsv-git
 conflicts="vsv>=0"
 replaces="vsv>=0"
-version=76e57b8
+version=702f685
 revision=1
 archs=noarch
 depends="bash coreutils psmisc"

@@ -1,8 +1,5 @@
 -pkgname=NetworkManager
-+_my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 +pkgname=NetworkManager-git
-+conflicts="NetworkManager>=0"
-+replaces="NetworkManager>=0"
 -build_helper="gir qemu"
 + -Ddocs=false -Dtests=no
 -hostmakedepends="gettext-devel glib-devel libxslt-devel pkg-config
@@ -11,6 +8,9 @@
 +depends="dbus iproute2 openresolv wpa_supplicant-git mobile-broadband-provider-info"
 -conf_files="/etc/${pkgname}/${pkgname}.conf"
 +conf_files="/etc/${pkgname%-git}/${pkgname%-git}.conf"
++_my_field_repo=git://github.com/NetworkManager/NetworkManager.git
++conflicts="NetworkManager>=0"
++replaces="NetworkManager>=0"
 -build_options="gir vala elogind"
 -build_options_default="gir vala elogind"
 +build_options="elogind"
