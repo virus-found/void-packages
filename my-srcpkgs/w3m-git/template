@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/tats/w3m.git
 pkgname=w3m-git
 conflicts="w3m>=0"
 replaces="w3m>=0"
-version=ef4eab9
+version=fe97e61
 revision=1
 wrksrc="${pkgname}-${version/.git/-git}"
 build_style=gnu-configure

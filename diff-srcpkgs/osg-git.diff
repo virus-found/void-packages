@@ -1,0 +1,16 @@
+-pkgname=osg
+-reverts=3.6.0_1
+-wrksrc=OpenSceneGraph-OpenSceneGraph-${version}
++pkgname=osg-git
+-hostmakedepends="pkg-config unzip xrandr"
++hostmakedepends="git pkg-config unzip xrandr"
++_my_field_repo=git://github.com/OpenMW/osg.git
++# TODO important!
++#conflicts="osg>=0"
++#replaces="osg>=0"
+-build_options="openexr poppler qt vnc"
+-build_options_default="openexr poppler vnc"
++build_options="openexr qt"
++build_options_default="openexr qt"
+-osg-devel_package() {
++osg-devel-git_package() {

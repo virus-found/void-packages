@@ -1,15 +1,11 @@
 # Template file for 'NetworkManager'
 # when updating to 1.24 or newer, drop the compat
 # patch in gnome-control-center and rebuild it
-_my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 pkgname=NetworkManager-git
-conflicts="NetworkManager>=0"
-replaces="NetworkManager>=0"
-version=0e7e88c
+version=dcd0066
 revision=1
 build_style=meson
 configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
- -Ddocs=false -Dtests=no
  -Dlibaudit=no -Dovs=false -Dlibnm_glib=true -Dselinux=false
  -Dmodify_system=true -Dpolkit_agent=true -Dsystemdsystemunitdir=no
  -Dpppd=/usr/bin/pppd -Dqt=false
@@ -23,6 +19,7 @@ configure_args="-Dpolkit_agent=true -Dsystemd_journal=false
  -Dvapi=$(vopt_if vala true false)
  -Dsession_tracking=$(vopt_if elogind elogind no)
  -Dsuspend_resume=$(vopt_if elogind elogind upower)
+ -Ddocs=false -Dtests=no
  -Dconfig_dhcp_default=internal"
 hostmakedepends="git gettext-devel glib-devel libxslt-devel pkg-config
  intltool dbus-glib-devel jansson-devel $(vopt_if vala vala)
@@ -46,6 +43,9 @@ make_dirs="
  /etc/NetworkManager/VPN 0755 root root
  /var/lib/NetworkManager 0755 root root
 "
+_my_field_repo=git://github.com/NetworkManager/NetworkManager.git
+conflicts="NetworkManager>=0"
+replaces="NetworkManager>=0"
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl)
@@ -77,11 +77,11 @@ post_install() {
 }
 
 libnm-git_package() {
+	short_desc+=" - shared libraries"
 	conflicts="libnm>=0"
 	#replaces="libnm>=0"
 	# FIXME
 	provides="libnm-999_1"
-	short_desc+=" - shared libraries"
 	pkg_install() {
 		vmove "usr/lib/*.so.*"
 		if [ "$build_option_gir" ]; then
@@ -91,9 +91,9 @@ libnm-git_package() {
 }
 NetworkManager-devel-git_package() {
 	depends="dbus-glib-devel libnm-${version}_${revision}"
+	short_desc+=" - development files"
 	conflicts="NetworkManager-devel>=0"
 	replaces="NetworkManager-devel>=0"
-	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include
 		vmove usr/lib/pkgconfig
