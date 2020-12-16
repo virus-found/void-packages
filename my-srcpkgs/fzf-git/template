@@ -3,7 +3,7 @@ _my_field_repo=git://github.com/junegunn/fzf.git
 pkgname=fzf-git
 conflicts="fzf>=0"
 replaces="fzf>=0"
-version=e0a22e7
+version=ab3937e
 revision=1
 build_style=go
 go_import_path=github.com/junegunn/fzf
