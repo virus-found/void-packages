@@ -20,9 +20,8 @@ maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
 license="OSGPL-2.0-or-later"
 homepage="http://www.openscenegraph.org"
 _my_field_repo=git://github.com/OpenMW/osg.git
-# TODO important!
-#conflicts="osg>=0"
-#replaces="osg>=0"
+conflicts="osg>=0"
+replaces="osg>=0"
 
 # Append CFLAGS and CXXFLAGS to set work around code which gcc6 would
 # otherwise regard as out-of-specification and allow it to produce a
@@ -30,8 +29,8 @@ _my_field_repo=git://github.com/OpenMW/osg.git
 CFLAGS+=" -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-schedule-insns2"
 CXXFLAGS+=" -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-schedule-insns2 -Wno-deprecated-declarations"
 
-build_options="openexr qt"
-build_options_default="openexr qt"
+build_options="openexr"
+build_options_default="openexr"
 desc_option_openexr="Enable support for high dynamic range images"
 desc_option_poppler="Enable support for creating PDF"
 desc_option_vnc="Enable support for VNC server"
