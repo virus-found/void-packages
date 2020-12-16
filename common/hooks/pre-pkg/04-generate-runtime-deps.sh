@@ -94,38 +94,38 @@ hook() {
     for f in ${verify_deps}; do
         unset _f j rdep _rdep rdepcnt soname _pkgname _rdepver found
         _f=$(echo "$f"|sed -E 's|\+|\\+|g')
-        rdep="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2)"
-        rdepcnt="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2|wc -l)"
-        if [ -z "$rdep" ]; then
-            # Ignore libs by current pkg
-            soname=$(find ${PKGDESTDIR} -name "$f")
-            if [ -z "$soname" ]; then
+        # Ignore libs by current pkg
+        soname=$(find ${PKGDESTDIR} -name "$f")
+        if [ -z "$soname" ]; then
+            rdep="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2)"
+            rdepcnt="$(grep -E "^${_f}[[:blank:]]+.*$" $mapshlibs|cut -d ' ' -f2|wc -l)"
+            if [ -z "$rdep" ]; then
                 msg_red_nochroot "   SONAME: $f <-> UNKNOWN PKG PLEASE FIX!\n"
                 broken=1
-            else
-                echo "   SONAME: $f <-> $pkgname (ignored)"
-            fi
-            continue
-        elif [ "$rdepcnt" -gt 1 ]; then
-            unset j found
-            # Check if shlib is provided by multiple pkgs.
-            for j in ${rdep}; do
-                _pkgname=$($XBPS_UHELPER_CMD getpkgname "$j")
-                # if there's a SONAME matching pkgname, use it.
-                for x in ${pkgname} ${subpackages}; do
-                    [[ $_pkgname == $x ]] && found=1 && break
-                done
-                [[ $found ]] && _rdep=$j && break
-            done
-            if [ -z "${_rdep}" ]; then
-                # otherwise pick up the first one.
+            elif [ "$rdepcnt" -gt 1 ]; then
+                unset j found
+                # Check if shlib is provided by multiple pkgs.
                 for j in ${rdep}; do
-                    [ -z "${_rdep}" ] && _rdep=$j
+                    _pkgname=$($XBPS_UHELPER_CMD getpkgname "$j")
+                    # if there's a SONAME matching pkgname, use it.
+                    for x in ${pkgname} ${subpackages}; do
+                        [[ $_pkgname == $x ]] && found=1 && break
+                    done
+                    [[ $found ]] && _rdep=$j && break
                 done
+                if [ -z "${_rdep}" ]; then
+                    # otherwise pick up the first one.
+                    for j in ${rdep}; do
+                        [ -z "${_rdep}" ] && _rdep=$j
+                    done
+                fi
+            else
+                _rdep=$rdep
             fi
         else
-            _rdep=$rdep
+            echo "   SONAME: $f <-> $pkgname (ignored)"
         fi
+        continue
         _pkgname=$($XBPS_UHELPER_CMD getpkgname "${_rdep}" 2>/dev/null)
         _rdepver=$($XBPS_UHELPER_CMD getpkgversion "${_rdep}" 2>/dev/null)
         if [ -z "${_pkgname}" -o -z "${_rdepver}" ]; then

@@ -168,15 +168,14 @@ update_my_pkgs() {
         cd $cwd
     fi
 
-    # FIXME
-    # workaround for silly issue https://github.com/golang/go/issues/27161
-    # makes all unremovable (by rm) files to become removable - by adding +w to their dirs
-    [[ -d masterdir/builddir ]] && \
-        find masterdir/builddir \
-            -type d ! -perm -u+w ! -perm -g+w ! -perm -o+w ! -perm -a+w \
-            -exec chmod +w {} +
-    # FIXME possible hazard
-    rm -rf hostdir/binpkgs/ masterdir/{builddir,destdir}/
+    rm -rf masterdir/{builddir,destdir}/
+
+    rm -rf hostdir/binpkgs/
+    mkdir -p hostdir/binpkgs/
+    cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
+    # registering packages manually put into masterdir/my-binpkgs
+    xbps-rindex -a hostdir/binpkgs/*.xbps 2>/dev/null || true
+
     rm -f /tmp/my-xbps-log
     mkdir -p masterdir/repos/
 
