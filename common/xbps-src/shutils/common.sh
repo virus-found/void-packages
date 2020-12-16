@@ -423,10 +423,6 @@ setup_pkg() {
         *-*) msg_error "version contains invalid character: -\n";;
         *_*) msg_error "version contains invalid character: _\n";;
     esac
-    case "$version" in
-        *[0-9]*) : good ;;
-        *) msg_error "version must contain at least one digit.\n";;
-    esac
 
     # Check if base-chroot is already installed.
     if [ -z "$bootstrap" -a -z "$CHROOT_READY" -a "z$show_problems" != "zignore-problems" ]; then
