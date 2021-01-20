@@ -1,6 +1,6 @@
 # Template file for 'youtube-dl'
 pkgname=youtube-dl-git
-version=c29500e
+version=62acf5f
 revision=1
 build_style=python3-module
 # make zip pandoc - prereqs for shell completion

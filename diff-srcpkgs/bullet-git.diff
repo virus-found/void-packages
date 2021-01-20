@@ -1,0 +1,12 @@
+-pkgname=bullet
+-wrksrc="bullet3-${version}"
++pkgname=bullet-git
+- -DBUILD_UNIT_TESTS=0 -DBUILD_OPENGL3_DEMOS=0 -DBUILD_EXTRAS=1 -DINSTALL_EXTRA_LIBS=1"
++ -DBUILD_UNIT_TESTS=0 -DBUILD_OPENGL3_DEMOS=0 -DBUILD_EXTRAS=0 -DINSTALL_EXTRA_LIBS=1
++ -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=RELEASE"
++_my_field_repo=git://github.com/bulletphysics/bullet3.git
++conflicts="bullet>=0"
++hostmakedepends="git"
++replaces="bullet>=0"
+-bullet-devel_package() {
++bullet-devel-git_package() {

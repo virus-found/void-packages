@@ -3,6 +3,8 @@
 +pkgname=openmw-git
 -configure_args="-DDESIRED_QT_VERSION=5"
 -hostmakedepends="pkg-config qt5-host-tools qt5-qmake"
+-makedepends="SDL2-devel boost-devel bullet-devel ffmpeg-devel libXt-devel
+- libmygui-devel libopenal-devel libunshield-devel osg-devel qt5-devel"
 +configure_args="
 +-D BUILD_OPENMW=TRUE
 +-D BUILD_LAUNCHER=FALSE
@@ -20,21 +22,15 @@
 +
 +-D CMAKE_BUILD_TYPE=RELEASE
 +-D OPENMW_LTO_BUILD=0
++-D BULLET_USE_DOUBLES=TRUE
 +"
-+# FIXME build fails for now
-+#-D BULLET_USE_DOUBLES=TRUE
-+
 +hostmakedepends="git pkg-config"
-- libmygui-devel libopenal-devel libunshield-devel osg-devel qt5-devel"
++makedepends="SDL2-devel boost-devel bullet-devel-git ffmpeg-devel libXt-devel
 + libmygui-devel libopenal-devel libunshield-devel osg-devel-git liblz4-devel"
 -changelog="https://openmw.org/2018/openmw-0-44-0-released/"
-+#_my_field_ignore=1
 +_my_field_repo=https://gitlab.com/OpenMW/openmw.git
-+#allow_unknown_shlibs=yes
 +conflicts="openmw>=0"
-+depends="osg-git"
 +replaces="openmw>=0"
--
 -openmw-cs_package() {
 -	short_desc="Open Implementation of Morrowinds Creation Set"
 -	depends="openmw-${version}_${revision}"
@@ -59,3 +55,16 @@
 -		vmove usr/bin/bsatool
 -	}
 -}
++#configure_args+=" -DDESIRED_QT_VERSION=5"
++#hostmakedepends+=" qt5-qmake"
++#makedepends+=" qt5-devel"
++#openmw-cs-git_package() {
++#	short_desc="Open Implementation of Morrowinds Creation Set"
++#	depends="${sourcepkg}-${version}_${revision}"
++#	pkg_install() {
++#		vmove usr/bin/openmw-cs
++#		vmove usr/share/applications/org.openmw.cs.desktop
++#		vmove usr/share/pixmaps/openmw-cs.png
++#		vmove etc/openmw/openmw-cs.cfg
++#	}
++#}
