@@ -1,8 +1,8 @@
 -pkgname=winetricks
-+_my_field_repo=git://github.com/Winetricks/winetricks.git
 +pkgname=winetricks-git
-+conflicts="winetricks>=0"
-+replaces="winetricks>=0"
 -depends="cabextract unzip xmessage" # actually it depends on wine
 +depends="cabextract"
 +hostmakedepends="git"
++_my_field_repo=git://github.com/Winetricks/winetricks.git
++conflicts="winetricks>=0"
++replaces="winetricks>=0"

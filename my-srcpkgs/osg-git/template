@@ -1,12 +1,12 @@
 # Template file for 'osg'
 pkgname=osg-git
-version=937cec2
+version=e65f47c
 revision=1
 build_style=cmake
 build_helper="qemu"
 # don't use /usr/lib64 on 64bit platforms
 configure_args="-DLIB_POSTFIX= $(vopt_if qt '-DOSG_USE_QT=1' '-DOSG_USE_QT=0')"
-hostmakedepends="git pkg-config unzip xrandr"
+hostmakedepends="git pkg-config unzip"
 makedepends="MesaLib-devel gtkglext-devel libcurl-devel giflib-devel librsvg-devel
  jasper-devel tiff-devel libgdal-devel libgta-devel ffmpeg-devel xine-lib-devel
  SDL2-devel gst-plugins-base1-devel
@@ -14,7 +14,6 @@ makedepends="MesaLib-devel gtkglext-devel libcurl-devel giflib-devel librsvg-dev
  $(vopt_if poppler poppler-glib-devel)
  $(vopt_if qt qt5-devel)
  $(vopt_if vnc libvncserver-devel)"
-depends="xrandr"
 short_desc="OpenSceneGraph: high performance real-time graphics toolkit"
 maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
 license="OSGPL-2.0-or-later"

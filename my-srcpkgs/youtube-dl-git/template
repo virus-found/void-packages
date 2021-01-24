@@ -1,18 +1,21 @@
 # Template file for 'youtube-dl'
 pkgname=youtube-dl-git
-version=62acf5f
+version=8bf9591
 revision=1
 build_style=python3-module
-# make zip pandoc - prereqs for shell completion
-hostmakedepends="git python3-setuptools make zip pandoc"
+hostmakedepends="python3-setuptools"
 depends="python3-setuptools"
 checkdepends="flake8 python3-nose"
 short_desc="CLI program to download videos from YouTube and other sites"
 maintainer="Daniel Eyßer <daniel.eysser@gmail.com>"
 license="Unlicense"
 homepage="https://yt-dl.org"
+changelog="https://raw.githubusercontent.com/ytdl-org/youtube-dl/master/ChangeLog"
 _my_field_repo=git://github.com/ytdl-org/youtube-dl.git
 conflicts="youtube-dl>=0"
+hostmakedepends+=" git"
+# prereqs for shell completion
+hostmakedepends+=" make zip pandoc"
 replaces="youtube-dl>=0"
 
 do_check() {
@@ -30,3 +33,9 @@ post_install() {
 	vcompletion youtube-dl.zsh zsh
 	vcompletion youtube-dl.fish fish
 }
+
+#python3-youtube-dl_package() {
+#	depends="youtube-dl"
+#	short_desc+=" - transitional dummy package"
+#	build_style=meta
+#}
