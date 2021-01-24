@@ -3,7 +3,8 @@
 -wrksrc=OpenSceneGraph-OpenSceneGraph-${version}
 +pkgname=osg-git
 -hostmakedepends="pkg-config unzip xrandr"
-+hostmakedepends="git pkg-config unzip xrandr"
++hostmakedepends="git pkg-config unzip"
+-depends="xrandr"
 +_my_field_repo=git://github.com/OpenMW/osg.git
 +_my_field_repo_branch=3.6
 +conflicts="osg>=0"

@@ -1,21 +1,33 @@
 # Template file for 'w3m'
-_my_field_repo=git://github.com/tats/w3m.git
 pkgname=w3m-git
-conflicts="w3m>=0"
-replaces="w3m>=0"
 version=64b0d8c
 revision=1
 wrksrc="${pkgname}-${version/.git/-git}"
 build_style=gnu-configure
-configure_args="--libexecdir=/usr/lib --with-termlib=ncurses --disable-w3mmailer --enable-image"
-hostmakedepends="git pkg-config gc-devel perl gettext"
-makedepends="zlib-devel ncurses-devel gc-devel libressl-devel" # libsixel-git
-depends="" # libsixel-git
+configure_args="--libexecdir=/usr/lib --enable-image
+ --with-nkf=/usr/bin/nkf
+ --with-termlib=ncurses --disable-w3mmailer"
+hostmakedepends="pkg-config gc-devel perl gettext nkf"
+makedepends="zlib-devel ncurses-devel gc-devel libressl-devel"
 short_desc="Text-based Web browser and pager (with Debian patches)"
 maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="MIT"
 homepage="https://tracker.debian.org/pkg/w3m"
 changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
+_my_field_repo=git://github.com/tats/w3m.git
+conflicts="w3m>=0"
+hostmakedepends+=" git"
+replaces="w3m>=0"
+
+#LDFLAGS="-lX11"
+
+post_patch() {
+	rm -f Bonus/oldconfigure.sh
+	vsed -i -e 's,/usr/local/bin,/usr/bin,g' \
+		Bonus/makeref Bonus/scanhist.rb Bonus/html2latex \
+		scripts/w3mman/hlink.cgi
+	chmod +x Bonus/scanhist.rb Bonus/utf8.cgi
+}
 
 pre_build() {
 	# build host mktable
@@ -28,6 +40,30 @@ pre_build() {
 	fi
 }
 
-post_install() {
-	vlicense ${wrksrc}/doc/README
+do_check() {
+	cd tests
+	sh run_tests
 }
+
+post_install() {
+	local _file
+	vlicense doc/README
+	for _file in doc/HISTORY doc/README* doc/*.html
+	do
+		vdoc "$_file"
+	done
+	for _file in doc/keymap* doc/menu*
+	do
+		vsconf "$_file"
+	done
+	vcopy Bonus usr/share/examples/w3m/bonus
+}
+
+#w3m-img_package() {
+#	depends="${sourcepkg}>=${version}_${revision}"
+#	short_desc+=" - image display support"
+#	pkg_install() {
+#		vmove usr/lib/w3m/w3mimgdisplay
+#		vmove usr/share/doc/w3m/README.img
+#	}
+#}

@@ -1,16 +1,18 @@
 -pkgname=alacritty
 -build_wrksrc="${pkgname}"
 +pkgname=alacritty-git
--hostmakedepends="pkg-config python3"
-+hostmakedepends="git pkg-config python3"
 -depends="libXi libXxf86vm ncurses alacritty-terminfo-${version}_${revision}"
 +depends="libXi libXxf86vm ncurses alacritty-terminfo-git-${version}_${revision}"
--changelog="https://raw.githubusercontent.com/alacritty/alacritty/v${version}/CHANGELOG.md"
+-changelog="https://raw.githubusercontent.com/alacritty/alacritty/master/CHANGELOG.md"
 +_my_field_repo=git://github.com/alacritty/alacritty
-+conflicts="alacritty>=0"
-+replaces="alacritty>=0"
 +configure_args="--no-default-features --features=wayland"
-+
++conflicts="alacritty>=0"
++hostmakedepends+=" git"
++replaces="alacritty>=0"
+-case "$XBPS_TARGET_MACHINE" in
+-	ppc64*) ;;
+-	ppc*) broken="ftbfs: thread 'main' panicked at 'slice index starts at 4289555962 but ends at 114', /builddir/rustc-1.46.0-src/src/libstd/io/mod.rs:396:27";;
+-esac
 +do_build() {
 +	cargo build --manifest-path alacritty/Cargo.toml --release --target ${RUST_TARGET} ${configure_args}
 +}

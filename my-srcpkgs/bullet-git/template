@@ -1,6 +1,6 @@
 # Template file for 'bullet'
 pkgname=bullet-git
-version=d274093
+version=537ccb2
 revision=1
 build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=1 -DBUILD_BULLET2_DEMOS=0 -DBUILD_CPU_DEMOS=0

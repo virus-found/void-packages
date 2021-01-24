@@ -5,7 +5,7 @@ set -eu
 # Get cwd of this script
 # https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
 cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" 2>/dev/null
-[[ $cwd ]] && cd $cwd || exit 123
+[[ $cwd ]] && cd $cwd
 
 # Define paths
 templates_dir=srcpkgs
@@ -43,7 +43,7 @@ _chapter_question_build() {
             s ) skip=true ; echo $l ; return 0 ;;
             # proceed with special var
             i ) ignore=true ; echo $l ; return 0 ;;
-            q ) echo $l ; exit 0 ;;
+            q ) echo $l ; cd $cwd_before_main_script ; exit 0 ;;
             * ) echo '
 y - build now
 n - do not build
@@ -79,6 +79,7 @@ _chapter_question_build_fail_continue() {
                 ;;
             q )
                 echo $l
+                cd $cwd_before_main_script
                 exit 0
                 ;;
             * )
@@ -126,9 +127,11 @@ _update_void_packages() {
     _chapter 'update void-packages'
     git fetch --all --prune
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
-    [[ ${do_stash:-} = true ]] && git stash push
-    # FIXME hardcode
+    [[ ${do_stash:-} = true ]] && git stash push -m "$(date -R) automatic stash before rebase"
+    # FIXME
+    set -x
     git rebase origin/master
+    set +x
     [[ ${do_stash:-} = true ]] && git stash pop --index
 }
 
@@ -193,7 +196,6 @@ update_my_pkgs() {
         source $template &>/dev/null || true
         set -u
 
-        # FIXME hardcoded git
         [[ $p =~ 'git' ]] && local git=true
 
         # Skip build if it's ignored and not forced
@@ -264,7 +266,6 @@ update_my_pkgs() {
         # g log --pretty=short -n2 . << wip
 
         # Define and check original template
-        # FIXME hardcoded git
         local original_template=$templates_dir/${p%-git}/template
         if [[ -e $original_template && $original_template != $template ]]
         then
@@ -314,10 +315,12 @@ update_my_pkgs() {
             '!' -name '*-dbg-*' \
             -name '*.xbps' \
         )
-        xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
     else
         _chapter "nothing to update"
     fi
+
+    # Store non-required packages in the file
+    xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
 }
 
 cleanup() {
@@ -336,6 +339,7 @@ cleanup() {
 #
 # Main switch
 #
+cwd_before_main_script=$(pwd)
 case ${1:-} in
     up)
         if [[ ${2:-} ]]
@@ -351,6 +355,7 @@ case ${1:-} in
         ;;
     *)
         echo "${0##*/}: invalid parameter ${1:-}"
+        cd $cwd_before_main_script
         exit 1
         ;;
 esac
