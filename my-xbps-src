@@ -131,8 +131,8 @@ _update_void_packages() {
     # FIXME
     set -x
     git rebase origin/master
-    set +x
     [[ ${do_stash:-} = true ]] && git stash pop --index
+    set +x
 }
 
 _update_system() {
@@ -361,5 +361,6 @@ case ${1:-} in
 esac
 
 # TODO
+# avoid writing git versions to templates, store them elsewhere
 # use 'global' vars, and make 'local' by default
 # first check for all updates, show them, let me choose what to build, then do system updates and build

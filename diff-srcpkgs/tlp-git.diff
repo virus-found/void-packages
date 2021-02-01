@@ -1,16 +1,13 @@
 -pkgname=tlp
 -wrksrc="TLP-${version}"
-+_my_field_repo=git://github.com/linrunner/TLP.git
 +pkgname=tlp-git
++_my_field_repo=git://github.com/linrunner/TLP.git
++conflicts+="tlp>=0 "
++hostmakedepends+=" git"
 +replaces="tlp>=0"
-+hostmakedepends="git"
--conflicts="laptop-mode>=0"
-+conflicts="tlp>=0 laptop-mode>=0"
--		TLP_ELOD=/usr/libexec/elogind/system-sleep \
-+		TLP_ELOD=/usr/lib/elogind/system-sleep \
 -tlp-rdw_package() {
 +tlp-rdw-git_package() {
+-	depends="tlp NetworkManager"
++	depends="${pkgname} NetworkManager"
 +	conflicts="tlp-rdw>=0"
 +	replaces="tlp-rdw>=0"
--	depends="tlp NetworkManager"
-+	depends="tlp-git-${version}_${revision}" #also NetworkManager
