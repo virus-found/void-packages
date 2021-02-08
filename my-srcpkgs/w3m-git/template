@@ -1,8 +1,7 @@
 # Template file for 'w3m'
 pkgname=w3m-git
-version=64b0d8c
+version=97c7d9b
 revision=1
-wrksrc="${pkgname}-${version/.git/-git}"
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --enable-image
  --with-nkf=/usr/bin/nkf
@@ -56,7 +55,7 @@ post_install() {
 	do
 		vsconf "$_file"
 	done
-	vcopy Bonus usr/share/examples/w3m/bonus
+	#vcopy Bonus usr/share/examples/w3m/bonus
 }
 
 #w3m-img_package() {
