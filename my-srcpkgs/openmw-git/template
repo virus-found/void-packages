@@ -1,6 +1,6 @@
 # Template file for 'openmw'
 pkgname=openmw-git
-version=94e8855
+version=e2ec3b0
 revision=1
 build_style=cmake
 configure_args="
