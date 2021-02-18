@@ -1,26 +1,27 @@
 -pkgname=weechat
 +pkgname=weechat-git
--configure_args="-DENABLE_MAN=ON -DENABLE_ENCHANT=ON -DENABLE_PERL=ON
+-configure_args="-DENABLE_MAN=ON -DENABLE_PERL=ON
 - -DENABLE_LUA=ON -DENABLE_RUBY=ON -DENABLE_SPELL=ON
 - -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF"
 -hostmakedepends="ruby-asciidoctor libgcrypt-devel pkg-config python3 tcl-devel"
--makedepends="enchant-devel gnutls-devel libcurl-devel lua53-devel ncurses-devel
+-makedepends="aspell-devel gnutls-devel libcurl-devel lua53-devel ncurses-devel
 - perl python3-devel ruby-devel tcl-devel"
-+configure_args="-DENABLE_MAN=OFF -DENABLE_ENCHANT=OFF -DENABLE_PERL=ON
++configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON
 + -DENABLE_LUA=OFF -DENABLE_RUBY=OFF -DENABLE_SPELL=OFF
 + -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF
 + -DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
 + -DENABLE_EXEC=OFF -DENABLE_FIFO=OFF -DENABLE_LOGGER=OFF
 + -DENABLE_RELAY=OFF -DENABLE_SCRIPT=ON -DENABLE_SCRIPTS=ON
++ -DENABLE_ENCHANT=OFF
 + -DENABLE_PYTHON=ON -DENABLE_PYTHON2=OFF -DENABLE_TCL=OFF
 + -DENABLE_TRIGGER=ON -DENABLE_XFER=OFF -DENABLE_DOC=OFF
 + -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF"
-+hostmakedepends="git libgcrypt-devel pkg-config python3"
++hostmakedepends="libgcrypt-devel pkg-config python3"
 +makedepends="gnutls-devel libcurl-devel ncurses-devel
 + perl python3-devel"
--changelog="https://raw.githubusercontent.com/weechat/weechat/master/ChangeLog.adoc"
 +_my_field_repo=git://github.com/weechat/weechat.git
 +conflicts="weechat>=0"
++hostmakedepends+=" git"
 +replaces="weechat>=0"
 -subpackages="weechat-aspell weechat-devel weechat-ruby weechat-python weechat-tcl weechat-lua weechat-perl"
 +subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
