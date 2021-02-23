@@ -3,9 +3,8 @@ _my_field_repo=git://github.com/wee-slack/wee-slack.git
 pkgname=wee-slack-git
 conflicts="wee-slack>=0"
 replaces="wee-slack>=0"
-version=8bd734c
+version=fef777b
 revision=1
-archs=noarch
 # FIXME why git pkgs needed?
 depends="python3-websocket-client" #weechat-git weechat-python-git
 hostmakedepends="git"
