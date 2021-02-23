@@ -1,9 +1,18 @@
-# see .zshenv
-XBPS_CFLAGS="${CFLAGS}"
-XBPS_CXXFLAGS="${CXXFLAGS}"
-# FIXME Also update them in .zshenv
+# INFO also update them in
+#     ~/.zshenv
+#     ~/void-packages/common/xbps-src/shutils/common.sh
+
+XBPS_CFLAGS="-O2 -pipe -march=native -mtune=native"
+XBPS_CXXFLAGS="${XBPS_CFLAGS}"
+
 # FIXME still outputs Finished release [optimized + debuginfo]
 XBPS_RUSTFLAGS="-C target-cpu=native -C link-arg=-fuse-ld=gold -C opt-level=3 -C overflow-checks=off -C debuginfo=0"
+
+#XBPS_CGO_CPPFLAGS="${XBPS_CPPFLAGS}"
+XBPS_CGO_CFLAGS="${XBPS_CFLAGS}"
+XBPS_CGO_CXXFLAGS="${XBPS_CFLAGS}"
+#XBPS_CGO_LDFLAGS="${XBPS_LDFLAGS}"
+XBPS_GOFLAGS="-modcacherw"
 
 XBPS_DEBUG_PKGS=
 XBPS_PKG_COMPTYPE=none

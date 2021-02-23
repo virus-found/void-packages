@@ -493,6 +493,8 @@ setup_pkg() {
     fi
 
     set_build_options
+    # FIXME ugly crutch, fixes $RUSTFLAGS unsetting, but probably breaks something else
+    source /etc/xbps/xbps-src.conf
 
     export CFLAGS="$XBPS_CFLAGS $XBPS_CROSS_CFLAGS $CFLAGS $dbgflags"
     export CXXFLAGS="$XBPS_CXXFLAGS $XBPS_CROSS_CXXFLAGS $CXXFLAGS $dbgflags"
@@ -595,7 +597,15 @@ setup_pkg() {
         export FFLAGS="$XBPS_TARGET_FFLAGS $FFLAGS"
         export CPPFLAGS="$XBPS_TARGET_CPPFLAGS $CPPFLAGS"
         export LDFLAGS="$XBPS_TARGET_LDFLAGS $LDFLAGS"
+
+        # INFO taken from ~/void-packages/etc/conf
         export RUSTFLAGS="$XBPS_RUSTFLAGS"
+        #export CGO_CPPFLAGS="$XBPS_CGO_CPPFLAGS"
+        export CGO_CFLAGS="$XBPS_CGO_CFLAGS"
+        export CGO_CXXFLAGS="$XBPS_CGO_CXXFLAGS"
+        #export CGO_LDFLAGS="$XBPS_CGO_LDFLAGS"
+        export GOFLAGS="$XBPS_GOFLAGS"
+
         # Tools
         export CC="cc"
         export CXX="g++"
