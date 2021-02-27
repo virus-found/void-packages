@@ -10,6 +10,8 @@
 +makedepends="zlib-devel ncurses-devel gc-devel libressl-devel"
 +_my_field_repo=git://github.com/tats/w3m.git
 +conflicts="w3m>=0"
++# FIXME rm
++depends="gc"
 +hostmakedepends+=" git"
 +replaces="w3m>=0"
 -LDFLAGS="-lX11"
