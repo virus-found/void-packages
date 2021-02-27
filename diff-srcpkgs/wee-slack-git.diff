@@ -1,12 +1,11 @@
 -pkgname=wee-slack
-+_my_field_repo=git://github.com/wee-slack/wee-slack.git
-+pkgname=wee-slack-git
-+conflicts="wee-slack>=0"
-+replaces="wee-slack>=0"
 -depends="weechat weechat-python python3-websocket-client"
-+# FIXME why git pkgs needed?
-+depends="python3-websocket-client" #weechat-git weechat-python-git
++pkgname=wee-slack-git
++depends="python3-websocket-client"
++_my_field_repo=git://github.com/wee-slack/wee-slack.git
++conflicts="wee-slack>=0"
 +hostmakedepends="git"
++replaces="wee-slack>=0"
 +
 +# FIXME
 +# ln -si /usr/lib/weechat/python/wee_slack.py ~/.weechat/python/slack.py

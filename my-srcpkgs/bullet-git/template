@@ -6,6 +6,7 @@ build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=1 -DBUILD_BULLET2_DEMOS=0 -DBUILD_CPU_DEMOS=0
  -DBUILD_UNIT_TESTS=0 -DBUILD_OPENGL3_DEMOS=0 -DBUILD_EXTRAS=0 -DINSTALL_EXTRA_LIBS=1
  -DUSE_DOUBLE_PRECISION=ON -DCMAKE_BUILD_TYPE=RELEASE"
+make_cmd=make
 makedepends="glu-devel"
 short_desc="3D Collision Detection and Rigid Body Dynamics Library"
 maintainer="John <me@johnnynator.dev>"
@@ -15,6 +16,8 @@ _my_field_repo=git://github.com/bulletphysics/bullet3.git
 conflicts="bullet>=0"
 hostmakedepends="git"
 replaces="bullet>=0"
+
+export CMAKE_GENERATOR="Unix Makefiles"
 
 post_install() {
 	vlicense LICENSE.txt
