@@ -1,6 +1,6 @@
 # Template file for 'alacritty'
 pkgname=alacritty-git
-version=edfcb81
+version=d5dd009
 revision=1
 build_style=cargo
 hostmakedepends="pkg-config python3"

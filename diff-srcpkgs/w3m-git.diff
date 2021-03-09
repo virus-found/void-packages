@@ -5,12 +5,11 @@
 +configure_args="--libexecdir=/usr/lib --enable-image
 - --with-imagelib=imlib2 --with-termlib=ncurses --disable-w3mmailer"
 + --with-termlib=ncurses --disable-w3mmailer"
--makedepends="zlib-devel ncurses-devel gc-devel libressl-devel imlib2-devel
+-makedepends="zlib-devel ncurses-devel gc-devel openssl-devel imlib2-devel
 - libX11-devel"
-+makedepends="zlib-devel ncurses-devel gc-devel libressl-devel"
++makedepends="zlib-devel ncurses-devel gc-devel openssl-devel"
 +_my_field_repo=git://github.com/tats/w3m.git
 +conflicts="w3m>=0"
-+# FIXME rm
 +depends="gc"
 +hostmakedepends+=" git"
 +replaces="w3m>=0"

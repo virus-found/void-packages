@@ -1,13 +1,13 @@
 # Template file for 'w3m'
 pkgname=w3m-git
-version=1c6819f
+version=7c8595f
 revision=1
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --enable-image
  --with-nkf=/usr/bin/nkf
  --with-termlib=ncurses --disable-w3mmailer"
 hostmakedepends="pkg-config gc-devel perl gettext nkf"
-makedepends="zlib-devel ncurses-devel gc-devel libressl-devel"
+makedepends="zlib-devel ncurses-devel gc-devel openssl-devel"
 short_desc="Text-based Web browser and pager (with Debian patches)"
 maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="MIT"
@@ -15,7 +15,6 @@ homepage="https://tracker.debian.org/pkg/w3m"
 changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
 _my_field_repo=git://github.com/tats/w3m.git
 conflicts="w3m>=0"
-# FIXME rm
 depends="gc"
 hostmakedepends+=" git"
 replaces="w3m>=0"
