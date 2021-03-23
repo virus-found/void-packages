@@ -1,6 +1,6 @@
 # Template file for 'wee-slack'
 pkgname=wee-slack-git
-version=bf9ef6f
+version=772b41b
 revision=1
 depends="python3-websocket-client"
 short_desc="WeeChat plugin for Slack.com"
