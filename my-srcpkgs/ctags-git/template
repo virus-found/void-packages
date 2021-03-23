@@ -1,19 +1,21 @@
 # Template file for 'ctags'
-_my_field_repo=git://github.com/universal-ctags/ctags.git
 pkgname=ctags-git
-conflicts="ctags>=0"
-replaces="ctags>=0"
-version=f82c535
+version=af30512
 revision=1
 build_style=gnu-configure
+hostmakedepends="pkg-config automake python3-docutils"
 short_desc="Generates an index file of language objects found in source files"
 maintainer="Jan S. <jan.schreib@gmail.com>"
-license="GPL-3"
-homepage="http://ctags.sourceforge.net/"
-hostmakedepends="automake git pkg-config"
+license="GPL-2.0-only"
+homepage="https://ctags.io/"
+_my_field_repo=git://github.com/universal-ctags/ctags.git
+conflicts="ctags>=0"
+hostmakedepends+=" git"
+replaces="ctags>=0"
 
-pre_configure() {
+do_configure() {
 	./autogen.sh
+	./configure ${configure_args}
 }
 
 do_install() {

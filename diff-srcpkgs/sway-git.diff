@@ -1,0 +1,20 @@
+-pkgname=sway
++pkgname=sway-git
+-hostmakedepends="pkg-config wayland-devel scdoc git"
+-makedepends="wlroots-devel pcre-devel json-c-devel pango-devel cairo-devel
+- gdk-pixbuf-devel"
++hostmakedepends="pkg-config wayland-devel git"
++makedepends="wlroots-devel-git pcre-devel json-c-devel pango-devel cairo-devel
++ "
++_my_field_repo=git://github.com/swaywm/sway.git
++conflicts="sway>=0"
++replaces="sway>=0"
+-}
+-
+-grimshot_package() {
+-	short_desc="Helper for screenshots within sway"
+-	depends="grim slurp sway wl-clipboard jq libnotify"
+-	pkg_install() {
+-		vmove usr/bin/grimshot
+-		vmove usr/share/man/man1/grimshot.1
+-	}
