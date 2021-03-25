@@ -1,8 +1,7 @@
 -pkgname=LGOGDownloader
 -wrksrc="lgogdownloader-${version}"
 +pkgname=LGOGDownloader-git
--hostmakedepends="pkg-config"
-+hostmakedepends="git pkg-config"
 +_my_field_repo=git://github.com/Sude-/lgogdownloader.git
 +conflicts="LGOGDownloader>=0"
++hostmakedepends+=" git"
 +replaces="LGOGDownloader>=0"
