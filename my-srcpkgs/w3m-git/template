@@ -1,6 +1,6 @@
 # Template file for 'w3m'
 pkgname=w3m-git
-version=16d0f20
+version=d1ab25b
 revision=1
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --enable-image

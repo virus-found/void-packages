@@ -12,7 +12,6 @@ short_desc="Tiling Wayland compositor compatible with i3"
 maintainer="Olaf Mersmann <olafm@p-value.net>"
 license="MIT"
 homepage="https://swaywm.org"
-_my_field_ignore=1
 _my_field_repo=git://github.com/swaywm/sway.git
 conflicts="sway>=0"
 replaces="sway>=0"

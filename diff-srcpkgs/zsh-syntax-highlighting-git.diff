@@ -1,16 +1,12 @@
 -pkgname=zsh-syntax-highlighting
 -depends="zsh"
 +pkgname=zsh-syntax-highlighting-git
-+hostmakedepends="git"
--changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
++#depends="zsh"
 +_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
 +conflicts="zsh-syntax-highlighting>=0"
++hostmakedepends="git"
 +replaces="zsh-syntax-highlighting>=0"
--	vinstall ${pkgname}.zsh 644 usr/share/zsh/plugins/${pkgname}
--	vinstall .version 644 usr/share/zsh/plugins/${pkgname}
--	vinstall .revision-hash 644 usr/share/zsh/plugins/${pkgname}
--	vcopy highlighters usr/share/zsh/plugins/${pkgname}
-+	vinstall ${pkgname%-git}.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
-+	vinstall .version 644 usr/share/zsh/plugins/${pkgname%-git}
-+	vinstall .revision-hash 644 usr/share/zsh/plugins/${pkgname%-git}
-+	vcopy highlighters usr/share/zsh/plugins/${pkgname%-git}
+-	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname}/doc
+-	vinstall ${pkgname}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname}
++	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git}/doc
++	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}

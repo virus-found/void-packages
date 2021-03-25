@@ -18,7 +18,6 @@ short_desc="Modular Wayland compositor library"
 maintainer="Isaac Freund <ifreund@ifreund.xyz>"
 license="MIT"
 homepage="https://github.com/swaywm/wlroots"
-_my_field_ignore=1
 _my_field_repo=git://github.com/swaywm/wlroots.git
 conflicts="wlroots>=0"
 hostmakedepends+=" git"
