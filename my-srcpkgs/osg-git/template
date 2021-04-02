@@ -18,6 +18,7 @@ short_desc="OpenSceneGraph: high performance real-time graphics toolkit"
 maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
 license="OSGPL-2.0-or-later"
 homepage="http://www.openscenegraph.org"
+_my_field_ignore=1
 _my_field_repo=git://github.com/OpenMW/osg.git
 _my_field_repo_branch=3.6
 conflicts="osg>=0"
