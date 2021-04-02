@@ -29,6 +29,7 @@ short_desc="Open Implementation of Morrowind's Engine"
 maintainer="John <me@johnnynator.dev>"
 license="GPL-3.0-or-later"
 homepage="http://openmw.org"
+_my_field_ignore=1
 _my_field_repo=https://gitlab.com/OpenMW/openmw.git
 conflicts="openmw>=0"
 replaces="openmw>=0"

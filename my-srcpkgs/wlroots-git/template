@@ -1,6 +1,6 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=1
+version=69e1997
 revision=0
 build_style=meson
 # enable assertions - upstream uses them only for unreachable situations
@@ -21,6 +21,7 @@ homepage="https://github.com/swaywm/wlroots"
 _my_field_repo=git://github.com/swaywm/wlroots.git
 conflicts="wlroots>=0"
 hostmakedepends+=" git"
+makedepends+=" xorg-server-xwayland"
 replaces="wlroots>=0"
 
 post_install() {

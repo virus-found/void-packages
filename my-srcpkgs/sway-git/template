@@ -1,19 +1,22 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=1
+version=6e34aac
 revision=0
 build_style=meson
 conf_files="/etc/sway/config"
-hostmakedepends="pkg-config wayland-devel git"
+hostmakedepends="pkg-config wayland-devel scdoc git"
 makedepends="wlroots-devel-git pcre-devel json-c-devel pango-devel cairo-devel
- "
-depends="swaybg xorg-server-xwayland"
+ gdk-pixbuf-devel"
+depends="swaybg-git xorg-server-xwayland"
 short_desc="Tiling Wayland compositor compatible with i3"
 maintainer="Olaf Mersmann <olafm@p-value.net>"
 license="MIT"
 homepage="https://swaywm.org"
 _my_field_repo=git://github.com/swaywm/sway.git
 conflicts="sway>=0"
+hostmakedepends=${hostmakedepends/  scdoc/}
+makedepends+=" xcb-util-renderutil-devel"
+makedepends=${makedepends/ gdk-pixbuf-devel/}
 replaces="sway>=0"
 
 post_patch() {

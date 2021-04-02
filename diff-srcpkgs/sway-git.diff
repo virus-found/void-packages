@@ -1,13 +1,15 @@
 -pkgname=sway
 +pkgname=sway-git
--hostmakedepends="pkg-config wayland-devel scdoc git"
 -makedepends="wlroots-devel pcre-devel json-c-devel pango-devel cairo-devel
-- gdk-pixbuf-devel"
-+hostmakedepends="pkg-config wayland-devel git"
 +makedepends="wlroots-devel-git pcre-devel json-c-devel pango-devel cairo-devel
-+ "
+-depends="swaybg xorg-server-xwayland"
++depends="swaybg-git xorg-server-xwayland"
+-patch_args="-Np1"
 +_my_field_repo=git://github.com/swaywm/sway.git
 +conflicts="sway>=0"
++hostmakedepends=${hostmakedepends/  scdoc/}
++makedepends+=" xcb-util-renderutil-devel"
++makedepends=${makedepends/ gdk-pixbuf-devel/}
 +replaces="sway>=0"
 -}
 -
