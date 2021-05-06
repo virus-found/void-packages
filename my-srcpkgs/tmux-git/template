@@ -1,22 +1,23 @@
 # Template file for 'tmux'
 pkgname=tmux-git
-version=3cd63cc
+version=f2951bd
 revision=1
 build_style=gnu-configure
-hostmakedepends="byacc"
+hostmakedepends="byacc automake pkg-config"
 makedepends="libevent-devel ncurses-devel"
 depends="ncurses-base"
 short_desc="Terminal Multiplexer"
 maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="ISC"
 homepage="https://tmux.github.io"
+patch_args=-Np1
 _my_field_repo=git://github.com/tmux/tmux
 conflicts="tmux>=0"
-hostmakedepends+=" git pkg-config automake"
+hostmakedepends+=" git"
 replaces="tmux>=0"
 
 pre_configure() {
-	./autogen.sh
+	autoreconf -fi
 }
 
 post_install() {
