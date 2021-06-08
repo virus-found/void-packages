@@ -1,6 +1,6 @@
 # Template file for 'weechat'
 pkgname=weechat-git
-version=9e7d052
+version=19e41eb
 revision=1
 build_style=cmake
 configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON
@@ -15,7 +15,7 @@ configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON
  -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF"
 hostmakedepends="libgcrypt-devel pkg-config python3"
 makedepends="gnutls-devel libcurl-devel ncurses-devel
- perl python3-devel"
+ perl python3-devel libgcrypt-devel"
 depends="ca-certificates"
 short_desc="Fast, light and extensible IRC client"
 maintainer="Leah Neukirchen <leah@vuxu.org>"

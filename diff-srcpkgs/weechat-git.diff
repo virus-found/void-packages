@@ -6,7 +6,7 @@
 -hostmakedepends="ruby-asciidoctor libgcrypt-devel pkg-config python3 tcl-devel
 - gettext"
 -makedepends="aspell-devel gnutls-devel libcurl-devel lua53-devel ncurses-devel
-- perl python3-devel ruby-devel tcl-devel"
+- perl python3-devel ruby-devel tcl-devel libgcrypt-devel"
 +configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON
 + -DENABLE_LUA=OFF -DENABLE_RUBY=OFF -DENABLE_SPELL=OFF
 + -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF
@@ -19,7 +19,7 @@
 + -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF"
 +hostmakedepends="libgcrypt-devel pkg-config python3"
 +makedepends="gnutls-devel libcurl-devel ncurses-devel
-+ perl python3-devel"
++ perl python3-devel libgcrypt-devel"
 +_my_field_repo=git://github.com/weechat/weechat.git
 +conflicts="weechat>=0"
 +hostmakedepends+=" git"

@@ -1,6 +1,6 @@
 # Template file for 'vim'
 pkgname=vim-git
-version=68db996
+version=e70e12b
 revision=1
 hostmakedepends="git pkg-config"
 makedepends="libXt-devel ncurses-devel"

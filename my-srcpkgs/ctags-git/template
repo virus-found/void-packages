@@ -1,6 +1,6 @@
 # Template file for 'ctags'
 pkgname=ctags-git
-version=6342569
+version=f3ac807
 revision=1
 build_style=gnu-configure
 hostmakedepends="pkg-config automake python3-docutils"

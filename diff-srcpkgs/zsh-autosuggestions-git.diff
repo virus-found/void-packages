@@ -1,14 +1,12 @@
 -pkgname=zsh-autosuggestions
-+_my_field_repo=git://github.com/zsh-users/zsh-autosuggestions.git
-+pkgname=zsh-autosuggestions-git
-+conflicts="zsh-autosuggestions>=0"
-+replaces="zsh-autosuggestions>=0"
 -depends="zsh"
++pkgname=zsh-autosuggestions-git
 +depends="zsh-git"
++_my_field_repo=git://github.com/zsh-users/zsh-autosuggestions.git
++conflicts="zsh-autosuggestions>=0"
 +hostmakedepends="git"
++replaces="zsh-autosuggestions>=0"
 -	vinstall ${pkgname}.zsh 644 usr/share/zsh/plugins/${pkgname}
--	vinstall VERSION 644 usr/share/zsh/plugins/${pkgname}
--	vcopy src usr/share/zsh/plugins/${pkgname}
+-	vinstall ${pkgname}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname}
 +	vinstall ${pkgname%-git}.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
-+	vinstall VERSION 644 usr/share/zsh/plugins/${pkgname%-git}
-+	vcopy src usr/share/zsh/plugins/${pkgname%-git}
++	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
