@@ -7,10 +7,11 @@
 +hostmakedepends="git pkg-config"
 +makedepends="libXt-devel ncurses-devel"
 +depends="vim-common-git-${version}_${revision}"
+-subpackages="xxd vim-common vim-x11 gvim"
 +_my_field_repo=git://github.com/vim/vim.git
 +conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 +replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
--subpackages="xxd vim-common vim-x11 gvim"
++
 +subpackages="vim-common-git"
 -	subpackages+=" vim-huge vim-huge-python3 gvim-huge"
 +	subpackages+=""

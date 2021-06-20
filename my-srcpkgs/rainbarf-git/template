@@ -4,7 +4,7 @@ depends="perl"
 homepage="http://freecode.com/projects/rainbarf"
 hostmakedepends="git"
 license="GPL"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
 pkgname=rainbarf-git
 conflicts="rainbarf>=0"
 replaces="rainbarf>=0"

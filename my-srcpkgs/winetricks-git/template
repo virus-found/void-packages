@@ -1,6 +1,6 @@
 # Template file for 'winetricks'
 pkgname=winetricks-git
-version=3f0a012
+version=1b4f353
 revision=1
 build_style=gnu-makefile
 depends="cabextract"

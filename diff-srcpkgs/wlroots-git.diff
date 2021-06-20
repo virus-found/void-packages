@@ -2,9 +2,12 @@
 +pkgname=wlroots-git
 +_my_field_repo=git://github.com/swaywm/wlroots.git
 +conflicts="wlroots>=0"
++depends+=" libseat"
 +hostmakedepends+=" git"
 +replaces="wlroots>=0"
++
 -wlroots-devel_package() {
 +wlroots-devel-git_package() {
++
 +	conflicts="wlroots-devel>=0"
 +	replaces="wlroots-devel>=0"

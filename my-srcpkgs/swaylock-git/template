@@ -1,9 +1,5 @@
 # Template file for 'swaylock'
-_my_field_ignore=1
-_my_field_repo=git://github.com/swaywm/swaylock.git
 pkgname=swaylock-git
-conflicts="swaylock>=0"
-replaces="swaylock>=0"
 version=7375470
 revision=1
 build_style=meson
@@ -15,6 +11,11 @@ short_desc="Screen locker for Wayland"
 maintainer="Derriick <derriick.ensiie@yahoo.com>"
 license="MIT"
 homepage="https://swaywm.org"
+
+_my_field_ignore=1
+_my_field_repo=git://github.com/swaywm/swaylock.git
+conflicts="swaylock>=0"
+replaces="swaylock>=0"
 
 post_install() {
 	vlicense LICENSE

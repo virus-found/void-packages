@@ -1,6 +1,6 @@
 # Template file for 'vim'
 pkgname=vim-git
-version=e70e12b
+version=b836f63
 revision=1
 hostmakedepends="git pkg-config"
 makedepends="libXt-devel ncurses-devel"
@@ -10,6 +10,7 @@ maintainer="Neel Chotai <neel@chot.ai>"
 license="Vim"
 homepage="https://www.vim.org"
 python_version=3
+
 _my_field_repo=git://github.com/vim/vim.git
 conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"

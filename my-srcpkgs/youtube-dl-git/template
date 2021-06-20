@@ -1,6 +1,6 @@
 # Template file for 'youtube-dl'
 pkgname=youtube-dl-git
-version=c2350ca
+version=a803582
 revision=1
 build_style=python3-module
 hostmakedepends="python3-setuptools"

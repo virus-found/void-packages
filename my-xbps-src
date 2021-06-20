@@ -64,7 +64,7 @@ _chapter_question_build_fail_continue() {
 
     while true
     do
-        echo -n "skip $p update [y,n,q]? "
+        echo -n "$p: skip this version [y,n,q]? "
         read answer
 
         case ${answer:0:1} in

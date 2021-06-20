@@ -8,6 +8,7 @@ short_desc="Generates an index file of language objects found in source files"
 maintainer="Jan S. <jan.schreib@gmail.com>"
 license="GPL-2.0-only"
 homepage="https://ctags.io/"
+_my_field_ignore=1
 _my_field_repo=git://github.com/universal-ctags/ctags.git
 conflicts="ctags>=0"
 hostmakedepends+=" git"

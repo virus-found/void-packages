@@ -10,6 +10,7 @@ short_desc="Idle management daemon for Wayland"
 maintainer="Derriick <derriick.ensiie@yahoo.com>"
 license="MIT"
 homepage="https://swaywm.org"
+
 _my_field_repo=git://github.com/swaywm/swayidle.git
 conflicts="swayidle>=0"
 hostmakedepends+=" git"
