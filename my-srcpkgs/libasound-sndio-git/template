@@ -1,0 +1,17 @@
+# Template file for 'alsa-lib'
+pkgname=libasound-sndio-git
+version=0dc8d16
+revision=1
+build_style=gnu-makefile
+hostmakedepends="m4"
+makedepends="sndio-devel"
+short_desc="libasound implementation that uses sndio"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="Unknown"
+homepage="https://github.com/Cloudef/libasound-sndio"
+
+_my_field_ignore=1
+_my_field_repo=git://github.com/Cloudef/libasound-sndio
+conflicts="alsa-sndio>=0"
+hostmakedepends+=" git"
+replaces="alsa-sndio>=0"

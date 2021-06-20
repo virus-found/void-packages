@@ -1,11 +1,10 @@
 # Template file for 'zsh'
 pkgname=zsh-git
-version=bd328a2
+version=d293c12
 revision=1
 build_style=gnu-configure
-#make_build_target="all info"
-#make_install_args="install.info"
-make_build_target="all"
+make_build_target="all info"
+make_install_args="install.info"
 configure_args="--enable-etcdir=/etc/zsh --enable-zshenv=/etc/zsh/zshenv
  --enable-zlogin=/etc/zsh/zlogin --enable-zlogout=/etc/zsh/zlogout
  --enable-zprofile=/etc/zsh/zprofile --enable-zshrc=/etc/zsh/zshrc
@@ -16,7 +15,7 @@ configure_args="--enable-etcdir=/etc/zsh --enable-zshenv=/etc/zsh/zshenv
  zsh_cv_shared_environ=yes
  zsh_cv_func_dlsym_needs_underscore=no
  zsh_cv_sys_dynamic_execsyms=yes"
-hostmakedepends="git automake"
+hostmakedepends="automake texinfo"
 makedepends="gdbm-devel pcre-devel libcap-devel ncurses-devel"
 short_desc="Z SHell"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
@@ -25,8 +24,13 @@ homepage="http://www.zsh.org"
 register_shell="/bin/zsh /usr/bin/zsh"
 lib32disabled=yes
 conf_files="/etc/zsh/*"
+
 _my_field_repo=git://git.code.sf.net/p/zsh/code
 conflicts="zsh>=0"
+hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/texinfo/}
+make_build_target=${make_build_target/info/}
+make_install_args=${make_install_args/install.info/}
 replaces="zsh>=0"
 
 post_patch() {
@@ -72,7 +76,6 @@ uninstall: ;
 version.yo: ;
 zsh.info: ;
 ' > Doc/Makefile.in
-
 	./Util/preconfig
 }
 

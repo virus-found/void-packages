@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=75a4122
+version=5cdce42
 revision=0
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"
@@ -13,13 +13,14 @@ short_desc="Tiling Wayland compositor compatible with i3"
 maintainer="Olaf Mersmann <olafm@p-value.net>"
 license="MIT"
 homepage="https://swaywm.org"
+
 _my_field_repo=git://github.com/swaywm/sway.git
 conflicts="sway>=0"
-depends=${depends/swaybg /} # TODO remove line
-hostmakedepends=${hostmakedepends/scdoc /}
+depends=${depends/swaybg/}
+hostmakedepends=${hostmakedepends/scdoc/}
 makedepends+=" xcb-util-renderutil-devel"
-makedepends=${makedepends/ gdk-pixbuf-devel/}
-makedepends=${makedepends/wlroots-devel /wlroots-devel-git }
+makedepends=${makedepends/gdk-pixbuf-devel/}
+makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 replaces="sway>=0"
 
 post_install() {

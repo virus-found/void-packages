@@ -1,8 +1,5 @@
 # Template file for 'swaylock-effects'
-_my_field_repo=git://github.com/mortie/swaylock-effects.git
 pkgname=swaylock-effects-git
-conflicts="swaylock>=0"
-replaces="swaylock>=0"
 version=5cb9579
 revision=1
 build_style=meson
@@ -14,6 +11,10 @@ short_desc="Screen locker for Wayland"
 maintainer="Derriick <derriick.ensiie@yahoo.com>"
 license="MIT"
 homepage="https://swaywm.org"
+
+_my_field_repo=git://github.com/mortie/swaylock-effects.git
+conflicts="swaylock>=0"
+replaces="swaylock>=0"
 
 post_install() {
 	vlicense LICENSE

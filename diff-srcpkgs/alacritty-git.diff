@@ -9,10 +9,6 @@
 +conflicts="alacritty>=0"
 +hostmakedepends+=" git"
 +replaces="alacritty>=0"
--case "$XBPS_TARGET_MACHINE" in
--	ppc64*) ;;
--	ppc*) broken="ftbfs: thread 'main' panicked at 'slice index starts at 4289555962 but ends at 114', /builddir/rustc-1.46.0-src/src/libstd/io/mod.rs:396:27";;
--esac
 +do_build() {
 +	cargo build --manifest-path alacritty/Cargo.toml --release --target ${RUST_TARGET} ${configure_args}
 +}
@@ -21,6 +17,7 @@
 +	cargo install --path alacritty --target ${RUST_TARGET} --root="${DESTDIR}/usr" --locked ${configure_args}
 +	rm "${DESTDIR}"/usr/.crates.toml
 +}
++
 -	vinstall ../extra/linux/Alacritty.desktop 644 usr/share/applications
 -	vinstall ../extra/logo/alacritty-term.svg 644 usr/share/pixmaps Alacritty.svg
 -	vinstall ../extra/completions/alacritty.bash 644 usr/share/bash-completion/completions alacritty

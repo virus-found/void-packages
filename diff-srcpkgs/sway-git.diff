@@ -2,12 +2,13 @@
 +pkgname=sway-git
 +_my_field_repo=git://github.com/swaywm/sway.git
 +conflicts="sway>=0"
-+depends=${depends/swaybg /} # TODO remove line
-+hostmakedepends=${hostmakedepends/scdoc /}
++depends=${depends/swaybg/}
++hostmakedepends=${hostmakedepends/scdoc/}
 +makedepends+=" xcb-util-renderutil-devel"
-+makedepends=${makedepends/ gdk-pixbuf-devel/}
-+makedepends=${makedepends/wlroots-devel /wlroots-devel-git }
++makedepends=${makedepends/gdk-pixbuf-devel/}
++makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 +replaces="sway>=0"
++
 -}
 -
 -grimshot_package() {

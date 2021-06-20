@@ -43,6 +43,7 @@ make_dirs="
  /etc/NetworkManager/VPN 0755 root root
  /var/lib/NetworkManager 0755 root root
 "
+
 _my_field_ignore=1
 _my_field_repo=git://github.com/NetworkManager/NetworkManager.git
 conflicts="NetworkManager>=0"

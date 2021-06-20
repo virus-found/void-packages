@@ -1,6 +1,6 @@
 # Template file for 'tmux'
 pkgname=tmux-git
-version=6a8d848
+version=b1a8c0f
 revision=1
 build_style=gnu-configure
 hostmakedepends="byacc automake pkg-config"
@@ -10,7 +10,7 @@ short_desc="Terminal Multiplexer"
 maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="ISC"
 homepage="https://tmux.github.io"
-patch_args=-Np1
+
 _my_field_repo=git://github.com/tmux/tmux
 conflicts="tmux>=0"
 hostmakedepends+=" git"
