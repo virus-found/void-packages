@@ -1,6 +1,6 @@
 # Template file for 'tlp'
 pkgname=tlp-git
-version=d235166
+version=99294f7
 revision=1
 depends="hdparm bash iw util-linux ethtool perl"
 short_desc="Advanced power management tool for Linux"

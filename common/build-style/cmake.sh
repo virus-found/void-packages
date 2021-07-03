@@ -52,7 +52,7 @@ _EOF
 		cmake_args+=" -DCMAKE_TOOLCHAIN_FILE=${wrksrc}/${build_wrksrc}/${cmake_builddir}/cross_${XBPS_CROSS_TRIPLET}.cmake"
 	fi
 	cmake_args+=" -DCMAKE_INSTALL_PREFIX=/usr"
-	cmake_args+=" -DCMAKE_BUILD_TYPE=None"
+	cmake_args+=" -DCMAKE_BUILD_TYPE=RELEASE"
 	cmake_args+=" -DCMAKE_INSTALL_LIBDIR=lib${XBPS_TARGET_WORDSIZE}"
 
 	if [[ $build_helper = *"qemu"* ]]; then

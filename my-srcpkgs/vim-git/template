@@ -1,27 +1,33 @@
 # Template file for 'vim'
 pkgname=vim-git
-version=b836f63
+version=9da32e4
 revision=1
-hostmakedepends="git pkg-config"
-makedepends="libXt-devel ncurses-devel"
-depends="vim-common-git-${version}_${revision}"
+hostmakedepends="gettext glib-devel pkg-config"
+makedepends="acl-devel gtk+3-devel libXt-devel lua53-devel ncurses-devel
+ perl python3-devel ruby-devel"
+depends="vim-common>=${version}"
 short_desc="Vim editor (vi clone)"
 maintainer="Neel Chotai <neel@chot.ai>"
 license="Vim"
 homepage="https://www.vim.org"
 python_version=3
 
-_my_field_repo=git://github.com/vim/vim.git
-conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
-replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
-
 subpackages="vim-common-git"
-# XXX vim-huge cannot be cross compiled for now.
-if [ -z "$CROSS_BUILD" ]; then
-	subpackages+=""
-fi
 
 alternatives="vim:vim:/usr/bin/vim-normal"
+
+_my_field_repo=git://github.com/vim/vim.git
+conflicts="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
+depends=${depends/vim-common/vim-common-git}
+hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/gettext/}
+hostmakedepends=${hostmakedepends/glib-devel/}
+makedepends=${makedepends/acl-devel/}
+makedepends=${makedepends/gtk+3-devel/}
+makedepends=${makedepends/lua53-devel/}
+makedepends=${makedepends/perl/}
+makedepends=${makedepends/ruby-devel/}
+replaces="vim>=0 xxd>=0 vim-x11>=0 gvim>=0 vim-huge>=0 vim-huge-python3>=0 gvim-huge>=0"
 
 pre_configure() {
 	for f in ${subpackages/vim-common-git/}; do
@@ -35,7 +41,6 @@ do_configure() {
 	args="--enable-cscope --enable-multibyte --with-tlib=ncursesw
 		--with-ex-name=vim-ex --with-view-name=vim-view"
 
-	#configure: WARNING: unrecognized options: --disable-workshop, --disable-hangulinput
 	nohuge_args="--disable-perlinterp --disable-pythoninterp
 		--disable-rubyinterp --disable-workshop
 		--disable-netbeans --disable-gpm
@@ -53,7 +58,7 @@ do_configure() {
 	fi
 
 	# Normal version.
-	my_args="--with-features=huge --disable-cscope --disable-python3interp --disable-luainterp --disable-tclinterp --with-x=yes --enable-terminal"
+	my_args="--with-features=huge --disable-cscope --enable-python3interp --disable-luainterp --disable-tclinterp --with-x=yes --enable-terminal"
 	cd $wrksrc
 	./configure ${configure_args} ${args} ${nohuge_args} --disable-xim --enable-gui=no --with-x=no ${my_args}
 }
@@ -82,9 +87,8 @@ do_install() {
 }
 
 vim-common-git_package() {
-	conflicts="vim-common>=0"
-	replaces="vim-common>=0"
 	short_desc+=" - common files"
+	#depends="xxd"
 	alternatives="
 	 vi:ex:/usr/bin/vim
 	 vi:ex.1:/usr/share/man/man1/vim.1
@@ -93,6 +97,9 @@ vim-common-git_package() {
 	 vi:view:/usr/bin/vim
 	 vi:view.1:/usr/share/man/man1/vim.1
 	"
+
+	conflicts="vim-common>=0"
+	replaces="vim-common>=0"
 	pkg_install() {
 		vmove usr/share/icons
 		vmove usr/bin/rvim

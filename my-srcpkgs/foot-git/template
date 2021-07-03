@@ -1,0 +1,38 @@
+# Template file for 'foot'
+pkgname=foot-git
+version=24dd446
+revision=1
+build_style=meson
+configure_args="-Dwerror=false"
+hostmakedepends="pkg-config scdoc wayland-devel"
+makedepends="fcft-devel libutf8proc-devel libxkbcommon-devel ncurses-devel tllist
+ wayland-devel wayland-protocols"
+depends="foot-terminfo-git>=${version}_${revision}"
+short_desc="Fast, lightweight and minimalistic Wayland terminal emulator"
+maintainer="Isaac Freund <ifreund@ifreund.xyz>"
+license="MIT"
+homepage="https://codeberg.org/dnkl/foot"
+changelog="https://codeberg.org/dnkl/foot/src/branch/master/CHANGELOG.md"
+
+_my_field_repo=https://codeberg.org/dnkl/foot.git
+conflicts="foot>=0"
+export CFLAGS+=" -O3"
+export CXXFLAGS+=" -O3"
+hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/wayland-devel/}
+replaces="foot>=0"
+
+post_install() {
+	rm -f ${DESTDIR}/usr/share/doc/foot/LICENSE
+	vlicense LICENSE
+}
+
+foot-terminfo-git_package() {
+	short_desc+=" - terminfo data"
+
+	conflicts="foot-terminfo>=0"
+	replaces="foot-terminfo>=0"
+	pkg_install() {
+		vmove usr/share/terminfo
+	}
+}

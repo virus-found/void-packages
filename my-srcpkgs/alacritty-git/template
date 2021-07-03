@@ -1,19 +1,23 @@
 # Template file for 'alacritty'
 pkgname=alacritty-git
-version=b0bc2a2
+version=8cb1acc
 revision=1
 build_style=cargo
 hostmakedepends="pkg-config python3"
 makedepends="freetype-devel fontconfig-devel libxcb-devel"
-depends="libXi libXxf86vm ncurses alacritty-terminfo-git-${version}_${revision}"
+depends="libXi libXxf86vm ncurses alacritty-terminfo-${version}_${revision}"
 short_desc="Cross-platform, GPU-accelerated terminal emulator"
 maintainer="Andrea Brancaleoni <abc@pompel.me>"
 license="Apache-2.0"
 homepage="https://github.com/alacritty/alacritty"
+changelog="https://raw.githubusercontent.com/alacritty/alacritty/master/CHANGELOG.md"
+
 _my_field_repo=git://github.com/alacritty/alacritty
 configure_args="--no-default-features --features=wayland"
 conflicts="alacritty>=0"
+depends=${depends/alacritty-terminfo/alacritty-terminfo-git}
 hostmakedepends+=" git"
+makedepends+=" libxkbcommon-devel"
 replaces="alacritty>=0"
 
 case "$XBPS_TARGET_MACHINE" in
@@ -43,6 +47,7 @@ post_install() {
 
 alacritty-terminfo-git_package() {
 	short_desc+=" - terminfo data"
+
 	conflicts="alacritty-terminfo>=0"
 	replaces="alacritty-terminfo>=0"
 	pkg_install() {

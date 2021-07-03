@@ -1,0 +1,10 @@
+-pkgname=PAmix
++pkgname=PAmix-git
++_my_field_repo=git://github.com/patroclos/PAmix.git
++_my_field_repo_branch=dev
++configure_args+=' -DCMAKE_BUILD_TYPE=RELEASE'
++conflicts="PAmix>=0"
++hostmakedepends+=" git"
++replaces="PAmix>=0"
++
++	vinstall pamix.conf 0600 etc

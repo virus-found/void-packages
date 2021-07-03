@@ -1,0 +1,18 @@
+-pkgname=foot
+-wrksrc=$pkgname
++pkgname=foot-git
+-depends="${pkgname}-terminfo>=${version}_${revision}"
++depends="foot-terminfo-git>=${version}_${revision}"
++_my_field_repo=https://codeberg.org/dnkl/foot.git
++conflicts="foot>=0"
++export CFLAGS+=" -O3"
++export CXXFLAGS+=" -O3"
++hostmakedepends+=" git"
++hostmakedepends=${hostmakedepends/wayland-devel/}
++replaces="foot>=0"
++
+-foot-terminfo_package() {
++foot-terminfo-git_package() {
++
++	conflicts="foot>=0"
++	replaces="foot>=0"
