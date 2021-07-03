@@ -1,0 +1,22 @@
+--- a/spa/plugins/alsa/mixer/paths/analog-input-internal-mic-always.conf	2021-06-29 17:20:23.110043779 +0300
++++ b/spa/plugins/alsa/mixer/paths/analog-input-internal-mic-always.conf	2021-07-03 22:04:21.505051323 +0300
+@@ -19,7 +19,7 @@
+ ; See analog-output.conf.common for an explanation on the directives
+ 
+ [General]
+-priority = 89
++priority = 86
+ description-key = analog-input-microphone-internal
+ 
+ [Jack Mic]
+--- a/spa/plugins/alsa/mixer/paths/analog-input-internal-mic.conf	2021-06-29 17:20:23.110043779 +0300
++++ b/spa/plugins/alsa/mixer/paths/analog-input-internal-mic.conf	2021-07-03 22:04:33.515070041 +0300
+@@ -19,7 +19,7 @@
+ ; See analog-output.conf.common for an explanation on the directives
+ 
+ [General]
+-priority = 89
++priority = 86
+ description-key = analog-input-microphone-internal
+ 
+ [Jack Mic]

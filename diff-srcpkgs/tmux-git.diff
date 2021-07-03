@@ -1,7 +1,6 @@
 -pkgname=tmux
 +pkgname=tmux-git
--changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
-+patch_args=-Np1
++
 +_my_field_repo=git://github.com/tmux/tmux
 +conflicts="tmux>=0"
 +hostmakedepends+=" git"
