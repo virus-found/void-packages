@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot-git
-version=24dd446
+version=4a50abe
 revision=1
 build_style=meson
 configure_args="-Dwerror=false"
@@ -15,16 +15,51 @@ homepage="https://codeberg.org/dnkl/foot"
 changelog="https://codeberg.org/dnkl/foot/src/branch/master/CHANGELOG.md"
 
 _my_field_repo=https://codeberg.org/dnkl/foot.git
+configure_args+=" -Dgrapheme-clustering=disabled"
 conflicts="foot>=0"
+depends=${depends/${pkgname}-terminfo/foot-terminfo-git}
 export CFLAGS+=" -O3"
 export CXXFLAGS+=" -O3"
 hostmakedepends+=" git"
 hostmakedepends=${hostmakedepends/wayland-devel/}
+makedepends=${makedepends/libutf8proc-devel/}
 replaces="foot>=0"
+
+# steps only for PGO
+# taken from https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=foot-git
+do_build() {
+	cd build
+
+	find -name "*.gcda" -delete
+	meson configure -Db_pgo=generate
+	ninja
+	ninja test
+
+	local script_options="--scroll --scroll-region --colors-regular --colors-bright --colors-256 --colors-rgb --attr-bold --attr-italic --attr-underline --sixel"
+	tmp_file=$(mktemp)
+	./footclient --version
+	./foot --version
+	../scripts/generate-alt-random-writes.py \
+		--rows=67 \
+		--cols=135 \
+		${script_options} \
+		${tmp_file}
+	./pgo ${tmp_file} ${tmp_file} ${tmp_file}
+	rm "${tmp_file}"
+
+	meson configure -Db_pgo=use
+	ninja
+	ninja test
+
+	cd $wrksrc
+}
 
 post_install() {
 	rm -f ${DESTDIR}/usr/share/doc/foot/LICENSE
 	vlicense LICENSE
+
+	vmkdir usr/share/examples/foot/themes
+	vcopy "themes/*" usr/share/examples/foot/themes
 }
 
 foot-terminfo-git_package() {

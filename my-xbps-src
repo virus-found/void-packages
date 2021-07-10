@@ -175,8 +175,9 @@ update_my_pkgs() {
 
     rm -rf hostdir/binpkgs/
     mkdir -p hostdir/binpkgs/
-    cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
+
     # registering packages manually put into masterdir/my-binpkgs
+    cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
     xbps-rindex -a hostdir/binpkgs/*.xbps 2>/dev/null || true
 
     rm -f /tmp/my-xbps-log
@@ -309,10 +310,11 @@ update_my_pkgs() {
 
     if [[ ${built:-} ]]
     then
-        # TODO don't hardcode these rules, calculate them
+        # TODO don't hardcode these rules, read them from a template
         sudo xdowngrade $(find hostdir/binpkgs \
-            '!' -name '*-devel-*' \
             '!' -name '*-dbg-*' \
+            '!' -name '*-devel-*' \
+            '!' -name '*meson*' \
             -name '*.xbps' \
         )
     else

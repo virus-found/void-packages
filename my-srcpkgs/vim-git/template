@@ -1,6 +1,6 @@
 # Template file for 'vim'
 pkgname=vim-git
-version=9da32e4
+version=98c2eae
 revision=1
 hostmakedepends="gettext glib-devel pkg-config"
 makedepends="acl-devel gtk+3-devel libXt-devel lua53-devel ncurses-devel

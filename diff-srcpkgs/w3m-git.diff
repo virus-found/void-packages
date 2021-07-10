@@ -1,22 +1,22 @@
 -pkgname=w3m
 -wrksrc="${pkgname}-${version/+/-}"
 +pkgname=w3m-git
--configure_args="--libexecdir=/usr/lib --enable-image=x11,fb
-+configure_args="--libexecdir=/usr/lib --enable-image
-- --with-imagelib=imlib2 --with-termlib=ncurses --disable-w3mmailer"
-+ --with-termlib=ncurses --disable-w3mmailer"
--makedepends="zlib-devel ncurses-devel gc-devel openssl-devel imlib2-devel
-- libX11-devel"
-+makedepends="zlib-devel ncurses-devel gc-devel openssl-devel"
-+_my_field_repo=git://github.com/tats/w3m.git
-+conflicts="w3m>=0"
-+depends="gc"
-+hostmakedepends+=" git"
-+replaces="w3m>=0"
 -LDFLAGS="-lX11"
++_my_field_repo=git://github.com/tats/w3m.git
++configure_args=${configure_args/--enable-image=x11,fb/--enable-image}
++configure_args=${configure_args/--with-imagelib=imlib2/}
++conflicts="w3m>=0"
++depends+=" gc"
++hostmakedepends+=" git"
++hostmakedepends=${hostmakedepends/gc-devel/}
++makedepends=${makedepends/imlib2-devel/}
++makedepends=${makedepends/libX11-devel/}
++replaces="w3m>=0"
++
 +#LDFLAGS="-lX11"
--	vcopy Bonus usr/share/examples/w3m/bonus
-+	#vcopy Bonus usr/share/examples/w3m/bonus
++	vmkdir usr/share/examples/w3m/bonus
+-}
+-
 -w3m-img_package() {
 -	depends="${sourcepkg}>=${version}_${revision}"
 -	short_desc+=" - image display support"
@@ -24,12 +24,3 @@
 -		vmove usr/lib/w3m/w3mimgdisplay
 -		vmove usr/share/doc/w3m/README.img
 -	}
--}
-+#w3m-img_package() {
-+#	depends="${sourcepkg}>=${version}_${revision}"
-+#	short_desc+=" - image display support"
-+#	pkg_install() {
-+#		vmove usr/lib/w3m/w3mimgdisplay
-+#		vmove usr/share/doc/w3m/README.img
-+#	}
-+#}
