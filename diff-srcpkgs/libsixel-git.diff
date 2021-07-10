@@ -1,0 +1,17 @@
+-pkgname=libsixel
++pkgname=libsixel-git
+-libsixel-devel_package() {
++_my_field_repo=git://github.com/saitoha/libsixel.git
++conflicts="libsixel>=0"
++hostmakedepends+=" git pkg-config"
++replaces="libsixel>=0"
++
++libsixel-devel-git_package() {
++
++	conflicts="libsixel-devel>=0"
++	replaces="libsixel-devel>=0"
+-libsixel-util_package() {
++libsixel-util-git_package() {
++
++	conflicts="libsixel-util>=0"
++	replaces="libsixel-util>=0"

@@ -12,6 +12,7 @@ license="Apache-2.0"
 homepage="https://github.com/alacritty/alacritty"
 changelog="https://raw.githubusercontent.com/alacritty/alacritty/master/CHANGELOG.md"
 
+_my_field_ignore=1
 _my_field_repo=git://github.com/alacritty/alacritty
 configure_args="--no-default-features --features=wayland"
 conflicts="alacritty>=0"
