@@ -128,7 +128,7 @@ _update_void_packages() {
     git fetch --all --prune
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
     [[ ${do_stash:-} = true ]] && git stash push -m "$(date -R) automatic stash before rebase"
-    # FIXME
+    # FIXME stops here for a weird reason without set -x
     set -x
     git rebase origin/master
     [[ ${do_stash:-} = true ]] && git stash pop --index
@@ -141,7 +141,8 @@ _update_system() {
     _sync_my_pkgs
 
     _chapter 'update host pkgs'
-    sudo vpm up
+    # If exit code is 0 or 1 then proceed further
+    set +e ; sudo vpm up ; set -e ; [ $? -gt 1 ] && return $? || true
     sudo vpm ar
     _chapter 'update build env'
     ./xbps-src bootstrap-update

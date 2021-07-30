@@ -1,6 +1,7 @@
 -pkgname=vpm
 +pkgname=vpm-git
-+_my_field_repo=git://github.com/netzverweigerer/vpm
++
++_my_field_repo=git://github.com/oSoWoSo/vpm.git
 +conflicts="vpm>=0"
 +hostmakedepends="git"
 +replaces="vpm>=0"

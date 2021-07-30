@@ -1,0 +1,32 @@
+# Template file for 'swayimg'
+pkgname=swayimg-git
+version=3892fc6
+revision=1
+build_style=meson
+configure_args="
+    -D jpeg=enabled
+    -D gif=enabled
+    -D svg=disabled
+    -D webp=disabled
+    -D avif=disabled
+
+    -D bash=disabled
+    -D man=true
+    -D desktop=false
+"
+hostmakedepends="git pkg-config"
+makedepends="
+    wayland-protocols wayland-devel json-c-devel libxkbcommon-devel
+    cairo-devel libjpeg-turbo-devel giflib-devel
+"
+depends="giflib"
+short_desc="Image viewer for Sway/Wayland"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="MIT"
+homepage="https://github.com/artemsen/swayimg"
+
+_my_field_repo=git://github.com/artemsen/swayimg.git
+
+post_install() {
+	vlicense LICENSE
+}

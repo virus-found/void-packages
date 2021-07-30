@@ -1,6 +1,6 @@
 # Template file for 'pipewire'
 pkgname=pipewire-git
-version=587e9d5
+version=1ff2088
 revision=1
 build_style=meson
 configure_args="-Dman=enabled -Dgstreamer=enabled -Ddocs=enabled -Dsystemd=disabled
