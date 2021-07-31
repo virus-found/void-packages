@@ -13,5 +13,6 @@ etc/virtual
 etc/xbps.d/custom
 .xbps-checkvers*.plist
 
-my-binpkgs
-my-binpkgs-backup
+my-binpkgs-backup/
+my-binpkgs/
+my-srcpkgs-obsolete/
