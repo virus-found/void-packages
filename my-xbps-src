@@ -141,9 +141,8 @@ _update_system() {
     _sync_my_pkgs
 
     _chapter 'update host pkgs'
-    # If exit code is 0 or 1 then proceed further
-    set +e ; sudo vpm up ; set -e ; [ $? -gt 1 ] && return $? || true
-    sudo vpm ar
+    sudo xbps-install -Suv
+    sudo xbps-remove -v -o
     _chapter 'update build env'
     ./xbps-src bootstrap-update
 }
