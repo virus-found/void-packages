@@ -1,0 +1,12 @@
+-pkgname=tree-sitter
++pkgname=tree-sitter-git
++_my_field_repo=git://github.com/tree-sitter/tree-sitter.git
++conflicts="tree-sitter>=0"
++hostmakedepends+=" git"
++replaces="tree-sitter>=0"
++
+-tree-sitter-devel_package() {
++tree-sitter-devel-git_package() {
++
++	conflicts="tree-sitter-devel>=0"
++	replaces="tree-sitter-devel>=0"

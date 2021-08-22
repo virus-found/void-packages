@@ -1,23 +1,10 @@
-+# https://vi.stackexchange.com/questions/12794/how-to-share-config-between-vim-and-neovim
-+#
-+# You can use your existing ~/.vimrc, files, and plugins located within ~/.vim without having to symlink the files.
-+#
-+# And this is now documented in NeoVim manual, see Transitioning from Vim.
-+#
-+# For Linux and macOS, just add below lines to the top of your ~/.config/nvim/init.vim, or %LOCALAPPDATA%\nvim\init.vim for Windows.
-+#
-+# set runtimepath^=~/.vim runtimepath+=~/.vim/after
-+# let &packpath=&runtimepath
-+# source ~/.vimrc
-+#
-+# The above lines will add the existing paths and ~/.vimrc file to your nvim setup.
-+#
-+# Credit goes to 👉 vimcast 71 : Meet Neovim
-+#
 -pkgname=neovim
 +pkgname=neovim-git
--build_helper="qemu"
++
 +_my_field_repo=git://github.com/neovim/neovim.git
++build_helper=${build_helper/qemu/}
++configure_args=${configure_args/-DCMAKE_BUILD_TYPE=RelWithDebInfo/}
 +conflicts="neovim>=0"
 +hostmakedepends+=" git"
++makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 +replaces="neovim>=0"

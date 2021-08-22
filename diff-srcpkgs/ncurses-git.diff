@@ -1,0 +1,60 @@
+-pkgname=ncurses
++pkgname=ncurses-git
++_my_field_repo=git://github.com/ThomasDickey/ncurses-snapshots.git
++#conflicts="ncurses>=0"
++depends=${depends/ncurses-base/ncurses-base-git}
++hostmakedepends+=" git"
++replaces="ncurses>=0"
++so_version=6.2
++
+-	install -Dm755 lib/libncurses.so.${version} \
+-		${DESTDIR}/usr/lib/libncurses.so.${version}
+-	ln -sf libncurses.so.${version} \
+-		${DESTDIR}/usr/lib/libncurses.so.${version:0:1}
++	install -Dm755 lib/libncurses.so.${so_version} \
++		${DESTDIR}/usr/lib/libncurses.so.${so_version}
++	ln -sf libncurses.so.${so_version} \
++		${DESTDIR}/usr/lib/libncurses.so.${so_version:0:1}
+-	ln -sfr ${DESTDIR}/usr/lib/libncursesw.so.${version} \
+-		${DESTDIR}/usr/lib/libtinfo.so.${version}
+-	ln -sfr ${DESTDIR}/usr/lib/libtinfo.so.${version} \
+-		${DESTDIR}/usr/lib/libtinfo.so.${version:0:1}
++	ln -sfr ${DESTDIR}/usr/lib/libncursesw.so.${so_version} \
++		${DESTDIR}/usr/lib/libtinfo.so.${so_version}
++	ln -sfr ${DESTDIR}/usr/lib/libtinfo.so.${so_version} \
++		${DESTDIR}/usr/lib/libtinfo.so.${so_version:0:1}
+-ncurses-libs_package() {
++ncurses-libs-git_package() {
++
++	#conflicts="ncurses-libs>=0"
++	replaces="ncurses-libs>=0"
+-ncurses-devel_package() {
++ncurses-devel-git_package() {
++
++	#conflicts="ncurses-devel>=0"
++	depends=${depends/ncurses-libs/ncurses-libs-git}
++	replaces="ncurses-devel>=0"
+-ncurses-base_package() {
++ncurses-base-git_package() {
++
++	#conflicts="ncurses-base>=0"
++	replaces="ncurses-base>=0"
+-ncurses-term_package() {
++ncurses-term-git_package() {
++
++	#conflicts="ncurses-term>=0"
++	depends=${depends/ncurses-base/ncurses-base-git}
++	replaces="ncurses-term>=0"
+-ncurses-libtinfo-libs_package() {
++ncurses-libtinfo-libs-git_package() {
++
++	#conflicts="ncurses-libtinfo-libs>=0"
++	depends=${depends/ncurses-libs/ncurses-libs-git}
++	replaces="ncurses-libtinfo-libs>=0"
+-ncurses-libtinfo-devel_package() {
++ncurses-libtinfo-devel-git_package() {
++
++	#conflicts="ncurses-libtinfo-devel>=0"
++	depends=${depends/ncurses-devel/ncurses-devel-git}
++	depends=${depends/ncurses-libtinfo-libs/ncurses-libtinfo-libs-git}
++	replaces="ncurses-libtinfo-devel>=0"

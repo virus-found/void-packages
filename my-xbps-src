@@ -32,7 +32,7 @@ _chapter_question_build() {
         echo -n "$@ [y,n,a,s,i,q,?]? "
         read answer
 
-        unset skip ignore all
+        unset skip all
         case ${answer:0:1} in
             # proceed
             y ) echo $l ; return 0 ;;
@@ -42,13 +42,11 @@ _chapter_question_build() {
             # proceed with special var
             s ) skip=true ; echo $l ; return 0 ;;
             # proceed with special var
-            i ) ignore=true ; echo $l ; return 0 ;;
             q ) echo $l ; cd $cwd_before_main_script ; exit 0 ;;
             * ) echo '
 y - build now
 n - do not build
 s - skip version
-i - ignore package
 q - quit
 a - build all following updates
 ? - print help
@@ -190,7 +188,7 @@ update_my_pkgs() {
     do
         template=$templates_dir/$p/template
         [[ -f $template ]] || { echo "=> ${0##*/}: expected $(pwd)/$template to be a file" ; return 1 ; }
-        unset _my_field_autoinstall _my_field_ignore _my_field_repo _my_field_repo_branch _my_field_skip_version
+        unset _my_field_autoinstall _my_field_repo _my_field_repo_branch _my_field_skip_version
         # workaround for some variables possible missing in templates
         set +u
         # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
@@ -198,9 +196,6 @@ update_my_pkgs() {
         set -u
 
         [[ $p =~ 'git' ]] && local git=true
-
-        # Skip build if it's ignored and not forced
-        [[ ${force:-} != true && ${_my_field_ignore:-} ]] && continue
 
         if [[ ${git:-} = true ]]
         then
@@ -232,12 +227,6 @@ update_my_pkgs() {
             then
                 sed -i '/_my_field_skip_version/d' $template
                 sed -i "/^_my_field_repo=/a _my_field_skip_version=$upstream_rev" $template
-                continue
-            # TODO improve: now if forcing build 1 pkg and choosing "i" - then it's not added to ignore and it's built - should be the opposite
-            elif [[ ${ignore:-} = true ]]
-            then
-                sed -i '/_my_field_ignore/d' $template
-                sed -i '/^_my_field_repo=/i _my_field_ignore=1' $template
                 continue
             fi
         fi
@@ -311,12 +300,17 @@ update_my_pkgs() {
     if [[ ${built:-} ]]
     then
         # TODO don't hardcode these rules, read them from a template
-        sudo xdowngrade $(find hostdir/binpkgs \
+           #'!' -name '*ncurses-libtinfo-libs*' \
+        local to_install=$(find hostdir/binpkgs \
             '!' -name '*-dbg-*' \
             '!' -name '*-devel-*' \
-            '!' -name '*meson*' \
+            '!' -name 'meson-*' \
+            '!' -name 'wayland-protocols-*' \
             -name '*.xbps' \
         )
+        local command_to_install="sudo xdowngrade $to_install"
+        _chapter $command_to_install
+        eval $command_to_install
     else
         _chapter "nothing to update"
     fi

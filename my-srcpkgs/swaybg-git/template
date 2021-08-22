@@ -1,6 +1,6 @@
 # Template file for 'swaybg'
 pkgname=swaybg-git
-version=96cf26d
+version=5e2df3a
 revision=1
 build_style=meson
 hostmakedepends="pkg-config wayland-devel scdoc git"

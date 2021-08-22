@@ -1,6 +1,6 @@
 # Template file for 'swaylock-effects'
 pkgname=swaylock-effects-git
-version=5cb9579
+version=a8fc557
 revision=1
 build_style=meson
 conf_files="/etc/pam.d/swaylock"

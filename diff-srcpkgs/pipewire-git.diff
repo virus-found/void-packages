@@ -1,6 +1,31 @@
 -pkgname=pipewire
 +pkgname=pipewire-git
+-configure_args="
+- --auto-features=enabled
+- -Db_ndebug=false
+- -Ddocs=enabled
+- -Dlibcamera=disabled
+- -Droc=disabled
+- -Dsdl2=$(vopt_if sdl2 enabled disabled)
+- -Dsystemd=disabled
+- -Dudevrulesdir=/usr/lib/udev/rules.d
+- -Dvulkan=enabled
+-"
++configure_args="-Dman=enabled -Dgstreamer=enabled -Ddocs=enabled -Dsystemd=disabled
++ -Dbluez5=enabled -Dffmpeg=enabled -Dpipewire-alsa=enabled -Dpipewire-jack=enabled
++ -Dvulkan=enabled -Dudevrulesdir=/usr/lib/udev/rules.d"
+-makedepends="$(vopt_if sdl2 SDL2-devel) gst-plugins-base1-devel jack-devel
+- sbc-devel v4l-utils-devel libva-devel libbluetooth-devel ncurses-devel
+- libfreeaptx-devel libusb-devel fdk-aac-devel libsndfile-devel Vulkan-Headers
+- vulkan-loader pulseaudio-devel avahi-libs-devel webrtc-audio-processing-devel"
++makedepends="ffmpeg-devel gst-plugins-base1-devel jack-devel sbc-devel v4l-utils-devel
++ libva-devel libbluetooth-devel ncurses-devel libopenaptx-devel fdk-aac-devel
++ libsndfile-devel Vulkan-Headers vulkan-loader $(vopt_if sdl2 SDL2-devel)"
+-maintainer="Stefano Ragni <stefano.ragni@outlook.com>"
++maintainer="Kridsada Thanabulpong <sirn@ogsite.net>"
 -changelog="https://gitlab.freedesktop.org/pipewire/pipewire/-/raw/master/NEWS"
+-make_dirs="/var/lib/pipewire 0755 _pipewire _pipewire"
+-system_accounts="_pipewire"
 +_my_field_repo=https://gitlab.freedesktop.org/pipewire/pipewire.git
 +configure_args=${configure_args/-Dffmpeg=enabled/-Dffmpeg=disabled}
 +configure_args=${configure_args/-Dgstreamer=enabled/-Dgstreamer=disabled}
@@ -19,6 +44,10 @@
 +makedepends=${makedepends/vulkan-loader/}
 +replaces+=" pipewire>=0"
 +
+-else
+-	configure_args+=" -Dbluez5-codec-ldac=disabled"
+-	vsv pipewire
+-	vsv pipewire-pulse
 -libpipewire_package() {
 +libpipewire-git_package() {
 +
@@ -55,13 +84,6 @@
 -		vmove usr/lib/spa-0.2/control
 -	}
 -}
--libspa-ffmpeg_package() {
--	short_desc+=" - ffmpeg plugins"
-+	conflicts="libspa-control>=0"
-+	replaces="libspa-control>=0"
--		vmove usr/lib/spa-0.2/ffmpeg
--	}
--}
 -
 -libspa-jack_package() {
 -	short_desc+=" - jack plugins"
@@ -69,10 +91,10 @@
 -		vmove usr/lib/spa-0.2/jack
 -	}
 -}
--
 -libspa-v4l2_package() {
 -	short_desc+=" - v4l2 plugins"
--	pkg_install() {
++	conflicts="libspa-control>=0"
++	replaces="libspa-control>=0"
 -		vmove usr/lib/spa-0.2/v4l2
 -	}
 -}
@@ -113,6 +135,7 @@
 -	pkg_install() {
 -		vmove usr/lib/pipewire-0.3/jack
 -		vmove usr/bin/pw-jack
+-		vmove usr/share/man/man1/pw-jack.1
 +		vmove usr/lib/spa-0.2/control
 -pipewire-doc_package() {
 +pipewire-doc-git_package() {

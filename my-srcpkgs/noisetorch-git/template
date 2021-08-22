@@ -1,6 +1,6 @@
 # Template file for 'noisetorch'
 pkgname=noisetorch-git
-version=15b8caf
+version=4aca9e6
 revision=1
 build_style=go
 go_import_path="github.com/lawl/NoiseTorch"

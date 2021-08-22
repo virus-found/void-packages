@@ -1,16 +1,15 @@
 -pkgname=foot
 -wrksrc=$pkgname
 +pkgname=foot-git
--depends="${pkgname}-terminfo>=${version}_${revision}"
-+depends="foot-terminfo-git>=${version}_${revision}"
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
-+configure_args+=" -Dgrapheme-clustering=disabled"
++#configure_args+=" -Dcustom-terminfo-install-location=''"
 +conflicts="foot>=0"
-+depends=${depends/${pkgname}-terminfo/foot-terminfo-git}
++depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
 +export CFLAGS+=" -O3"
 +export CXXFLAGS+=" -O3"
 +hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/wayland-devel/}
++# `-Dgrapheme-clustering` Enables grapheme clustering
 +makedepends=${makedepends/libutf8proc-devel/}
 +replaces="foot>=0"
 +
