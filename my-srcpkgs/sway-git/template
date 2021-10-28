@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=f4db502
+version=aaf68cf
 revision=0
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"

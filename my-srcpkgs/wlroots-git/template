@@ -1,7 +1,7 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=dc22a06
-revision=0
+version=a80f2b2
+revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
 # https://github.com/swaywm/wlroots/wiki/Packaging-recommendations
@@ -22,6 +22,8 @@ _my_field_repo=git://github.com/swaywm/wlroots.git
 conflicts="wlroots>=0"
 depends+=" libseat"
 hostmakedepends+=" git"
+# TODO or pass "-Dvulkan=disabled" to disable these?
+makedepends+=" Vulkan-Headers glslang-devel"
 replaces="wlroots>=0"
 
 post_install() {

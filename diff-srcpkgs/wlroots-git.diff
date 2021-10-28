@@ -4,6 +4,8 @@
 +conflicts="wlroots>=0"
 +depends+=" libseat"
 +hostmakedepends+=" git"
++# TODO or pass "-Dvulkan=disabled" to disable these?
++makedepends+=" Vulkan-Headers glslang-devel"
 +replaces="wlroots>=0"
 +
 -wlroots-devel_package() {
