@@ -1,6 +1,6 @@
 # Template file for 'font-3270'
 pkgname=font-3270-git
-version=4badcf7
+version=5d31e3b
 revision=1
 build_style=gnu-makefile
 make_build_target="font"

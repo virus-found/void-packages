@@ -197,13 +197,9 @@ try_mirrors() {
 }
 
 hook() {
-	#local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
-	# FIXME I don't remember why I changed this; investigate
-	local srcdir="$XBPS_BUILDDIR/$pkgname-$version"
-
 	if [[ $_my_field_repo ]]
 	then
-		# FIXME hardcoded git
+		local srcdir="$XBPS_BUILDDIR/$pkgname-$version"
 		local gitdir="/repos/$pkgname"
 
 		if [[ ! -s $gitdir ]]
@@ -223,6 +219,7 @@ hook() {
 
 		cp -r $gitdir $srcdir
 	else
+		local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
 		local dfcount=0 dfgood=0 errors=0 max_retries
 
 		if [ ! -d "$srcdir" ]; then

@@ -195,7 +195,7 @@ update_my_pkgs() {
         source $template &>/dev/null || true
         set -u
 
-        [[ $p =~ 'git' ]] && local git=true
+        [[ -n ${_my_field_repo:-} ]] && local git=true
 
         if [[ ${git:-} = true ]]
         then

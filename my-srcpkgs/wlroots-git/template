@@ -1,6 +1,6 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=a80f2b2
+version=8274c85
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
@@ -18,7 +18,7 @@ maintainer="Isaac Freund <ifreund@ifreund.xyz>"
 license="MIT"
 homepage="https://github.com/swaywm/wlroots"
 
-_my_field_repo=git://github.com/swaywm/wlroots.git
+_my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 conflicts="wlroots>=0"
 depends+=" libseat"
 hostmakedepends+=" git"
