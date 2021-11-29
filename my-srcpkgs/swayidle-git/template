@@ -1,6 +1,6 @@
 # Template file for 'swayidle'
 pkgname=swayidle-git
-version=f37b065
+version=698678e
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind -Dwerror=false"
