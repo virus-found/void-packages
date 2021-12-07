@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=02b412a
+version=03a29ed
 revision=0
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"

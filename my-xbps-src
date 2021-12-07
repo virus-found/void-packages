@@ -312,7 +312,7 @@ update_my_pkgs() {
         _chapter $command_to_install
         eval $command_to_install
     else
-        _chapter "nothing to update"
+        _chapter 'nothing to update'
     fi
 
     # Store non-required packages in the file

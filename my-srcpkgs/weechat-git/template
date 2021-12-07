@@ -1,6 +1,6 @@
 # Template file for 'weechat'
 pkgname=weechat-git
-version=d447755
+version=7bf0a5c
 revision=1
 build_style=cmake
 configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON

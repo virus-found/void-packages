@@ -1,6 +1,6 @@
 # Template file for 'vpm'
 pkgname=vpm-git
-version=f411f0c
+version=95d72a8
 revision=1
 short_desc="XBPS package management helper for VoidLinux"
 maintainer="Armin Jenewein <github@m2m.pm>"
