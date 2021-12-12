@@ -1,18 +1,18 @@
-# Template file for 'vpm'
-pkgname=vpm-git
-version=95d72a8
+# Template file for 'vbm'
+pkgname=vbm-git
+version=10adef3
 revision=1
 short_desc="XBPS package management helper for VoidLinux"
 maintainer="Armin Jenewein <github@m2m.pm>"
 license="GPL-3.0-or-later"
-homepage="https://github.com/netzverweigerer/vpm"
+homepage="https://codeberg.org/oSoWoSo/vbm"
 
-_my_field_repo=git://github.com/oSoWoSo/vpm.git
+_my_field_repo=https://codeberg.org/oSoWoSo/vbm.git
 conflicts="vpm>=0"
 hostmakedepends="git"
 replaces="vpm>=0"
 
 do_install() {
-	vbin vpm
-	vcompletion bash-completion/completions/vpm bash
+	vbin vbm
+	vcompletion bash-completion/completions/vbm bash
 }

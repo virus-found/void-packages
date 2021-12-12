@@ -216,6 +216,13 @@ hook() {
 				git pull
 			)
 		fi
+		if [ -n $_my_field_repo_commit ]
+		then
+			(
+				cd $gitdir
+				git reset --hard $_my_field_repo_commit
+			)
+		fi
 
 		cp -r $gitdir $srcdir
 	else

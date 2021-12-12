@@ -126,11 +126,8 @@ _update_void_packages() {
     git fetch --all --prune
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
     [[ ${do_stash:-} = true ]] && git stash push -m "$(date -R) automatic stash before rebase"
-    # FIXME stops here for a weird reason without set -x
-    set -x
-    git rebase origin/master
+    GIT_MERGE_AUTOEDIT=no git merge origin/master
     [[ ${do_stash:-} = true ]] && git stash pop --index
-    set +x
 }
 
 _update_system() {
@@ -188,7 +185,7 @@ update_my_pkgs() {
     do
         template=$templates_dir/$p/template
         [[ -f $template ]] || { echo "=> ${0##*/}: expected $(pwd)/$template to be a file" ; return 1 ; }
-        unset _my_field_autoinstall _my_field_repo _my_field_repo_branch _my_field_skip_version
+        unset _my_field_autoinstall _my_field_repo _my_field_repo_branch _my_field_repo_commit _my_field_skip_version
         # workaround for some variables possible missing in templates
         set +u
         # FIXME 2>/dev/null || true - workaround for vopt_enable: command not found
@@ -201,12 +198,17 @@ update_my_pkgs() {
         then
             echo "=> ${0##*/}: checking updates $p"
 
-            local upstream_rev_long=$( \
-                git ls-remote $_my_field_repo \
-                $(test ${_my_field_repo_branch:-} && echo -n $_my_field_repo_branch || echo -n HEAD) \
-                | awk '{print $1}' \
-            )
-            upstream_rev=${upstream_rev_long:0:7}
+            if [ -z ${_my_field_repo_commit:-} ]
+            then
+                local upstream_rev_long=$( \
+                    git ls-remote $_my_field_repo \
+                    $(test ${_my_field_repo_branch:-} && echo -n $_my_field_repo_branch || echo -n HEAD) \
+                    | awk '{print $1}' \
+                )
+                upstream_rev=${upstream_rev_long:0:7}
+            else
+                upstream_rev=${_my_field_repo_commit:0:7}
+            fi
         else
             upstream_rev=$version
         fi
@@ -300,7 +302,6 @@ update_my_pkgs() {
     if [[ ${built:-} ]]
     then
         # TODO don't hardcode these rules, read them from a template
-           #'!' -name '*ncurses-libtinfo-libs*' \
         local to_install=$(find hostdir/binpkgs \
             '!' -name '*-dbg-*' \
             '!' -name '*-devel-*' \
@@ -324,7 +325,7 @@ cleanup() {
 
     _chapter 'perform cleanup'
     ./xbps-src clean
-    ./xbps-src clean-repocache
+    ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
     ./xbps-src remove-autodeps
     ./xbps-src zap
     rm -rf hostdir/sources/

@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot-git
-version=de08988
+version=e37edba
 revision=1
 build_style=meson
 configure_args="-Dwerror=false"

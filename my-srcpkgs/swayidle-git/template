@@ -1,6 +1,6 @@
 # Template file for 'swayidle'
 pkgname=swayidle-git
-version=0037e00
+version=0eb1d86
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind -Dwerror=false"
@@ -14,6 +14,7 @@ homepage="https://swaywm.org"
 _my_field_repo=git://github.com/swaywm/swayidle.git
 conflicts="swayidle>=0"
 hostmakedepends+=" git"
+makedepends+=" libxml2-devel"
 replaces="swayidle>=0"
 
 post_install() {
