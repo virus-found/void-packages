@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=f923297
+version=3dffe7f
 revision=0
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"
@@ -20,6 +20,7 @@ depends=${depends/swaybg/}
 hostmakedepends=${hostmakedepends/scdoc/}
 makedepends+=" xcb-util-renderutil-devel"
 makedepends=${makedepends/gdk-pixbuf-devel/}
+makedepends=${makedepends/pcre-devel/pcre2-devel}
 makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 replaces="sway>=0"
 

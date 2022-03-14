@@ -318,6 +318,9 @@ update_my_pkgs() {
 
     # Store non-required packages in the file
     xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
+
+    # Store restricted packages (all: installed and not) in the file
+    grep -rl 'restricted=' srcpkgs/ | cut -d '/' -f2 > ~/.xbps-all-restricted-pkgs
 }
 
 cleanup() {

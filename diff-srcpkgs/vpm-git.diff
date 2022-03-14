@@ -1,7 +1,12 @@
 -pkgname=vpm
 +pkgname=vpm-git
+-homepage="https://github.com/netzverweigerer/vpm"
++homepage="https://codeberg.org/oSoWoSo/vbm"
 +
-+_my_field_repo=git://github.com/oSoWoSo/vpm.git
++_my_field_repo=https://codeberg.org/oSoWoSo/vbm.git
 +conflicts="vpm>=0"
 +hostmakedepends="git"
 +replaces="vpm>=0"
++	mv vbm.sh vpm
++	mv bash-completion/completions/vbm bash-completion/completions/vpm
++

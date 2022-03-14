@@ -1,6 +1,6 @@
 # Template file for 'swayimg'
 pkgname=swayimg-git
-version=d5b3aa2
+version=4c964bc
 revision=1
 build_style=meson
 configure_args="

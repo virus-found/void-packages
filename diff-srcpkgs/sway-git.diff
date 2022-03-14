@@ -6,6 +6,7 @@
 +hostmakedepends=${hostmakedepends/scdoc/}
 +makedepends+=" xcb-util-renderutil-devel"
 +makedepends=${makedepends/gdk-pixbuf-devel/}
++makedepends=${makedepends/pcre-devel/pcre2-devel}
 +makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 +replaces="sway>=0"
 +
