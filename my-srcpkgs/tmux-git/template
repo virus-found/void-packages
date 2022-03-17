@@ -1,6 +1,6 @@
 # Template file for 'tmux'
 pkgname=tmux-git
-version=ee3f1d2
+version=5d4c3ef
 revision=1
 build_style=gnu-configure
 hostmakedepends="byacc automake pkg-config"
@@ -12,7 +12,7 @@ license="ISC"
 homepage="https://tmux.github.io"
 changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
 
-_my_field_repo=git://github.com/tmux/tmux
+_my_field_repo=https://github.com/tmux/tmux
 conflicts="tmux>=0"
 #depends=${depends/ncurses-base/ncurses-base-git}
 hostmakedepends+=" git"

@@ -1,6 +1,6 @@
 -pkgname=sway
 +pkgname=sway-git
-+_my_field_repo=git://github.com/swaywm/sway.git
++_my_field_repo=https://github.com/swaywm/sway.git
 +conflicts="sway>=0"
 +depends=${depends/swaybg/}
 +hostmakedepends=${hostmakedepends/scdoc/}

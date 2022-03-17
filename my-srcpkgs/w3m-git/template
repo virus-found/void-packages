@@ -15,7 +15,7 @@ license="MIT"
 homepage="https://tracker.debian.org/pkg/w3m"
 changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
 
-_my_field_repo=git://github.com/tats/w3m.git
+_my_field_repo=https://github.com/tats/w3m.git
 configure_args=${configure_args/--enable-image=x11,fb/--enable-image}
 configure_args=${configure_args/--with-imagelib=imlib2/}
 conflicts="w3m>=0"

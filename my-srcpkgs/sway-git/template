@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway-git
-version=3dffe7f
+version=1e79088
 revision=0
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"
@@ -14,7 +14,7 @@ maintainer="Olaf Mersmann <olafm@p-value.net>"
 license="MIT"
 homepage="https://swaywm.org"
 
-_my_field_repo=git://github.com/swaywm/sway.git
+_my_field_repo=https://github.com/swaywm/sway.git
 conflicts="sway>=0"
 depends=${depends/swaybg/}
 hostmakedepends=${hostmakedepends/scdoc/}

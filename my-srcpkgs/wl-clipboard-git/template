@@ -10,7 +10,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/bugaevc/wl-clipboard"
 
-_my_field_repo=git://github.com/bugaevc/wl-clipboard
+_my_field_repo=https://github.com/bugaevc/wl-clipboard
 conflicts="wl-clipboard>=0"
 hostmakedepends+=" git"
 replaces="wl-clipboard>=0"

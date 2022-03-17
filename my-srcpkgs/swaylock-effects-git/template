@@ -12,7 +12,7 @@ maintainer="Derriick <derriick.ensiie@yahoo.com>"
 license="MIT"
 homepage="https://swaywm.org"
 
-_my_field_repo=git://github.com/mortie/swaylock-effects.git
+_my_field_repo=https://github.com/mortie/swaylock-effects.git
 conflicts="swaylock>=0"
 replaces="swaylock>=0"
 

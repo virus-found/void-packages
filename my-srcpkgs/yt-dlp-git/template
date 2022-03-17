@@ -1,6 +1,6 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=d69e55c
+version=497a6c5
 revision=1
 wrksrc="$pkgname"
 build_style=python3-module
@@ -12,7 +12,7 @@ license="Unlicense"
 homepage="https://github.com/yt-dlp/yt-dlp"
 changelog="https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/Changelog.md"
 
-_my_field_repo=git://github.com/yt-dlp/yt-dlp.git
+_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
 conflicts="yt-dlp>=0"
 hostmakedepends+=" git"
 pkgname+=-git

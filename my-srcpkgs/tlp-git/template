@@ -8,7 +8,7 @@ maintainer="Alan Brown <adbrown@rocketmail.com>"
 license="GPL-2.0-or-later"
 homepage="https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html"
 #changelog="https://github.com/linrunner/TLP/blob/master/changelog"
-_my_field_repo=git://github.com/linrunner/TLP.git
+_my_field_repo=https://github.com/linrunner/TLP.git
 conflicts+="tlp>=0 "
 hostmakedepends+=" git"
 replaces="tlp>=0"

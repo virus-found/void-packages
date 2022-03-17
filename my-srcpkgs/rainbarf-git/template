@@ -1,5 +1,5 @@
 # Template file for 'rainbarf-git'
-_my_field_repo=git://github.com/creaktive/rainbarf.git
+_my_field_repo=https://github.com/creaktive/rainbarf.git
 depends="perl"
 homepage="http://freecode.com/projects/rainbarf"
 hostmakedepends="git"

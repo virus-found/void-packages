@@ -25,7 +25,7 @@ maintainer="Evgenii Burmentev <vir.found@gmail.com>"
 license="MIT"
 homepage="https://github.com/artemsen/swayimg"
 
-_my_field_repo=git://github.com/artemsen/swayimg.git
+_my_field_repo=https://github.com/artemsen/swayimg.git
 
 post_install() {
 	vlicense LICENSE

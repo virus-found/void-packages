@@ -7,7 +7,7 @@ short_desc="WeeChat plugin for Slack.com"
 maintainer="Renato Aguiar <renato@renatoaguiar.net>"
 license="MIT"
 homepage="https://github.com/wee-slack/wee-slack"
-_my_field_repo=git://github.com/wee-slack/wee-slack.git
+_my_field_repo=https://github.com/wee-slack/wee-slack.git
 conflicts="wee-slack>=0"
 hostmakedepends="git"
 replaces="wee-slack>=0"

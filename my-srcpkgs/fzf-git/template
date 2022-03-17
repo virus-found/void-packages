@@ -4,15 +4,16 @@ version=a06671b
 revision=1
 build_style=go
 go_import_path="github.com/junegunn/fzf"
-hostmakedepends="git"
 makedepends="ncurses-devel"
 short_desc="Command-line fuzzy finder"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="MIT"
 homepage="https://github.com/junegunn/fzf"
 changelog="https://raw.githubusercontent.com/junegunn/fzf/master/CHANGELOG.md"
-_my_field_repo=git://github.com/junegunn/fzf.git
+
+_my_field_repo=https://github.com/junegunn/fzf.git
 conflicts="fzf>=0"
+hostmakedepends+=" git"
 replaces="fzf>=0"
 
 post_install() {

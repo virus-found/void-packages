@@ -8,7 +8,7 @@ maintainer="Orphaned <orphan@voidlinux.org>"
 license="BSD-3-Clause"
 homepage="https://github.com/zsh-users/zsh-syntax-highlighting"
 changelog="https://raw.githubusercontent.com/zsh-users/zsh-syntax-highlighting/master/changelog.md"
-_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
+_my_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
 conflicts="zsh-syntax-highlighting>=0"
 hostmakedepends="git"
 replaces="zsh-syntax-highlighting>=0"

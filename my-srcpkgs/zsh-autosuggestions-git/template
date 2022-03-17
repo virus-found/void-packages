@@ -7,7 +7,7 @@ short_desc="Fish-like autosuggestions for zsh"
 maintainer="vinnyA3 <vincent.aceto@gmail.com>"
 license="MIT"
 homepage="https://github.com/zsh-users/zsh-autosuggestions"
-_my_field_repo=git://github.com/zsh-users/zsh-autosuggestions.git
+_my_field_repo=https://github.com/zsh-users/zsh-autosuggestions.git
 conflicts="zsh-autosuggestions>=0"
 hostmakedepends="git"
 replaces="zsh-autosuggestions>=0"

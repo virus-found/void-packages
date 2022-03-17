@@ -9,7 +9,7 @@ maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="MIT"
 homepage="https://github.com/saitoha/libsixel"
 
-_my_field_repo=git://github.com/saitoha/libsixel.git
+_my_field_repo=https://github.com/saitoha/libsixel.git
 conflicts="libsixel>=0"
 hostmakedepends+=" git pkg-config"
 replaces="libsixel>=0"

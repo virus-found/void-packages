@@ -23,7 +23,7 @@ license="GPL-3.0-or-later"
 homepage="https://www.weechat.org"
 changelog="https://raw.githubusercontent.com/weechat/weechat/master/ChangeLog.adoc"
 lib32disabled=yes
-_my_field_repo=git://github.com/weechat/weechat.git
+_my_field_repo=https://github.com/weechat/weechat.git
 conflicts="weechat>=0"
 hostmakedepends+=" git"
 replaces="weechat>=0"
