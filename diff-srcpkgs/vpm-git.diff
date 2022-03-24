@@ -5,7 +5,7 @@
 +
 +_my_field_repo=https://codeberg.org/oSoWoSo/vbm.git
 +conflicts="vpm>=0"
-+hostmakedepends="git"
++hostmakedepends+=" git"
 +replaces="vpm>=0"
 +	mv vbm.sh vpm
 +	mv bash-completion/completions/vbm bash-completion/completions/vpm
