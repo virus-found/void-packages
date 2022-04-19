@@ -1,5 +1,7 @@
 -pkgname=fzf
 +pkgname=fzf-git
-+_my_field_repo=git://github.com/junegunn/fzf.git
+-hostmakedepends="git"
++_my_field_repo=https://github.com/junegunn/fzf.git
 +conflicts="fzf>=0"
++hostmakedepends+=" git"
 +replaces="fzf>=0"

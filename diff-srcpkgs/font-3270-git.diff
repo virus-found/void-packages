@@ -3,7 +3,8 @@
 +pkgname=font-3270-git
 -hostmakedepends="font-util fontforge"
 +hostmakedepends="git font-util fontforge"
-+_my_field_repo=git://github.com/rbanffy/3270font.git
++
++_my_field_repo=https://github.com/rbanffy/3270font.git
 +_my_field_repo_branch=develop
 +conflicts="font-3270>=0"
 +replaces="font-3270>=0"

@@ -2,7 +2,7 @@
 -depends="weechat weechat-python python3-websocket-client"
 +pkgname=wee-slack-git
 +depends="python3-websocket-client"
-+_my_field_repo=git://github.com/wee-slack/wee-slack.git
++_my_field_repo=https://github.com/wee-slack/wee-slack.git
 +conflicts="wee-slack>=0"
 +hostmakedepends="git"
 +replaces="wee-slack>=0"

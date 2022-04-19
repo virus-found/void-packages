@@ -15,6 +15,8 @@ restricted=yes
 nopie=yes
 python_version=3
 
+unset restricted
+
 post_extract() {
 	# Remove files for other OSes and/or CPU architectures
 	# Darwin (this is not packaged for macOS)

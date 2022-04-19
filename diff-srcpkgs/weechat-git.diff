@@ -20,7 +20,7 @@
 +hostmakedepends="libgcrypt-devel pkg-config python3"
 +makedepends="gnutls-devel libcurl-devel ncurses-devel
 + perl python3-devel libgcrypt-devel"
-+_my_field_repo=git://github.com/weechat/weechat.git
++_my_field_repo=https://github.com/weechat/weechat.git
 +conflicts="weechat>=0"
 +hostmakedepends+=" git"
 +replaces="weechat>=0"

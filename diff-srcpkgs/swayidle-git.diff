@@ -1,6 +1,7 @@
 -pkgname=swayidle
 +pkgname=swayidle-git
-+_my_field_repo=git://github.com/swaywm/swayidle.git
++
++_my_field_repo=https://github.com/swaywm/swayidle.git
 +conflicts="swayidle>=0"
 +hostmakedepends+=" git"
 +replaces="swayidle>=0"

@@ -1,10 +1,13 @@
 -pkgname=neovim
 +pkgname=neovim-git
-+
-+_my_field_repo=git://github.com/neovim/neovim.git
++_my_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
-+configure_args=${configure_args/-DCMAKE_BUILD_TYPE=RelWithDebInfo/}
 +conflicts="neovim>=0"
 +hostmakedepends+=" git"
 +makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 +replaces="neovim>=0"
++
+-}
+-
+-post_install() {
+-	vlicense LICENSE
