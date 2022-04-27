@@ -1,10 +1,9 @@
-# Template file for 'libvpx6'
+# Template file for 'libvpx7'
 # updates generally break abi, so if you update this,
 # have fun rebuilding everything
-pkgname=libvpx6
-reverts="1.10.0_1"
-version=1.9.0
-revision=3
+pkgname=libvpx7
+version=1.11.0
+revision=1
 wrksrc=libvpx-${version}
 hostmakedepends="perl yasm"
 short_desc="VP8 and VP9 video codec"
@@ -12,8 +11,7 @@ maintainer="q66 <daniel@octaforge.org>"
 license="BSD-3-Clause-Clear"
 homepage="http://www.webmproject.org"
 distfiles="https://github.com/webmproject/libvpx/archive/v${version}.tar.gz"
-checksum=d279c10e4b9316bf11a570ba16c3d55791e1ad6faa4404c67422eb631782c80a
-replaces="libvpx<1.8.0"
+checksum=965e51c91ad9851e2337aebcc0f517440c637c506f3a03948062e3d5ea129a83
 
 do_configure() {
 	export LD="$CC"
@@ -44,15 +42,15 @@ do_install() {
 	vlicense LICENSE
 }
 
-libvpx6-tools_package() {
+libvpx-tools_package() {
 	short_desc+=" - tools"
 	pkg_install() {
 		vmove usr/bin
 	}
 }
 
-libvpx6-devel_package() {
-	depends="libvpx6>=${version}_${revision}"
+libvpx-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
 	short_desc+=" - development files"
 	pkg_install() {
 		vmove usr/include
