@@ -1,6 +1,6 @@
 # Template file for 'zsh'
 pkgname=zsh-git
-version=af634c3
+version=b6be798
 revision=1
 build_style=gnu-configure
 make_build_target="all info"

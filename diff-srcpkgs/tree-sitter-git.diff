@@ -1,6 +1,6 @@
 -pkgname=tree-sitter
 +pkgname=tree-sitter-git
-+_my_field_repo=git://github.com/tree-sitter/tree-sitter.git
++_my_field_repo=https://github.com/tree-sitter/tree-sitter.git
 +conflicts="tree-sitter>=0"
 +hostmakedepends+=" git"
 +replaces="tree-sitter>=0"

@@ -1,6 +1,6 @@
 # Template file for 'w3m'
 pkgname=w3m-git
-version=f119108
+version=a1ae7a9
 revision=1
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --enable-image=x11,fb
