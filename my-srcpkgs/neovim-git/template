@@ -1,10 +1,10 @@
 # Template file for 'neovim'
 pkgname=neovim-git
-version=6d4180a
+version=44a4af0
 revision=1
 build_style=cmake
 build_helper="qemu"
-configure_args="-DCMAKE_BUILD_TYPE=Release"
+configure_args="-DCMAKE_BUILD_TYPE=Release -DCOMPILE_LUA=OFF"
 hostmakedepends="pkg-config gettext gperf LuaJIT lua51-lpeg lua51-mpack"
 makedepends="libtermkey-devel libuv-devel libvterm-devel msgpack-devel
  LuaJIT-devel libluv-devel tree-sitter-devel"
@@ -32,4 +32,8 @@ alternatives="
 pre_configure() {
 	vsed -i runtime/CMakeLists.txt \
 		-e "s|\".*/bin/nvim|\${CMAKE_CROSSCOMPILING_EMULATOR} &|g"
+}
+
+post_install() {
+	vlicense LICENSE.txt
 }

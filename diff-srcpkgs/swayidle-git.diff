@@ -4,4 +4,5 @@
 +_my_field_repo=https://github.com/swaywm/swayidle.git
 +conflicts="swayidle>=0"
 +hostmakedepends+=" git"
++makedepends+=" libxml2-devel"
 +replaces="swayidle>=0"

@@ -1,6 +1,6 @@
 # Template file for 'tmux'
 pkgname=tmux-git
-version=c6b51ce
+version=3b7dae9
 revision=1
 build_style=gnu-configure
 hostmakedepends="byacc automake pkg-config"
