@@ -147,6 +147,7 @@ libgbm.so.1 libgbm-9.0_1
 libOpenGL.so.0 libglvnd-1.3.0_1
 libGLX.so.0 libglvnd-1.3.0_1
 librsvg-2.so.2 librsvg-2.26.0_1
+librist.so.4 librist-0.2.7_1
 libdbus-1.so.3 dbus-libs-1.2.10_1
 libdbus-glib-1.so.2 dbus-glib-0.80_1
 libxml2.so.2 libxml2-2.7.0_1
@@ -4075,7 +4076,7 @@ libmariadbd.so.19 libmariadbclient-10.5.9_1
 libinstpatch-1.0.so.2 libinstpatch-1.1.6_1
 libbasu.so.0 basu-0.2.0_1
 libhomfly.so.0 libhomfly-1.02r6_1
-libsrt.so.1.4 libsrt-1.4.4_1
+libsrt.so.1.5 libsrt-1.5.0_1
 libXcomp.so.3 nx-libs-3.5.99.24_1
 libXcompshad.so.3 nx-libs-3.5.99.24_1
 libNX_X11.so.6 nx-libs-3.5.99.24_1
