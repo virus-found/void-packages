@@ -686,7 +686,8 @@ libatkmm-1.6.so.1 atkmm-2.22.1_1
 libgtkmm-3.0.so.1 gtkmm-2.99.5_1
 libgdkmm-3.0.so.1 gtkmm-2.99.5_1
 libgtkmm-4.0.so.0 gtkmm4-4.0.0_1
-libgnome-bluetooth.so.13 gnome-bluetooth-3.12.0_1
+libgnome-bluetooth.so.13 gnome-bluetooth1-3.12.0_1
+libgnome-bluetooth-3.0.so.13 gnome-bluetooth-42.1_1
 libsasl2.so.3 libsasl-2.1.26_1
 liblber-2.4.so.2 libldap-2.4.21_1
 libldap-2.4.so.2 libldap-2.4.21_1
@@ -3946,7 +3947,9 @@ libhidrd_strm.so.0 hidrd-0.2.0_1
 libhidrd_fmt.so.0 hidrd-0.2.0_1
 libjcat.so.1 libjcat-0.1.2_1
 libmatio.so.9 matio-1.5.17_2
-libportal.so.0 libportal-0.3_1
+libportal.so.1 libportal-0.6_1
+libportal-gtk3.so.1 libportal-gtk3-0.6_1
+libportal-gtk4.so.1 libportal-gtk4-0.6_1
 libvips.so.42 libvips-8.9.2_1
 libvips-cpp.so.42 libvips-8.9.2_1
 libselinux.so.1 libselinux-3.0_1
