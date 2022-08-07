@@ -10,7 +10,7 @@ conflicts="rainbarf>=0"
 replaces="rainbarf>=0"
 revision=1
 short_desc="CPU/RAM stats chart for tmux & screen"
-version=631c93f
+version=9626857
 
 do_install() {
 	vbin rainbarf

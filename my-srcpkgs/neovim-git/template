@@ -1,6 +1,6 @@
 # Template file for 'neovim'
 pkgname=neovim-git
-version=44a4af0
+version=0fdf59a
 revision=1
 build_style=cmake
 build_helper="qemu"

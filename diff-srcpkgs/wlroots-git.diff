@@ -1,11 +1,8 @@
 -pkgname=wlroots
 +pkgname=wlroots-git
-+_my_field_repo=git://github.com/swaywm/wlroots.git
++_my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 +conflicts="wlroots>=0"
-+depends+=" libseat"
 +hostmakedepends+=" git"
-+# TODO or pass "-Dvulkan=disabled" to disable these?
-+makedepends+=" Vulkan-Headers glslang-devel"
 +replaces="wlroots>=0"
 +
 -wlroots-devel_package() {

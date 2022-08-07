@@ -1,6 +1,6 @@
 # Template file for 'zsh-syntax-highlighting'
 pkgname=zsh-syntax-highlighting-git
-version=c5ce001
+version=caa749d
 revision=1
 #depends="zsh"
 short_desc="Fish shell like syntax highlighting for Zsh"

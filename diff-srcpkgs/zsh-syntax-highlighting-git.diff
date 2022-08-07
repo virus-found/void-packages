@@ -2,7 +2,7 @@
 -depends="zsh"
 +pkgname=zsh-syntax-highlighting-git
 +#depends="zsh"
-+_my_field_repo=git://github.com/zsh-users/zsh-syntax-highlighting.git
++_my_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
 +conflicts="zsh-syntax-highlighting>=0"
 +hostmakedepends="git"
 +replaces="zsh-syntax-highlighting>=0"

@@ -4,14 +4,12 @@
 +conflicts="sway>=0"
 +depends=${depends/swaybg/}
 +hostmakedepends=${hostmakedepends/scdoc/}
-+makedepends+=" xcb-util-renderutil-devel"
++makedepends+=" xcb-util-renderutil-devel libevdev-devel"
 +makedepends=${makedepends/gdk-pixbuf-devel/}
 +makedepends=${makedepends/pcre-devel/pcre2-devel}
 +makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 +replaces="sway>=0"
 +
--}
--
 -grimshot_package() {
 -	short_desc="Helper for screenshots within sway"
 -	depends="grim slurp sway wl-clipboard jq libnotify"
@@ -19,3 +17,12 @@
 -		vmove usr/bin/grimshot
 -		vmove usr/share/man/man1/grimshot.1
 -	}
+-}
++#grimshot_package() {
++#	short_desc="Helper for screenshots within sway"
++#	depends="grim slurp sway wl-clipboard jq libnotify"
++#	pkg_install() {
++#		vmove usr/bin/grimshot
++#		vmove usr/share/man/man1/grimshot.1
++#	}
++#}

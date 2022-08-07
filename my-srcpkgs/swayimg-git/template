@@ -1,6 +1,6 @@
 # Template file for 'swayimg'
 pkgname=swayimg-git
-version=4c964bc
+version=fd81ced
 revision=1
 build_style=meson
 configure_args="
@@ -17,7 +17,7 @@ configure_args="
 hostmakedepends="git pkg-config"
 makedepends="
     wayland-protocols wayland-devel json-c-devel libxkbcommon-devel
-    cairo-devel libjpeg-turbo-devel giflib-devel
+    cairo-devel libjpeg-turbo-devel giflib-devel pango-devel
 "
 depends="giflib"
 short_desc="Image viewer for Sway/Wayland"

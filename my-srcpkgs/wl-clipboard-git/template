@@ -1,6 +1,6 @@
 # Template file for 'wl-clipboard'
 pkgname=wl-clipboard-git
-version=c206d79
+version=89cd9f9
 revision=0
 build_style=meson
 hostmakedepends="wayland-devel pkg-config"
