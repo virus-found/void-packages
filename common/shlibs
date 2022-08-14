@@ -963,7 +963,7 @@ libIceDiscovery.so.37 libIce-3.7.5_2
 libIceLocatorDiscovery.so.37 libIce-3.7.5_2
 libvdpau.so.1 libvdpau-0.4.1_1
 libgsm.so.1 libgsm-1.0.13_13
-libcgroup.so.2 libcgroup-2.0.2_1
+libcgroup.so.3 libcgroup-3.0.0_1
 libxdg-basedir.so.1 libxdg-basedir-1.1.1_1
 libev.so.4 libev-4.04_1
 libell.so.0 ell-0.45_1
@@ -4104,7 +4104,7 @@ libdecor-0.so.0 libdecor-0.1.0_1
 libprimecount.so.7 primecount-7.2_1
 libprimesieve.so.9 primesieve-7.7_1
 libavif.so.14 libavif-0.10.1_1
-libkdumpfile.so.9 libkdumpfile-0.4.1_1
+libkdumpfile.so.10 libkdumpfile-0.4.1_1
 libamd.so.2 SuiteSparse-5.10.1_1
 libcholmod.so.3 SuiteSparse-5.10.1_1
 libumfpack.so.5 SuiteSparse-5.10.1_1
