@@ -1,0 +1,5 @@
+-pkgname=swayimg
++pkgname=swayimg-git
++
++_my_field_repo=https://github.com/artemsen/swayimg.git
++hostmakedepends+=" git"

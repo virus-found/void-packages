@@ -1,6 +1,6 @@
 # Template file for 'fzf'
 pkgname=fzf-git
-version=6a61306
+version=83515d5
 revision=1
 build_style=go
 go_import_path="github.com/junegunn/fzf"

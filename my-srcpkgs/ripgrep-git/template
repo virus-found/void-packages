@@ -3,7 +3,7 @@ _my_field_repo=https://github.com/BurntSushi/ripgrep.git
 pkgname=ripgrep-git
 conflicts="ripgrep>=0"
 replaces="ripgrep>=0"
-version=3bb71b0
+version=a9d97a1
 revision=1
 build_style=cargo
 configure_args="--features=pcre2"

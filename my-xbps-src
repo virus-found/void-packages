@@ -114,6 +114,11 @@ _sync_my_pkgs() {
 
             if [[ -e $relpath_original && $relpath_original != $relpath_custom_link ]]
             then
+                # TODO here it's when
+                # ~/void-packages/my-srcpkgs/vpm-git/patches
+                # becomes
+                # ~/void-packages/my-srcpkgs/vpm-git/patches-OBSOLETE
+                #
                 # Rsync supplementary files to custom packages
                 rsync -a --exclude template --delete $relpath_original/ $custom_package
             fi
@@ -327,6 +332,7 @@ cleanup() {
     _update_void_packages
 
     _chapter 'perform cleanup'
+    sudo xbps-remove -Oo
     ./xbps-src clean
     ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
     ./xbps-src remove-autodeps
