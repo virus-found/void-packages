@@ -281,7 +281,6 @@ libdrm_intel.so.1 libdrm-2.4.6_1
 libdrm_nouveau.so.2 libdrm-2.4.34_1
 libdrm_amdgpu.so.1 libdrm-2.4.64_1
 libdrm_freedreno.so.1 libdrm-2.4.97_1
-libkms.so.1 libdrm-2.4.6_1
 libXxf86vm.so.1 libXxf86vm-1.0.2_1
 libXi.so.6 libXi-1.2.1_1
 libdmx.so.1 libdmx-1.0.2_1
@@ -3641,7 +3640,7 @@ libOsiCommonTests.so.1 libClp-1.16.11_1
 libOsi.so.1 libClp-1.16.11_1
 libOGDF.so libogdf-2018.03_1
 libCOIN.so libogdf-2018.03_1
-librocksdb.so.5 rocksdb-5.17.2_1
+librocksdb.so.7 rocksdb-7.4.5_1
 libfrr.so.0 libfrr-6.0_1
 libkaccounts.so.2 kaccounts-integration-20.04.3_1
 libfrrospfapiclient.so.0 libfrrospfapiclient-6.0_1
@@ -4197,3 +4196,5 @@ libqtquickforkawesome.so.0.0.4 qtforkawesome-0.0.4_1
 libsyncthingwidgets.so.1.2.2 syncthingtray-1.2.2_1
 libsyncthingmodel.so.1.2.2 syncthingtray-1.2.2_1
 libsyncthingconnector.so.1.2.2 syncthingtray-1.2.2_1
+libglibutil.so.1 libglibutil-1.0.64_1
+libgbinder.so.1 libgbinder-1.1.20_1
