@@ -1,6 +1,6 @@
 # Template file for 'swayimg'
 pkgname=swayimg-git
-version=14b550c
+version=e938dc5
 revision=1
 build_style=meson
 hostmakedepends="pkg-config wayland-devel"

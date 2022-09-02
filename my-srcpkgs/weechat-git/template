@@ -1,21 +1,15 @@
 # Template file for 'weechat'
 pkgname=weechat-git
-version=e614410
+version=7cf9399
 revision=1
 build_style=cmake
-configure_args="-DENABLE_MAN=OFF -DENABLE_PERL=ON
- -DENABLE_LUA=OFF -DENABLE_RUBY=OFF -DENABLE_SPELL=OFF
- -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF
- -DENABLE_HEADLESS=OFF -DENABLE_NLS=ON -DENABLE_ALIAS=ON
- -DENABLE_EXEC=OFF -DENABLE_FIFO=OFF -DENABLE_LOGGER=OFF
- -DENABLE_RELAY=OFF -DENABLE_SCRIPT=ON -DENABLE_SCRIPTS=ON
- -DENABLE_ENCHANT=OFF
- -DENABLE_PYTHON=ON -DENABLE_PYTHON2=OFF -DENABLE_TCL=OFF
- -DENABLE_TRIGGER=ON -DENABLE_XFER=OFF -DENABLE_DOC=OFF
- -DENABLE_TESTS=OFF -DENABLE_CODE_COVERAGE=OFF"
-hostmakedepends="libgcrypt-devel pkg-config python3"
-makedepends="gnutls-devel libcurl-devel ncurses-devel
- perl python3-devel libgcrypt-devel"
+configure_args="-DENABLE_MAN=ON -DENABLE_PERL=ON
+ -DENABLE_LUA=ON -DENABLE_RUBY=ON -DENABLE_SPELL=ON
+ -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF"
+hostmakedepends="ruby ruby-asciidoctor libgcrypt-devel pkg-config python3 tcl-devel
+ gettext"
+makedepends="aspell-devel gnutls-devel libcurl-devel lua53-devel ncurses-devel
+ perl python3-devel ruby-devel tcl-devel libgcrypt-devel"
 depends="ca-certificates"
 short_desc="Fast, light and extensible IRC client"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
@@ -23,11 +17,44 @@ license="GPL-3.0-or-later"
 homepage="https://www.weechat.org"
 changelog="https://raw.githubusercontent.com/weechat/weechat/master/ChangeLog.adoc"
 lib32disabled=yes
+
+subpackages="weechat-aspell weechat-devel weechat-ruby weechat-python weechat-tcl weechat-lua weechat-perl"
+
 _my_field_repo=https://github.com/weechat/weechat.git
+configure_args+="
+-DENABLE_CODE_COVERAGE=OFF
+-DENABLE_DOC=OFF
+-DENABLE_ENCHANT=OFF
+-DENABLE_EXEC=OFF
+-DENABLE_FIFO=OFF
+-DENABLE_HEADLESS=OFF
+-DENABLE_LOGGER=OFF
+-DENABLE_NLS=ON
+-DENABLE_PYTHON2=OFF
+-DENABLE_PYTHON=ON
+-DENABLE_RELAY=OFF
+-DENABLE_SCRIPT=ON
+-DENABLE_SCRIPTS=ON
+-DENABLE_TCL=OFF
+-DENABLE_TESTS=OFF
+-DENABLE_TRIGGER=ON
+-DENABLE_XFER=OFF
+"
+configure_args=${configure_args/-DENABLE_LUA=ON/-DENABLE_LUA=OFF}
+configure_args=${configure_args/-DENABLE_MAN=ON/-DENABLE_MAN=OFF}
+configure_args=${configure_args/-DENABLE_RUBY=ON/-DENABLE_RUBY=OFF}
+configure_args=${configure_args/-DENABLE_SPELL=ON/-DENABLE_SPELL=OFF}
 conflicts="weechat>=0"
 hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/gettext/}
+hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
+hostmakedepends=${hostmakedepends/ruby/}
+hostmakedepends=${hostmakedepends/tcl-devel/}
+makedepends=${makedepends/aspell-devel/}
+makedepends=${makedepends/lua53-devel/}
+makedepends=${makedepends/ruby-devel/}
+makedepends=${makedepends/tcl-devel/}
 replaces="weechat>=0"
-
 subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
 
 if [ "$CROSS_BUILD" ]; then
