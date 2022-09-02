@@ -1,13 +1,15 @@
 -pkgname=tlp
--wrksrc="TLP-${version}"
 +pkgname=tlp-git
-+_my_field_repo=git://github.com/linrunner/TLP.git
-+conflicts+="tlp>=0 "
++_my_field_repo=https://github.com/linrunner/TLP.git
++conflicts+=" tlp>=0 "
 +hostmakedepends+=" git"
 +replaces="tlp>=0"
++unset wrksrc
++
 -tlp-rdw_package() {
 +tlp-rdw-git_package() {
 -	depends="tlp NetworkManager"
 +	depends="${pkgname} NetworkManager"
++
 +	conflicts="tlp-rdw>=0"
 +	replaces="tlp-rdw>=0"

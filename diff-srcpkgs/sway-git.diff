@@ -1,10 +1,10 @@
 -pkgname=sway
 +pkgname=sway-git
++#makedepends+=" xcb-util-renderutil-devel"
 +_my_field_repo=https://github.com/swaywm/sway.git
 +conflicts="sway>=0"
 +depends=${depends/swaybg/}
 +hostmakedepends=${hostmakedepends/scdoc/}
-+makedepends+=" xcb-util-renderutil-devel libevdev-devel"
 +makedepends=${makedepends/gdk-pixbuf-devel/}
 +makedepends=${makedepends/pcre-devel/pcre2-devel}
 +makedepends=${makedepends/wlroots-devel/wlroots-devel-git}

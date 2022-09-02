@@ -1,6 +1,7 @@
 -pkgname=vsv
-+_my_field_repo=https://github.com/bahamas10/vsv.git
 +pkgname=vsv-git
++
++_my_field_repo=https://github.com/bahamas10/vsv.git
 +conflicts="vsv>=0"
++hostmakedepends+=" git"
 +replaces="vsv>=0"
-+hostmakedepends="git"

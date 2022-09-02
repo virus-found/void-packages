@@ -7,18 +7,18 @@ configure_args="-Dwerror=false -Db_ndebug=false"
 conf_files="/etc/sway/config"
 hostmakedepends="pkg-config wayland-devel scdoc git"
 makedepends="wlroots-devel pcre-devel json-c-devel pango-devel cairo-devel
- gdk-pixbuf-devel"
+ gdk-pixbuf-devel libevdev-devel"
 depends="swaybg xorg-server-xwayland"
 short_desc="Tiling Wayland compositor compatible with i3"
 maintainer="Olaf Mersmann <olafm@p-value.net>"
 license="MIT"
 homepage="https://swaywm.org"
 
+#makedepends+=" xcb-util-renderutil-devel"
 _my_field_repo=https://github.com/swaywm/sway.git
 conflicts="sway>=0"
 depends=${depends/swaybg/}
 hostmakedepends=${hostmakedepends/scdoc/}
-makedepends+=" xcb-util-renderutil-devel libevdev-devel"
 makedepends=${makedepends/gdk-pixbuf-devel/}
 makedepends=${makedepends/pcre-devel/pcre2-devel}
 makedepends=${makedepends/wlroots-devel/wlroots-devel-git}

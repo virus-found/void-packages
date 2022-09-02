@@ -1,15 +1,17 @@
 -pkgname=libsixel
 +pkgname=libsixel-git
 -libsixel-devel_package() {
-+_my_field_repo=git://github.com/saitoha/libsixel.git
++_my_field_repo=https://github.com/libsixel/libsixel.git
 +conflicts="libsixel>=0"
-+hostmakedepends+=" git pkg-config"
++hostmakedepends+=" git"
 +replaces="libsixel>=0"
 +
 +libsixel-devel-git_package() {
 +
 +	conflicts="libsixel-devel>=0"
 +	replaces="libsixel-devel>=0"
+-		vmove "usr/lib/*.a"
++		#vmove "usr/lib/*.a"
 -libsixel-util_package() {
 +libsixel-util-git_package() {
 +

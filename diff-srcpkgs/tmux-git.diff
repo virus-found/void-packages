@@ -1,5 +1,6 @@
 -pkgname=tmux
 +pkgname=tmux-git
++
 +_my_field_repo=https://github.com/tmux/tmux
 +conflicts="tmux>=0"
 +hostmakedepends+=" git"
