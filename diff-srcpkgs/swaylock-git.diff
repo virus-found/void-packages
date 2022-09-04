@@ -1,6 +1,7 @@
--pkgname=swaylock
-+_my_field_ignore=1
-+_my_field_repo=git://github.com/swaywm/swaylock.git
-+pkgname=swaylock-git
++_my_field_repo=https://github.com/mortie/swaylock-effects.git
 +conflicts="swaylock>=0"
++makedepends+=" libgomp-devel"
++pkgname+=-git
 +replaces="swaylock>=0"
++unset checksum distfiles wrksrc
++

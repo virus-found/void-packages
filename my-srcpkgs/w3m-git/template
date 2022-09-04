@@ -1,7 +1,8 @@
 # Template file for 'w3m'
-pkgname=w3m-git
+pkgname=w3m
 version=c515ea8
 revision=1
+wrksrc="${pkgname}-${version/+/-}"
 build_style=gnu-configure
 configure_args="--libexecdir=/usr/lib --enable-image=x11,fb
  --with-nkf=/usr/bin/nkf
@@ -14,6 +15,10 @@ maintainer="Đoàn Trần Công Danh <congdanhqx@gmail.com>"
 license="MIT"
 homepage="https://tracker.debian.org/pkg/w3m"
 changelog="https://raw.githubusercontent.com/tats/w3m/master/NEWS"
+distfiles="https://github.com/tats/w3m/archive/v$version.tar.gz"
+checksum=6d76fcccb7c94658f2753f0777f69283d5cb447004a0d0d3087c1d873edc0af3
+
+LDFLAGS="-lX11"
 
 _my_field_repo=https://github.com/tats/w3m.git
 configure_args=${configure_args/--enable-image=x11,fb/--enable-image}
@@ -24,9 +29,10 @@ hostmakedepends+=" git"
 hostmakedepends=${hostmakedepends/gc-devel/}
 makedepends=${makedepends/imlib2-devel/}
 makedepends=${makedepends/libX11-devel/}
+pkgname+=-git
 replaces="w3m>=0"
-
-#LDFLAGS="-lX11"
+unset LDFLAGS
+unset checksum distfiles wrksrc
 
 post_patch() {
 	rm -f Bonus/oldconfigure.sh
@@ -63,6 +69,14 @@ post_install() {
 	do
 		vsconf "$_file"
 	done
-	vmkdir usr/share/examples/w3m/bonus
 	vcopy Bonus usr/share/examples/w3m/bonus
 }
+
+#w3m-img_package() {
+#	depends="${sourcepkg}>=${version}_${revision}"
+#	short_desc+=" - image display support"
+#	pkg_install() {
+#		vmove usr/lib/w3m/w3mimgdisplay
+#		vmove usr/share/doc/w3m/README.img
+#	}
+#}

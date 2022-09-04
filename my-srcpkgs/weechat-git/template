@@ -1,6 +1,7 @@
 # Template file for 'weechat'
-pkgname=weechat
-version=7cf9399
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+pkgname=weechat-git
+version=b0bf2fb
 revision=1
 build_style=cmake
 configure_args="-DENABLE_MAN=ON -DENABLE_PERL=ON
@@ -52,11 +53,14 @@ hostmakedepends=${hostmakedepends/gettext/}
 hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
 hostmakedepends=${hostmakedepends/ruby/}
 hostmakedepends=${hostmakedepends/tcl-devel/}
+# TODO remove line below
+makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 makedepends=${makedepends/aspell-devel/}
 makedepends=${makedepends/lua53-devel/}
 makedepends=${makedepends/ruby-devel/}
 makedepends=${makedepends/tcl-devel/}
-pkgname+=-git
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+#pkgname+=-git
 replaces="weechat>=0"
 subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
 unset checksum distfiles wrksrc

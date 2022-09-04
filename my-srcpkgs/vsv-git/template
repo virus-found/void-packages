@@ -1,5 +1,5 @@
 # Template file for 'vsv'
-pkgname=vsv-git
+pkgname=vsv
 version=2cdd2e0
 revision=1
 depends="bash psmisc"
@@ -12,7 +12,9 @@ changelog="https://raw.githubusercontent.com/bahamas10/vsv/master/CHANGES.md"
 _my_field_repo=https://github.com/bahamas10/vsv.git
 conflicts="vsv>=0"
 hostmakedepends+=" git"
+pkgname+=-git
 replaces="vsv>=0"
+unset checksum distfiles wrksrc
 
 do_install() {
 	vbin vsv

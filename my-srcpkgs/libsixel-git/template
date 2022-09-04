@@ -1,5 +1,5 @@
 # Template file for 'libsixel'
-pkgname=libsixel-git
+pkgname=libsixel
 version=e2c4937
 revision=1
 build_style=meson
@@ -13,7 +13,9 @@ homepage="https://github.com/libsixel/libsixel"
 _my_field_repo=https://github.com/libsixel/libsixel.git
 conflicts="libsixel>=0"
 hostmakedepends+=" git"
+pkgname+=-git
 replaces="libsixel>=0"
+unset checksum distfiles wrksrc
 
 libsixel-devel-git_package() {
 	short_desc+=" - development files"

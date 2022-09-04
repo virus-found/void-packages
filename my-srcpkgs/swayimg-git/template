@@ -1,5 +1,5 @@
 # Template file for 'swayimg'
-pkgname=swayimg-git
+pkgname=swayimg
 version=e938dc5
 revision=1
 build_style=meson
@@ -11,9 +11,13 @@ short_desc="Image viewer for Sway/Wayland"
 maintainer="Subhaditya Nath <sn03.general@gmail.com>"
 license="MIT"
 homepage="https://github.com/artemsen/swayimg"
+distfiles="https://github.com/artemsen/swayimg/archive/v${version}.tar.gz"
+checksum=d4b4988a673522d47c38939c3406dbb72bd213f857dd6116185cd9811b887b23
 
 _my_field_repo=https://github.com/artemsen/swayimg.git
 hostmakedepends+=" git"
+pkgname+=-git
+unset checksum distfiles wrksrc
 
 post_install() {
 	vcompletion extra/bash.completion bash

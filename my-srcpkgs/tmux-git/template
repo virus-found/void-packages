@@ -1,5 +1,5 @@
 # Template file for 'tmux'
-pkgname=tmux-git
+pkgname=tmux
 version=6da520c
 revision=1
 build_style=gnu-configure
@@ -15,7 +15,9 @@ changelog="https://raw.githubusercontent.com/tmux/tmux/master/CHANGES"
 _my_field_repo=https://github.com/tmux/tmux
 conflicts="tmux>=0"
 hostmakedepends+=" git"
+pkgname+=-git
 replaces="tmux>=0"
+unset checksum distfiles wrksrc
 
 pre_configure() {
 	autoreconf -fi

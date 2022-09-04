@@ -26,18 +26,20 @@
 +configure_args=${configure_args/-DENABLE_SPELL=ON/-DENABLE_SPELL=OFF}
 +conflicts="weechat>=0"
 +hostmakedepends+=" git"
-+# TODO remove line below
-+hostmakedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 +hostmakedepends=${hostmakedepends/gettext/}
 +hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
 +hostmakedepends=${hostmakedepends/ruby/}
 +hostmakedepends=${hostmakedepends/tcl-devel/}
++# TODO remove line below
++makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 +makedepends=${makedepends/aspell-devel/}
 +makedepends=${makedepends/lua53-devel/}
 +makedepends=${makedepends/ruby-devel/}
 +makedepends=${makedepends/tcl-devel/}
++#pkgname+=-git
 +replaces="weechat>=0"
 +subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
++unset checksum distfiles wrksrc
 +
 -weechat-aspell_package() {
 -	lib32disabled=yes
