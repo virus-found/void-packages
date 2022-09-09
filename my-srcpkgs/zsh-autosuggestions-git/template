@@ -1,23 +1,26 @@
 # Template file for 'zsh-autosuggestions'
-pkgname=zsh-autosuggestions-git
+pkgname=zsh-autosuggestions
 version=a411ef3
 revision=1
-#depends="zsh-git"
+build_style=gnu-makefile
+depends="zsh"
 short_desc="Fish-like autosuggestions for zsh"
 maintainer="vinnyA3 <vincent.aceto@gmail.com>"
 license="MIT"
 homepage="https://github.com/zsh-users/zsh-autosuggestions"
+distfiles="https://github.com/zsh-users/zsh-autosuggestions/archive/v${version}.tar.gz"
+checksum=ccd97fe9d7250b634683c651ef8a2fe3513ea917d1b491e8696a2a352b714f08
+
 _my_field_repo=https://github.com/zsh-users/zsh-autosuggestions.git
 conflicts="zsh-autosuggestions>=0"
-hostmakedepends="git"
+depends=${depends/zsh/}
+hostmakedepends+=" git"
+pkgname+=-git
 replaces="zsh-autosuggestions>=0"
-
-do_build() {
-	make
-}
+unset checksum distfiles wrksrc
 
 do_install() {
-	vinstall ${pkgname%-git}.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
-	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}
+	vinstall zsh-autosuggestions.zsh 644 usr/share/zsh/plugins/zsh-autosuggestions
+	vinstall zsh-autosuggestions.plugin.zsh 644 usr/share/zsh/plugins/zsh-autosuggestions
 	vlicense LICENSE
 }

@@ -1,9 +1,14 @@
 -pkgname=wlroots
 +pkgname=wlroots-git
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
++#pkgname=wlroots
 +_my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 +conflicts="wlroots>=0"
 +hostmakedepends+=" git"
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
++#pkgname+=-git
 +replaces="wlroots>=0"
++unset checksum distfiles wrksrc
 +
 -wlroots-devel_package() {
 +wlroots-devel-git_package() {

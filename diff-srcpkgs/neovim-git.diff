@@ -1,9 +1,11 @@
--pkgname=neovim
-+pkgname=neovim-git
-+
 +_my_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
 +conflicts="neovim>=0"
 +hostmakedepends+=" git"
 +makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
++pkgname+=-git
 +replaces="neovim>=0"
++unset checksum distfiles wrksrc
++# TODO remove line below also in weechat-git
++makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
++

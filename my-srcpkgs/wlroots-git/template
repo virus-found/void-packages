@@ -1,6 +1,8 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=fd0b027
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+#pkgname=wlroots
+version=4cc5bdc
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
@@ -19,11 +21,16 @@ short_desc="Modular Wayland compositor library"
 maintainer="Isaac Freund <mail@isaacfreund.com>"
 license="MIT"
 homepage="https://gitlab.freedesktop.org/wlroots/wlroots"
+distfiles="${homepage}/-/releases/${version}/downloads/wlroots-${version}.tar.gz"
+checksum=5b92f11a52d978919ed1306e0d54c9d59f1762b28d44f0a2da3ef3b351305373
 
 _my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 conflicts="wlroots>=0"
 hostmakedepends+=" git"
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+#pkgname+=-git
 replaces="wlroots>=0"
+unset checksum distfiles wrksrc
 
 post_install() {
 	vlicense LICENSE

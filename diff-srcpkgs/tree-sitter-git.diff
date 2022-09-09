@@ -3,7 +3,10 @@
 +_my_field_repo=https://github.com/tree-sitter/tree-sitter.git
 +conflicts="tree-sitter>=0"
 +hostmakedepends+=" git"
++# cyclic error
++#pkgname+=-git
 +replaces="tree-sitter>=0"
++unset checksum distfiles wrksrc
 +
 -tree-sitter-devel_package() {
 +tree-sitter-devel-git_package() {

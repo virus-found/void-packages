@@ -1,6 +1,6 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=927d4d2
+version=22a88c4
 revision=1
 build_style=cmake
 build_helper="qemu"
@@ -24,6 +24,8 @@ makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 pkgname+=-git
 replaces="neovim>=0"
 unset checksum distfiles wrksrc
+# TODO remove line below also in weechat-git
+makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 
 alternatives="
  vi:vi:/usr/bin/nvim

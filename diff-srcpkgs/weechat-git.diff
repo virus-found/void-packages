@@ -1,4 +1,5 @@
 -pkgname=weechat
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 +pkgname=weechat-git
 +_my_field_repo=https://github.com/weechat/weechat.git
 +configure_args+="
@@ -30,12 +31,13 @@
 +hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
 +hostmakedepends=${hostmakedepends/ruby/}
 +hostmakedepends=${hostmakedepends/tcl-devel/}
-+# TODO remove line below
++# TODO remove line below also in neovim-git
 +makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 +makedepends=${makedepends/aspell-devel/}
 +makedepends=${makedepends/lua53-devel/}
 +makedepends=${makedepends/ruby-devel/}
 +makedepends=${makedepends/tcl-devel/}
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 +#pkgname+=-git
 +replaces="weechat>=0"
 +subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
