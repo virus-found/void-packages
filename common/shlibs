@@ -1193,6 +1193,7 @@ libconfig.so.11 libconfig-1.7.1_1
 libopusfile.so.0 opusfile-0.12_2
 libopusurl.so.0 opusfile-0.12_2
 libopusenc.so.0 libopusenc-0.2_1
+libgranite-7.so.7 granite7-7.0.0_1
 libgranite.so.6 granite-6.2.0_1
 libprotobuf-vala.so.0 libprotobuf-vala-0.1.0_1
 librlog.so.5 librlog-1.4_1
@@ -2099,7 +2100,7 @@ libldns.so.3 libldns-1.7.1_4
 libopenjpeg.so.5 libopenjpeg-1.5.2_1
 liboping.so.0 liboping-1.8.0_1
 libloudmouth-1.so.0 loudmouth-1.5.3_12
-libtorrent-rasterbar.so.10 libtorrent-rasterbar-1.2.17_1
+libtorrent-rasterbar.so.10 libtorrent-rasterbar-1.2.17_2
 libcapstone.so.4 capstone-4.0_1
 libhavege.so.2 libhaveged-1.9.11_1
 libnih.so.1 libnih-1.0.3_1
@@ -3084,7 +3085,7 @@ libbrotlienc.so.1 brotli-1.0.2_1
 libfilteraudio.so filter_audio-0.0.1_1
 libgstreamermm-1.0.so.1 gstreamermm-1.8.0_1
 libmovit.so.8 movit-1.6.0_1
-libduktape.so.206 duktape-2.6.0_1
+libduktape.so.207 duktape-2.7.0_1
 libccgnu2-1.8.so.0 commoncpp2-1.8.1_1
 libccext2-1.8.so.0 commoncpp2-1.8.1_1
 libucommon.so.8 ucommon-7.0.0_1
