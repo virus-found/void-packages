@@ -2,7 +2,7 @@
 pkgname=weechat-git
 # causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 #pkgname=weechat
-version=d5cbd6c
+version=82f59d2
 revision=1
 build_style=cmake
 configure_args="-DENABLE_MAN=ON -DENABLE_PERL=ON

@@ -1,6 +1,7 @@
 -pkgname=weechat
-+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 +pkgname=weechat-git
++# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
++#pkgname=weechat
 +_my_field_repo=https://github.com/weechat/weechat.git
 +configure_args+="
 +-DENABLE_CODE_COVERAGE=OFF

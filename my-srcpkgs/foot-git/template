@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot
-version=d2e6768
+version=1c07285
 revision=1
 wrksrc=$pkgname
 build_style=meson
