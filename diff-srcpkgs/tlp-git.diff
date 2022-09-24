@@ -1,10 +1,11 @@
 -pkgname=tlp
 +pkgname=tlp-git
++#pkgname+=-git
 +_my_field_repo=https://github.com/linrunner/TLP.git
 +conflicts+=" tlp>=0 "
 +hostmakedepends+=" git"
 +replaces="tlp>=0"
-+unset wrksrc
++unset checksum distfiles wrksrc
 +
 -tlp-rdw_package() {
 +tlp-rdw-git_package() {

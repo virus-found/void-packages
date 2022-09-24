@@ -1,6 +1,6 @@
 # Template file for 'tlp'
-pkgname=tlp
-version=91e3f81
+pkgname=tlp-git
+version=45ca3a6
 revision=1
 wrksrc="TLP-${version}"
 depends="hdparm bash iw util-linux ethtool perl"
@@ -15,10 +15,10 @@ checksum=b5f08f00d535c26abc49b336b4c7264c6e5fb7bc3de8054eaabeebdd00e0760e
 conflicts="laptop-mode>=0"
 conf_files="/etc/tlp.conf /etc/tlp.d/*.conf"
 
+#pkgname+=-git
 _my_field_repo=https://github.com/linrunner/TLP.git
 conflicts+=" tlp>=0 "
 hostmakedepends+=" git"
-pkgname+=-git
 replaces="tlp>=0"
 unset checksum distfiles wrksrc
 

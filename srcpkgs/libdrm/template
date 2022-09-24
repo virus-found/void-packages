@@ -4,7 +4,7 @@ version=2.4.112
 revision=1
 wrksrc="drm-libdrm-${version}"
 build_style=meson
-configure_args="-Dudev=true -Dvalgrind=false"
+configure_args="-Dudev=true -Dvalgrind=disabled"
 hostmakedepends="pkg-config"
 makedepends="eudev-libudev-devel libpciaccess-devel"
 short_desc="Userspace interface to kernel DRM services"

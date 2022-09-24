@@ -1,6 +1,6 @@
 # Template file for 'swaylock'
 pkgname=swaylock
-version=a8fc557
+version=4b54b85
 revision=1
 build_style=meson
 conf_files="/etc/pam.d/swaylock"
@@ -14,7 +14,7 @@ homepage="https://swaywm.org"
 distfiles="https://github.com/swaywm/${pkgname}/archive/${version}.tar.gz"
 checksum=b9181e15d8166bba3a29dabb392cfe94568e4ceb358d388a812cd28c3f61bbe3
 
-_my_field_repo=https://github.com/mortie/swaylock-effects.git
+_my_field_repo=https://github.com/jirutka/swaylock-effects.git
 conflicts="swaylock>=0"
 makedepends+=" libgomp-devel"
 pkgname+=-git
