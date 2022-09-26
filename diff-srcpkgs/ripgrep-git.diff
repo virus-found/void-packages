@@ -1,7 +1,7 @@
--pkgname=ripgrep
 +_my_field_repo=https://github.com/BurntSushi/ripgrep.git
-+pkgname=ripgrep-git
 +conflicts="ripgrep>=0"
++hostmakedepends+=" git"
++pkgname+=-git
 +replaces="ripgrep>=0"
--hostmakedepends="ruby-asciidoctor pkg-config"
-+hostmakedepends="git ruby-asciidoctor"
++unset checksum distfiles wrksrc
++
