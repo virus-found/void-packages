@@ -2,7 +2,7 @@
 pkgname=wlroots-git
 # causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 #pkgname=wlroots
-version=bcc6a58
+version=e4efb6b
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
