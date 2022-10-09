@@ -1577,9 +1577,9 @@ libdovecot-compression.so.0 dovecot-2.3.13_3
 libdovecot-sql.so.0 dovecot-2.3.13_3
 libdovecot-storage.so.0 dovecot-2.3.13_3
 libdovecot-lda.so.0 dovecot-2.3.13_3
-libwiretap.so.12 libwireshark-3.6.3_1
-libwireshark.so.15 libwireshark-3.6.3_1
-libwsutil.so.13 libwireshark-3.6.3_1
+libwiretap.so.13 libwireshark-4.0.0_1
+libwireshark.so.16 libwireshark-4.0.0_1
+libwsutil.so.14 libwireshark-4.0.0_1
 libKF5ContactEditor.so.5 akonadi-contacts-17.12.1_1
 libKF5AkonadiContact.so.5 akonadi-contacts-17.12.1_1
 libKF5Prison.so.5 prison-5.43.0_1
@@ -2421,7 +2421,7 @@ libtermkey.so.1 libtermkey-0.17_1
 libicu4lua.so.0 icu4lua-0.2B_1
 libKF5I18n.so.5 ki18n-5.26.0_1
 libKF5I18nLocaleData.so.5 ki18n-5.88.0_1
-libglog.so.0 glog-0.3.4_1
+libglog.so.1 glog-0.6.0_1
 libzita-convolver.so.4 zita-convolver-4.0.3_1
 libzita-alsa-pcmi.so.0 zita-alsa-pcmi-0.2.0_1
 libpugixml.so.1 pugixml-1.6_1
@@ -3196,7 +3196,7 @@ libykpiv.so.1 libykpiv-2.1.1_2
 libykcs11.so.1 libykcs11-2.1.1_2
 libKF5KExiv2.so.15.0.0 libkexiv25-17.04.3_1
 libqmobipocket.so.2 libqmobipocket-17.04.3_1
-libgloox.so.17 gloox-1.0.20_1
+libgloox.so.18 gloox-1.0.24_1
 libgsmsd.so.8 gammu-smsd-1.39.0_1
 libGammu.so.8 gammu-1.39.0_1
 libz3.so z3-4.6.0_2
@@ -3603,7 +3603,7 @@ libgaminggear.so.0 libgaminggear-0.15.1_1
 libgaminggearfx.so.0 libgaminggear-0.15.1_1
 libgaminggearwidget.so.0 libgaminggear-0.15.1_1
 libopkg.so.1 libopkg-0.4.4_2
-libpkgconf.so.3 libpkgconf-1.8.0_1
+libpkgconf.so.4 libpkgconf-1.9.3_1
 libkodiplatform.so.19.0 kodi-platform-20180302_1
 libQuotient.so.0.6 libQuotient-0.6.11_1
 libipset.so.13 libipset-7.9_1
