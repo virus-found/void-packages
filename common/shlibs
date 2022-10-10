@@ -1653,9 +1653,9 @@ libgdkglext-x11-1.0.so.0 gtkglext-1.2.0_4
 libXaw3d.so.8 libXaw3d-1.6.2_1
 libshiboken2.so.5.15 libshiboken2-5.15.0_1
 libpyside2.so.5.15 libpyside2-python3-5.15.0_1
-libupsclient.so.4 libnetwork-ups-tools-2.7.4_12
-libnutclient.so.0 libnetwork-ups-tools-2.7.4_12
-libnutscan.so.1 libnetwork-ups-tools-2.7.4_12
+libupsclient.so.6 libnetwork-ups-tools-2.8.0_1
+libnutclient.so.2 libnetwork-ups-tools-2.8.0_1
+libnutscan.so.2 libnetwork-ups-tools-2.8.0_1
 libsphinxad.so.0 sphinxbase-0.8_1
 libsphinxbase.so.1 sphinxbase-0.8_1
 libpocketsphinx.so.1 libpocketsphinx-0.8_3
@@ -2804,8 +2804,8 @@ libMonoPosixHelper.so mono-4.0.1.44_2
 libMonoSupportW.so mono-4.0.1.44_2
 libmono-btls-shared.so mono-5.2.0.215_1
 libxcb-xrm.so.0 xcb-util-xrm-1.0_1
-libinchi.so.0 openbabel-2.3.2_1
-libopenbabel.so.5 openbabel-2.4.1_1
+libinchi.so.0 openbabel-3.1.1_1
+libopenbabel.so.7 openbabel-3.1.1_1
 libcourier-unicode.so.7 courier-unicode-2.2.2_1
 libzstd.so.1 libzstd-1.0.0_1
 libudis86.so.0 udis86-1.7.2_4
@@ -3443,7 +3443,7 @@ libfifechan.so.0.1.5 fifechan-0.1.5_1
 libfifechan_sdl.so.0.1.5 fifechan-0.1.5_1
 libfifechan_opengl.so.0.1.5 fifechan-0.1.5_1
 libpolyclipping.so.22 clipper-6.4.2_1
-libSoapySDR.so.0.7 SoapySDR-0.7.0_1
+libSoapySDR.so.0.8 SoapySDR-0.8.1_1
 libeditorconfig.so.0 editorconfig-0.12.2_1
 libcfitsio.so.9 cfitsio-3.480_1
 libapparmor.so.1 libapparmor-2.12.0_1
@@ -4069,7 +4069,7 @@ libbraiding.so.0 libbraiding-1.1_1
 libstemmer.so.2 libstemmer-2.1.0_1
 libdecor-0.so.0 libdecor-0.1.0_1
 libprimecount.so.7 primecount-7.2_1
-libprimesieve.so.9 primesieve-7.7_1
+libprimesieve.so.10 primesieve-8.0_1
 libavif.so.14 libavif-0.10.1_1
 libkdumpfile.so.10 libkdumpfile-0.4.1_1
 libamd.so.2 SuiteSparse-5.10.1_1
