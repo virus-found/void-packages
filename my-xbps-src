@@ -210,8 +210,12 @@ update_my_pkgs() {
                     $(test ${_my_field_repo_branch:-} && echo -n $_my_field_repo_branch || echo -n HEAD) \
                     | awk '{print $1}' \
                 )
+                # digit expected in
+                # xbps-create: ERROR: invalid pkgver! got `foo-cabdcfb_1' expected `foo-1.0_1'
+                # increase temporarily :7 --> :14 to fix this
                 upstream_rev=${upstream_rev_long:0:7}
             else
+                # and here
                 upstream_rev=${_my_field_repo_commit:0:7}
             fi
         else

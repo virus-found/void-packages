@@ -1,6 +1,6 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=dd35bc2
+version=72b2353
 revision=1
 build_style=cmake
 build_helper="qemu"
@@ -8,14 +8,15 @@ configure_args="-DCMAKE_BUILD_TYPE=Release -DCOMPILE_LUA=OFF"
 hostmakedepends="pkg-config gettext gperf LuaJIT lua51-lpeg lua51-mpack"
 makedepends="libtermkey-devel libuv-devel libvterm-devel msgpack-devel
  LuaJIT-devel libluv-devel tree-sitter-devel"
-depends="libvterm>=0.1.0"
 short_desc="Fork of Vim aiming to improve user experience, plugins and GUIs"
 maintainer="Steve Prybylski <sa.prybylx@gmail.com>"
 license="Apache-2.0, custom:Vim"
 homepage="https://neovim.io"
 distfiles="https://github.com/neovim/neovim/archive/v${version}.tar.gz"
-checksum=ccab8ca02a0c292de9ea14b39f84f90b635a69282de38a6b4ccc8565bc65d096
+checksum=505e3dfb71e2f73495c737c034a416911c260c0ba9fd2092c6be296655be4d18
 
+# TODO remove line below also in weechat-git
+#makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 _my_field_repo=https://github.com/neovim/neovim.git
 build_helper=${build_helper/qemu/}
 conflicts="neovim>=0"
@@ -24,8 +25,6 @@ makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 pkgname+=-git
 replaces="neovim>=0"
 unset checksum distfiles wrksrc
-# TODO remove line below also in weechat-git
-makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 
 alternatives="
  vi:vi:/usr/bin/nvim

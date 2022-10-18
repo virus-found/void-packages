@@ -1,6 +1,6 @@
 # Template file for 'tree-sitter'
 pkgname=tree-sitter-git
-version=d62adbe
+version=cabdcfb41d780c
 revision=1
 build_style=cargo
 make_install_args="--path=cli"
@@ -12,11 +12,12 @@ distfiles="https://github.com/tree-sitter/tree-sitter/archive/v${version}.tar.gz
 checksum=4d37eaef8a402a385998ff9aca3e1043b4a3bba899bceeff27a7178e1165b9de
 make_check=no # tests require generating fixtures from remote repositories
 
-_my_field_repo=https://github.com/tree-sitter/tree-sitter.git
-conflicts="tree-sitter>=0"
-hostmakedepends+=" git"
 # cyclic error
 #pkgname+=-git
+_my_field_repo=https://github.com/tree-sitter/tree-sitter.git
+_my_field_skip_version=cabdcfb
+conflicts="tree-sitter>=0"
+hostmakedepends+=" git"
 replaces="tree-sitter>=0"
 unset checksum distfiles wrksrc
 

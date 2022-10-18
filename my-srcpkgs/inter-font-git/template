@@ -1,6 +1,6 @@
 # Template file for 'inter-font'
 pkgname=inter-font
-version=12211fa
+version=37864ae
 revision=1
 build_style=gnu-makefile
 hostmakedepends="font-util fontforge"
