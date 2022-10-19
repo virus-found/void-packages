@@ -1,6 +1,6 @@
 +PGO=partial
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
-+_my_field_skip_version=3c9a51a
++_my_field_skip_version=b0c30c7
 +conflicts="foot>=0"
 +depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
 +export CFLAGS+=" -O3"

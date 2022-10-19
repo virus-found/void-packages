@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot
-version=43a48f5
+version=3ba0390
 revision=1
 wrksrc=$pkgname
 build_style=meson
@@ -20,7 +20,6 @@ conf_files="/etc/xdg/foot/foot.ini"
 
 PGO=partial
 _my_field_repo=https://codeberg.org/dnkl/foot.git
-_my_field_skip_version=b0c30c7
 conflicts="foot>=0"
 depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
 export CFLAGS+=" -O3"
