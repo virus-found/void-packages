@@ -20,11 +20,11 @@ checksum=6d76fcccb7c94658f2753f0777f69283d5cb447004a0d0d3087c1d873edc0af3
 
 LDFLAGS="-lX11"
 
+#depends+=" gc"
 _my_field_repo=https://github.com/tats/w3m.git
 configure_args=${configure_args/--enable-image=x11,fb/--enable-image}
 configure_args=${configure_args/--with-imagelib=imlib2/}
 conflicts="w3m>=0"
-depends+=" gc"
 hostmakedepends+=" git"
 hostmakedepends=${hostmakedepends/gc-devel/}
 makedepends=${makedepends/imlib2-devel/}
@@ -69,14 +69,5 @@ post_install() {
 	do
 		vsconf "$_file"
 	done
-	vcopy Bonus usr/share/examples/w3m/bonus
+	#vcopy Bonus usr/share/examples/w3m/bonus
 }
-
-#w3m-img_package() {
-#	depends="${sourcepkg}>=${version}_${revision}"
-#	short_desc+=" - image display support"
-#	pkg_install() {
-#		vmove usr/lib/w3m/w3mimgdisplay
-#		vmove usr/share/doc/w3m/README.img
-#	}
-#}

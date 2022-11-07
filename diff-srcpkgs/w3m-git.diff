@@ -1,20 +1,18 @@
--pkgname=w3m
--wrksrc="${pkgname}-${version/+/-}"
-+pkgname=w3m-git
--LDFLAGS="-lX11"
++#depends+=" gc"
 +_my_field_repo=https://github.com/tats/w3m.git
 +configure_args=${configure_args/--enable-image=x11,fb/--enable-image}
 +configure_args=${configure_args/--with-imagelib=imlib2/}
 +conflicts="w3m>=0"
-+depends+=" gc"
 +hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/gc-devel/}
 +makedepends=${makedepends/imlib2-devel/}
 +makedepends=${makedepends/libX11-devel/}
++pkgname+=-git
 +replaces="w3m>=0"
++unset LDFLAGS
++unset checksum distfiles wrksrc
 +
-+#LDFLAGS="-lX11"
-+	vmkdir usr/share/examples/w3m/bonus
+-	vcopy Bonus usr/share/examples/w3m/bonus
 -}
 -
 -w3m-img_package() {
@@ -24,3 +22,4 @@
 -		vmove usr/lib/w3m/w3mimgdisplay
 -		vmove usr/share/doc/w3m/README.img
 -	}
++	#vcopy Bonus usr/share/examples/w3m/bonus

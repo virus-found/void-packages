@@ -148,6 +148,7 @@ _update_system() {
 }
 
 # common/xbps-src/shutils/common.sh
+# TODO not in use
 _get_subpkgs() {
     local f
     for f in $(typeset -F)
@@ -165,8 +166,8 @@ update_my_pkgs() {
         local mypkgs=$@
     else
         cd $custom_templates_dir
-        # Omitting symlinks
-        # -printf '%P\n' - erases leftmost dir from output
+        # Omit symlinks
+        # -printf '%P\n' erases leftmost dir from output
         local mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n') || cd $cwd
         cd $cwd
     fi
@@ -176,7 +177,7 @@ update_my_pkgs() {
     rm -rf hostdir/binpkgs/
     mkdir -p hostdir/binpkgs/
 
-    # registering packages manually put into masterdir/my-binpkgs
+    # registering packages from my-binpkgs
     cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
     xbps-rindex -a hostdir/binpkgs/*.xbps 2>/dev/null || true
 
@@ -184,6 +185,24 @@ update_my_pkgs() {
     mkdir -p masterdir/repos/
 
     _update_system
+
+    # Top priority for these pkgs, as they are dependencies
+    # TODO
+    # Improve by utilizing *depends fields from template themselves
+    # Now it's but a hardcode
+    case "$mypkgs" in
+        *wlroots-git*)
+            mypkgs=${mypkgs/wlroots-git/}
+            mypkgs="wlroots-git "$mypkgs
+            # Using ;;& in place of ;; causes the shell to test the next pattern
+            # list in the statement, if any, and execute  any associated list on a
+            # successful match.
+            ;;&
+        *tree-sitter-git*)
+            mypkgs=${mypkgs/tree-sitter-git/}
+            mypkgs="tree-sitter-git "$mypkgs
+            ;;
+    esac
 
     local p
     for p in $mypkgs
@@ -278,6 +297,16 @@ update_my_pkgs() {
 
         # Remove skip before build
         sed -i '/_my_field_skip_version/d' $template
+
+        # Remove previously built versions of these packages
+        # Usually they come from my-binpkgs dir
+        case "$p" in
+            wlroots-git|tree-sitter-git)
+                # Only e.g. wlroots-git is removed, need to remove subpackages too
+                rm -f hostdir/binpkgs/$p*
+                ;;
+        esac
+
         # Build
         if ! ./xbps-src -C pkg $p
         then
@@ -315,6 +344,7 @@ update_my_pkgs() {
             '!' -name '*-dbg-*' \
             '!' -name '*-devel-*' \
             '!' -name 'meson-*' \
+            '!' -name 'ninja-*' \
             '!' -name 'wayland-protocols-*' \
             -name '*.xbps' \
         )

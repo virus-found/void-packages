@@ -8,6 +8,8 @@
 +replaces="tree-sitter>=0"
 +unset checksum distfiles wrksrc
 +
+-	cargo update --package autocfg:1.0.1 --precise 1.1.0
++	cargo update --package autocfg --precise 1.1.0
 -tree-sitter-devel_package() {
 +tree-sitter-devel-git_package() {
 +
