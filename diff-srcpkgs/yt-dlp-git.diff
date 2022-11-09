@@ -1,7 +1,8 @@
++wrksrc="$pkgname"
++
 +_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
 +conflicts="yt-dlp>=0"
 +hostmakedepends+=" git"
 +pkgname+=-git
 +replaces="yt-dlp>=0"
 +unset checksum distfiles wrksrc
-+
