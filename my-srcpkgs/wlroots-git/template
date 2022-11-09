@@ -1,6 +1,6 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=270914d
+version=eec95e3
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
@@ -26,6 +26,7 @@ checksum=5b92f11a52d978919ed1306e0d54c9d59f1762b28d44f0a2da3ef3b351305373
 _my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 conflicts="wlroots>=0"
 hostmakedepends+=" git"
+makedepends+=" hwids"
 replaces="wlroots>=0"
 unset checksum distfiles wrksrc
 

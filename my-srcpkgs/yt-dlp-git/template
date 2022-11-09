@@ -1,6 +1,6 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=efdc45a
+version=0d8affc
 revision=1
 wrksrc="$pkgname"
 build_style=python3-module

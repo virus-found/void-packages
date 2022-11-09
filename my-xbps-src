@@ -154,7 +154,7 @@ _get_subpkgs() {
     for f in $(typeset -F)
     do
         case "$f" in
-            *_package) echo "${f%_package}" ;;
+            *_package ) echo "${f%_package}" ;;
         esac
     done
 }
@@ -191,14 +191,14 @@ update_my_pkgs() {
     # Improve by utilizing *depends fields from template themselves
     # Now it's but a hardcode
     case "$mypkgs" in
-        *wlroots-git*)
+        *wlroots-git* )
             mypkgs=${mypkgs/wlroots-git/}
             mypkgs="wlroots-git "$mypkgs
             # Using ;;& in place of ;; causes the shell to test the next pattern
             # list in the statement, if any, and execute  any associated list on a
             # successful match.
             ;;&
-        *tree-sitter-git*)
+        *tree-sitter-git* )
             mypkgs=${mypkgs/tree-sitter-git/}
             mypkgs="tree-sitter-git "$mypkgs
             ;;
@@ -300,10 +300,15 @@ update_my_pkgs() {
 
         # Remove previously built versions of these packages
         # Usually they come from my-binpkgs dir
+        local previous1=wlroots
+        local previous2=tree-sitter
         case "$p" in
-            wlroots-git|tree-sitter-git)
-                # Only e.g. wlroots-git is removed, need to remove subpackages too
-                rm -f hostdir/binpkgs/$p*
+            # Only e.g. wlroots* and tree-sitter* are removed, need to remove proper subpackages from template
+            $previous1* )
+                rm -f hostdir/binpkgs/$previous1*
+                ;;
+            $previous2* )
+                rm -f hostdir/binpkgs/$previous2*
                 ;;
         esac
 
@@ -381,7 +386,7 @@ cleanup() {
 #
 cwd_before_main_script=$(pwd)
 case ${1:-} in
-    up)
+    up )
         if [[ ${2:-} ]]
         then
             shift
@@ -390,10 +395,10 @@ case ${1:-} in
             update_my_pkgs
         fi
         ;;
-    cleanup)
+    cleanup )
         cleanup
         ;;
-    *)
+    * )
         echo "${0##*/}: invalid parameter ${1:-}"
         cd $cwd_before_main_script
         exit 1
