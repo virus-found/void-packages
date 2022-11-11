@@ -1,6 +1,6 @@
 # Template file for 'swaylock'
 pkgname=swaylock
-version=4b54b85
+version=b2736c5
 revision=1
 build_style=meson
 conf_files="/etc/pam.d/swaylock"
