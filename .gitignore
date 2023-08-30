@@ -26,3 +26,4 @@ etc/xbps.d/custom
 !/diff-srcpkgs
 !/etc/conf
 !/my-srcpkgs
+!/my-srcpkgs-obsolete

@@ -1,0 +1,153 @@
+# Template file for 'pipewire'
+pkgname=pipewire-git
+version=034dd00
+revision=1
+build_style=meson
+configure_args="
+ --auto-features=enabled
+ -Db_ndebug=false
+ -Ddocs=enabled
+ -Dlibcamera=disabled
+ -Droc=disabled
+ -Dsdl2=$(vopt_if sdl2 enabled disabled)
+ -Dsystemd=disabled
+ -Dudevrulesdir=/usr/lib/udev/rules.d
+ -Dvulkan=enabled
+"
+hostmakedepends="doxygen graphviz pkg-config xmltoman gettext"
+makedepends="$(vopt_if sdl2 SDL2-devel) gst-plugins-base1-devel jack-devel
+ sbc-devel v4l-utils-devel libva-devel libbluetooth-devel ncurses-devel
+ libfreeaptx-devel libusb-devel fdk-aac-devel libsndfile-devel Vulkan-Headers
+ vulkan-loader pulseaudio-devel avahi-libs-devel webrtc-audio-processing-devel"
+depends="libspa-alsa>=${version}_${revision} libspa-audioconvert>=${version}_${revision}
+ libspa-audiomixer>=${version}_${revision} libspa-control>=${version}_${revision}"
+short_desc="Server and user space API to deal with multimedia pipelines"
+maintainer="Stefano Ragni <stefano.ragni@outlook.com>"
+license="MIT"
+homepage="https://pipewire.org/"
+make_dirs="/var/lib/pipewire 0755 _pipewire _pipewire"
+system_accounts="_pipewire"
+
+build_options="sdl2"
+
+replaces="libpulseaudio-pipewire>=0"
+
+_my_field_ignore=1
+_my_field_repo=https://gitlab.freedesktop.org/pipewire/pipewire.git
+configure_args+=" -Dpipewire-alsa=disabled -Dpipewire-jack=disabled"
+configure_args=${configure_args/-Dvulkan=enabled/-Dvulkan=disabled}
+conflicts="pipewire>=0"
+depends=${depends/libspa-alsa/libspa-alsa-git}
+depends=${depends/libspa-audioconvert/libspa-audioconvert-git}
+depends=${depends/libspa-audiomixer/libspa-audiomixer-git}
+depends=${depends/libspa-control/libspa-control-git}
+hostmakedepends+=" git"
+makedepends+=" python3-docutils"
+makedepends=${makedepends/Vulkan-Headers/}
+makedepends=${makedepends/jack-devel/}
+makedepends=${makedepends/vulkan-loader/}
+replaces+=" pipewire>=0"
+
+if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
+	makedepends+=" libatomic-devel"
+	LDFLAGS+=" -latomic"
+fi
+
+if [ "$XBPS_TARGET_ENDIAN" = "le" ]; then
+	makedepends+=" ldacBT-devel"
+else
+	configure_args+=" -Dbluez5-codec-ldac=disabled"
+fi
+
+post_install() {
+	vlicense LICENSE
+	vdoc "${FILESDIR}/README.voidlinux"
+	vsv pipewire
+	vsv pipewire-pulse
+}
+
+libpipewire-git_package() {
+	short_desc+=" - pipewire library"
+
+	conflicts="libpipewire>=0"
+	replaces="libpipewire>=0"
+	pkg_install() {
+		vmove "usr/lib/libpipewire-0.3.so.*"
+		vmove "usr/lib/pipewire-0.3/*.so"
+	}
+}
+
+pipewire-devel-git_package() {
+	depends="libpipewire>=${version}_${revision}"
+	short_desc+=" - pipewire and libspa development files"
+
+	conflicts="pipewire-devel>=0"
+	replaces="pipewire-devel>=0"
+	pkg_install() {
+		vmove usr/include/pipewire-0.3
+		vmove usr/include/spa-0.2
+		vmove usr/lib/pkgconfig/libpipewire-0.3.pc
+		vmove usr/lib/pkgconfig/libspa-0.2.pc
+		vmove usr/lib/libpipewire-0.3.so
+	}
+}
+
+libspa-alsa-git_package() {
+	short_desc+=" - alsa plugins"
+
+	conflicts="libspa-alsa>=0"
+	replaces="libspa-alsa>=0"
+	pkg_install() {
+		vmove usr/lib/spa-0.2/alsa
+	}
+}
+
+libspa-audioconvert-git_package() {
+	short_desc+=" - audioconvert plugins"
+
+	conflicts="libspa-audioconvert>=0"
+	replaces="libspa-audioconvert>=0"
+	pkg_install() {
+		vmove usr/lib/spa-0.2/audioconvert
+	}
+}
+
+libspa-audiomixer-git_package() {
+	short_desc+=" - audiomixer plugins"
+
+	conflicts="libspa-audiomixer>=0"
+	replaces="libspa-audiomixer>=0"
+	pkg_install() {
+		vmove usr/lib/spa-0.2/audiomixer
+	}
+}
+
+libspa-bluetooth-git_package() {
+	short_desc+=" - bluetooth plugins"
+
+	conflicts="libspa-bluetooth>=0"
+	replaces="libspa-bluetooth>=0"
+	pkg_install() {
+		vmove usr/lib/spa-0.2/bluez5
+	}
+}
+
+libspa-control-git_package() {
+	short_desc+=" - control plugins"
+
+	conflicts="libspa-control>=0"
+	replaces="libspa-control>=0"
+	pkg_install() {
+		vmove usr/lib/spa-0.2/control
+	}
+}
+
+pipewire-doc-git_package() {
+	short_desc+=" - documentation"
+
+	conflicts="pipewire-doc>=0"
+	replaces="pipewire-doc>=0"
+	pkg_install() {
+		vmove usr/share/doc/pipewire/html
+	}
+}

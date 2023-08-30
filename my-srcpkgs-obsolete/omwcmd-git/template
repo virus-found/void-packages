@@ -1,0 +1,15 @@
+# Template file for 'openmw'
+pkgname=omwcmd-git
+version=6c43d18
+revision=1
+build_style=cargo
+hostmakedepends="git"
+short_desc="A command line tool for interacting with openmw plugins"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="GPL-3.0-or-later"
+homepage="https://gitlab.com/portmod/omwcmd"
+_my_field_repo=https://gitlab.com/portmod/omwcmd.git
+conflicts="omwcmd>=0"
+replaces="omwcmd>=0"
+
+_my_field_ignore=1

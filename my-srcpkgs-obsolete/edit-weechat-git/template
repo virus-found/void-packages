@@ -1,0 +1,25 @@
+# Template file for 'edit-weechat-git'
+_my_field_repo=git://github.com/keith/edit-weechat.git
+archs=noarch
+depends="weechat"
+homepage="https://github.com/keith/edit-weechat"
+hostmakedepends="git"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+pkgname=edit-weechat-git
+conflicts="edit-weechat>=0"
+replaces="edit-weechat>=0"
+revision=1
+short_desc="Compose weechat messages in your $EDITOR"
+version=c1f6966
+
+_my_field_ignore=1
+
+do_install() {
+    vinstall edit.py 644 usr/lib/weechat/python/
+    vlicense LICENSE
+
+    # FIXME
+    # ln -si /usr/lib/weechat/python/edit.py ~/.weechat/python/edit.py
+    # ln -si ../edit.py ~/.weechat/python/autoload/
+}

@@ -1,0 +1,25 @@
+# Template file for 'ctags'
+pkgname=ctags-git
+version=f3ac807
+revision=1
+build_style=gnu-configure
+hostmakedepends="pkg-config automake python3-docutils"
+short_desc="Generates an index file of language objects found in source files"
+maintainer="Jan S. <jan.schreib@gmail.com>"
+license="GPL-2.0-only"
+homepage="https://ctags.io/"
+_my_field_repo=git://github.com/universal-ctags/ctags.git
+conflicts="ctags>=0"
+hostmakedepends+=" git"
+replaces="ctags>=0"
+
+_my_field_ignore=1
+
+do_configure() {
+	./autogen.sh
+	./configure ${configure_args}
+}
+
+do_install() {
+	make prefix=${DESTDIR}/usr bindir=${DESTDIR}/usr/bin mandir=${DESTDIR}/usr/share/man install
+}

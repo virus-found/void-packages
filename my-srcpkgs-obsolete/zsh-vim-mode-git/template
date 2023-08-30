@@ -1,0 +1,21 @@
+# Template file for 'zsh-vim-mode'
+_my_field_repo=git://github.com/softmoth/zsh-vim-mode.git
+pkgname=zsh-vim-mode-git
+conflicts="zsh-vim-mode>=0"
+replaces="zsh-vim-mode>=0"
+version=6b00594
+revision=1
+archs=noarch
+hostmakedepends="git"
+#depends="zsh"
+short_desc="Friendly bindings for ZSH's vi mode"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="MIT"
+homepage="https://github.com/softmoth/zsh-vim-mode"
+
+_my_field_ignore=1
+
+do_install() {
+	vinstall zsh-vim-mode.plugin.zsh 644 usr/share/zsh/plugins
+	vlicense LICENSE
+}

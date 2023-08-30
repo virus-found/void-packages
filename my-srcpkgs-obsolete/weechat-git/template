@@ -1,0 +1,110 @@
+# Template file for 'weechat'
+pkgname=weechat-git
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+#pkgname=weechat
+version=6f8aab1
+revision=1
+build_style=cmake
+configure_args="-DENABLE_MAN=ON -DENABLE_PERL=ON
+ -DENABLE_LUA=ON -DENABLE_RUBY=ON -DENABLE_SPELL=ON
+ -DENABLE_GUILE=OFF -DENABLE_PHP=OFF -DENABLE_JAVASCRIPT=OFF"
+hostmakedepends="ruby ruby-asciidoctor libgcrypt-devel pkg-config python3 tcl-devel
+ gettext"
+makedepends="aspell-devel gnutls-devel libcurl-devel lua53-devel ncurses-devel
+ perl python3-devel ruby-devel tcl-devel libgcrypt-devel"
+depends="ca-certificates"
+short_desc="Fast, light and extensible IRC client"
+maintainer="Leah Neukirchen <leah@vuxu.org>"
+license="GPL-3.0-or-later"
+homepage="https://www.weechat.org"
+changelog="https://raw.githubusercontent.com/weechat/weechat/master/ChangeLog.adoc"
+distfiles="https://www.weechat.org/files/src/weechat-${version}.tar.xz"
+checksum=9d85d71b3b7d04c03bd35ab6501afa8b5b3c609dce7691709ec740fecc31f2de
+lib32disabled=yes
+
+subpackages="weechat-aspell weechat-devel weechat-ruby weechat-python weechat-tcl weechat-lua weechat-perl"
+
+# TODO remove line below also in neovim-git
+#makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
+# causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
+#pkgname+=-git
+_my_field_ignore=1
+_my_field_repo=https://github.com/weechat/weechat.git
+configure_args+="
+-DENABLE_CODE_COVERAGE=OFF
+-DENABLE_DOC=OFF
+-DENABLE_ENCHANT=OFF
+-DENABLE_EXEC=OFF
+-DENABLE_FIFO=OFF
+-DENABLE_HEADLESS=OFF
+-DENABLE_LOGGER=OFF
+-DENABLE_NLS=ON
+-DENABLE_PYTHON2=OFF
+-DENABLE_PYTHON=ON
+-DENABLE_RELAY=OFF
+-DENABLE_SCRIPT=ON
+-DENABLE_SCRIPTS=ON
+-DENABLE_TCL=OFF
+-DENABLE_TESTS=OFF
+-DENABLE_TRIGGER=ON
+-DENABLE_XFER=OFF
+"
+configure_args=${configure_args/-DENABLE_LUA=ON/-DENABLE_LUA=OFF}
+configure_args=${configure_args/-DENABLE_MAN=ON/-DENABLE_MAN=OFF}
+configure_args=${configure_args/-DENABLE_RUBY=ON/-DENABLE_RUBY=OFF}
+configure_args=${configure_args/-DENABLE_SPELL=ON/-DENABLE_SPELL=OFF}
+conflicts="weechat>=0"
+hostmakedepends+=" git"
+hostmakedepends=${hostmakedepends/gettext/}
+hostmakedepends=${hostmakedepends/ruby-asciidoctor/}
+hostmakedepends=${hostmakedepends/ruby/}
+hostmakedepends=${hostmakedepends/tcl-devel/}
+makedepends=${makedepends/aspell-devel/}
+makedepends=${makedepends/lua53-devel/}
+makedepends=${makedepends/ruby-devel/}
+makedepends=${makedepends/tcl-devel/}
+replaces="weechat>=0"
+subpackages="weechat-devel-git weechat-python-git weechat-perl-git"
+unset checksum distfiles wrksrc
+
+if [ "$CROSS_BUILD" ]; then
+	_perlpath="${XBPS_CROSS_BASE}/usr/lib/perl5/core_perl/CORE"
+	configure_args+=" -DPERL_FOUND=1
+	 -DPERL_EXECUTABLE=0
+	 -DPERL_INCLUDE_PATH=$_perlpath
+	 -DPERL_LIBRARY=${XBPS_CROSS_BASE}/usr/lib/libperl.so
+	 -DPERL_CFLAGS=-I$_perlpath
+	 -DPERL_LFLAGS=-L$_perlpath"
+fi
+
+weechat-devel-git_package() {
+	lib32disabled=yes
+	depends="${sourcepkg}>=${version}_${revision} ncurses-devel"
+	short_desc+=" - development package"
+	conflicts="weechat-devel>=0"
+	replaces="weechat-devel>=0"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+	}
+}
+weechat-perl-git_package() {
+	lib32disabled=yes
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - perl plugin"
+	conflicts="weechat-perl>=0"
+	replaces="weechat-perl>=0"
+	pkg_install() {
+		vmove usr/lib/weechat/plugins/perl.so
+	}
+}
+weechat-python-git_package() {
+	lib32disabled=yes
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - python plugin"
+	conflicts="weechat-python>=0"
+	replaces="weechat-python>=0"
+	pkg_install() {
+		vmove usr/lib/weechat/plugins/python.so
+	}
+}

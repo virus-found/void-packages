@@ -1,0 +1,62 @@
+# Template file for 'osg'
+pkgname=osg-git
+version=e65f47c
+revision=1
+build_style=cmake
+build_helper="qemu"
+# don't use /usr/lib64 on 64bit platforms
+configure_args="-DLIB_POSTFIX= $(vopt_if qt '-DOSG_USE_QT=1' '-DOSG_USE_QT=0')"
+hostmakedepends="git pkg-config unzip"
+makedepends="MesaLib-devel gtkglext-devel libcurl-devel giflib-devel librsvg-devel
+ jasper-devel tiff-devel libgdal-devel libgta-devel ffmpeg-devel xine-lib-devel
+ SDL2-devel gst-plugins-base1-devel
+ $(vopt_if openexr libopenexr-devel)
+ $(vopt_if poppler poppler-glib-devel)
+ $(vopt_if qt qt5-devel)
+ $(vopt_if vnc libvncserver-devel)"
+short_desc="OpenSceneGraph: high performance real-time graphics toolkit"
+maintainer="Jürgen Buchmüller <pullmoll@t-online.de>"
+license="OSGPL-2.0-or-later"
+homepage="http://www.openscenegraph.org"
+_my_field_repo=git://github.com/OpenMW/osg.git
+_my_field_repo_branch=3.6
+conflicts="osg>=0"
+replaces="osg>=0"
+
+_my_field_ignore=1
+
+# Append CFLAGS and CXXFLAGS to set work around code which gcc6 would
+# otherwise regard as out-of-specification and allow it to produce a
+# working program.
+CFLAGS+=" -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-schedule-insns2"
+CXXFLAGS+=" -fno-delete-null-pointer-checks -fno-lifetime-dse -fno-schedule-insns2 -Wno-deprecated-declarations"
+
+build_options="openexr"
+build_options_default="openexr"
+desc_option_openexr="Enable support for high dynamic range images"
+desc_option_poppler="Enable support for creating PDF"
+desc_option_vnc="Enable support for VNC server"
+if [ -z "$CROSS_BUILD" ]; then
+	build_options_default+=" qt"
+else
+	# cmake can't check this when cross compiling
+	configure_args+=" -DPOPPLER_HAS_CAIRO_EXITCODE=0"
+	configure_args+=" -D_OPENTHREADS_ATOMIC_USE_GCC_BUILTINS_EXITCODE=0"
+fi
+
+post_install() {
+	# Also install the cmake script FindOSG.cmake for developers to use
+	vinstall CMakeModules/FindOSG.cmake 644 usr/lib/cmake/OSG
+	vlicense LICENSE.txt
+}
+
+osg-devel-git_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/cmake
+		vmove usr/lib/pkgconfig
+		vmove usr/lib/*.so
+	}
+}

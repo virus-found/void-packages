@@ -1,0 +1,21 @@
+# Template file for 'winetricks'
+pkgname=winetricks-git
+version=8c32fb7
+revision=1
+build_style=gnu-makefile
+depends="cabextract"
+hostmakedepends="git"
+short_desc="Script to install various redistributable runtime libraries in Wine"
+maintainer="mater11234 <mater11234@riseup.net>"
+license="LGPL-3.0-or-later"
+homepage="http://wiki.winehq.org/winetricks"
+_my_field_repo=https://github.com/Winetricks/winetricks.git
+conflicts="winetricks>=0"
+replaces="winetricks>=0"
+
+_my_field_ignore=1
+
+do_check() {
+	# Needs python3-bashate
+	:
+}

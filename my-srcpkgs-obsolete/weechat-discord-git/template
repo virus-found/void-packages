@@ -1,0 +1,21 @@
+# Template file for 'weechat-discord'
+pkgname=weechat-discord-git
+build_style=cargo
+homepage="https://github.com/terminal-discord/weechat-discord"
+license="MIT"
+maintainer="Orphaned <orphan@voidlinux.org>"
+makedepends="weechat-devel-git clang"
+conflicts="weechat-discord>=0"
+replaces="weechat-discord>=0"
+revision=1
+short_desc="Weechat plugin for Discord support"
+version=bfda1c2
+
+_my_field_ignore=1
+_my_field_repo=git://github.com/terminal-discord/weechat-discord.git
+hostmakedepends="git"
+
+post_install() {
+	vinstall target/${RUST_TARGET}/release/libweecord.so 755 usr/lib/weechat/plugins/
+	vlicense LICENSE
+}

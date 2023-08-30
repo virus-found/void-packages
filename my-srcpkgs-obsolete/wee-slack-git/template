@@ -1,0 +1,25 @@
+# Template file for 'wee-slack'
+pkgname=wee-slack
+version=3a10716
+revision=1
+depends="python3-websocket-client"
+short_desc="WeeChat plugin for Slack.com"
+maintainer="Renato Aguiar <renato@renatoaguiar.net>"
+license="MIT"
+homepage="https://github.com/wee-slack/wee-slack"
+
+_my_field_ignore=1
+_my_field_repo=https://github.com/wee-slack/wee-slack.git
+conflicts="wee-slack>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="wee-slack>=0"
+unset checksum distfiles wrksrc
+
+do_install() {
+	vinstall wee_slack.py 644 usr/lib/weechat/python/
+	vlicense LICENSE
+
+# FIXME
+# ln -si /usr/lib/weechat/python/wee_slack.py ~/.weechat/python/slack.py
+}

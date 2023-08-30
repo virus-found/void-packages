@@ -1,0 +1,66 @@
+# Template file for 'mpv-git'
+_my_field_repo=git://github.com/mpv-player/mpv
+build_options="alsa caca jack lua oss pulseaudio sdl2 smb sndio vapoursynth vdpau wayland x11 vulkan"
+build_options_default="alsa caca sndio vdpau wayland vulkan"
+build_style=waf
+configure_args="
+    --confdir=/etc/mpv --docdir=/usr/share/examples/mpv
+    --enable-dvbin --enable-libarchive $(vopt_enable alsa) $(vopt_enable caca)
+    $(vopt_enable jack) $(vopt_enable lua) $(vopt_enable oss oss-audio)
+    $(vopt_enable pulseaudio pulse) $(vopt_enable sdl2)
+    $(vopt_enable smb libsmbclient) $(vopt_enable sndio)
+    $(vopt_enable vapoursynth) $(vopt_enable vdpau) $(vopt_enable wayland)
+    $(vopt_enable x11) $(vopt_enable vulkan) $(vopt_enable vulkan shaderc)
+"
+depends="desktop-file-utils hicolor-icon-theme $(vopt_if vapoursynth vapoursynth-mvtools)"
+desc_option_caca="Enable support for libcaca video output"
+desc_option_oss="Enable support for OSS audio output"
+homepage="https://mpv.io"
+hostmakedepends="git pkg-config python-docutils perl $(vopt_if wayland wayland-devel)"
+license="GPL-2.0-or-later"
+maintainer="Orphaned <orphan@voidlinux.org>"
+# FIXME ffmpgeg-devel-git is installed in system now, should be installed only during build!
+makedepends="
+    MesaLib-devel ffmpeg-devel-git harfbuzz-devel lcms2-devel libXv-devel
+    libass-devel libbluray-devel libcdio-paranoia-devel
+    libguess-devel libuuid-devel libva-glx-devel rubberband-devel
+    libarchive-devel $(vopt_if alsa alsa-lib-devel) $(vopt_if caca libcaca-devel)
+    $(vopt_if jack jack-devel) $(vopt_if lua lua52-devel)
+    $(vopt_if pulseaudio pulseaudio-devel) $(vopt_if sdl2 SDL2-devel)
+    $(vopt_if smb samba-devel) $(vopt_if sndio sndio-devel)
+    $(vopt_if vapoursynth vapoursynth-devel)
+    $(vopt_if vdpau libvdpau-devel) $(vopt_if wayland "wayland-devel
+    wayland-protocols libxkbcommon-devel")
+    $(vopt_if x11 "libXScrnSaver-devel libXinerama-devel libXrandr-devel")
+    $(vopt_if vulkan 'Vulkan-Headers vulkan-loader shaderc libplacebo-devel')
+"
+pkgname=mpv-git
+conflicts="mpv>=0"
+replaces="mpv>=0"
+revision=1
+short_desc="Video player based on MPlayer/mplayer2"
+version=0
+vopt_conflict sdl2 wayland
+
+_my_field_ignore=1
+
+if [ -z "$CROSS_BUILD" ]; then
+    configure_args+=" --zshdir=/usr/share/zsh/site-functions"
+fi
+
+pre_configure() {
+    python2 bootstrap.py
+}
+
+mpv-devel-git_package() {
+    depends="${sourcepkg}>=${version}_${revision}"
+	conflicts="mpv-devel>=0"
+	replaces="mpv-devel>=0"
+    short_desc+=" - development files"
+
+    pkg_install() {
+        vmove usr/include
+        vmove usr/lib/pkgconfig
+        vmove usr/lib/*.so
+    }
+}

@@ -1,0 +1,26 @@
+# Template file for 'noisetorch'
+pkgname=noisetorch-git
+version=8c34658
+revision=1
+build_style=go
+go_import_path="github.com/lawl/NoiseTorch"
+hostmakedepends="cmake"
+depends="polkit" #pipewire-git
+short_desc="Real-time microphone noise suppression on Linux."
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="GPL3"
+homepage="https://github.com/lawl/NoiseTorch"
+
+_my_field_ignore=1
+_my_field_repo=git://github.com/lawl/NoiseTorch
+conflicts="noisetorch>=0"
+hostmakedepends+=" git"
+replaces="noisetorch>=0"
+
+do_build() {
+	make
+}
+
+do_install() {
+	vinstall bin/noisetorch 755 usr/bin/
+}
