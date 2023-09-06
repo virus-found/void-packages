@@ -1,6 +1,6 @@
 # Template file for 'bluetuith'
 pkgname=bluetuith
-version=2271c10
+version=a088dae
 revision=1
 build_style=go
 makedepends="ncurses-devel"
