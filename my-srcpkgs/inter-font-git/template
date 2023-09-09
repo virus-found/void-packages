@@ -11,6 +11,7 @@ homepage="https://github.com/rsms/inter"
 font_dirs="/usr/share/fonts/TTF"
 
 _my_field_repo=https://github.com/rsms/inter.git
+_my_field_skip_version=177be11
 conflicts="inter-font>=0"
 hostmakedepends+=" git"
 pkgname+=-git

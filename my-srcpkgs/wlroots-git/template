@@ -1,6 +1,6 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=e315068
+version=b18a849
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
