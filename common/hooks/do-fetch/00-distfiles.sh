@@ -237,97 +237,97 @@ hook() {
 
 		cp -r $gitdir $srcdir
 	else
-	    local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
-	    local dfcount=0 dfgood=0 errors=0 max_retries
+	local srcdir="$XBPS_SRCDISTDIR/$pkgname-$version"
+	local dfcount=0 dfgood=0 errors=0 max_retries
 
-	    local -a _distfiles=($distfiles)
-	    local -a _checksums=($checksum)
-	    local -A _file_idxs
+	local -a _distfiles=($distfiles)
+	local -a _checksums=($checksum)
+	local -A _file_idxs
 
-	    # Create a map from target file to index in _distfiles/_checksums
-	    for i in ${!_distfiles[@]}; do
-		    f="${_distfiles[$i]}"
-		    curfile="${f#*>}"
-		    curfile="${curfile##*/}"
-		    _file_idxs["$curfile"]+=" $i"
-	    done
+	# Create a map from target file to index in _distfiles/_checksums
+	for i in ${!_distfiles[@]}; do
+		f="${_distfiles[$i]}"
+		curfile="${f#*>}"
+		curfile="${curfile##*/}"
+		_file_idxs["$curfile"]+=" $i"
+	done
 
-	    if [[ ! -d "$srcdir" ]]; then
-		    mkdir -p -m775 "$srcdir"
-		    chgrp $(id -g) "$srcdir"
-	    fi
+	if [[ ! -d "$srcdir" ]]; then
+		mkdir -p -m775 "$srcdir"
+		chgrp $(id -g) "$srcdir"
+	fi
 
-	    cd $srcdir || msg_error "$pkgver: cannot change dir to $srcdir!\n"
+	cd $srcdir || msg_error "$pkgver: cannot change dir to $srcdir!\n"
 
-	    # Disable trap on ERR; the code is smart enough to report errors and abort.
-	    trap - ERR
-	    # Detect bsdtar and GNU tar (in that order of preference)
-	    TAR_CMD="$(command -v bsdtar)"
-	    if [[ -z "$TAR_CMD" ]]; then
-		    TAR_CMD="$(command -v tar)"
-	    fi
+	# Disable trap on ERR; the code is smart enough to report errors and abort.
+	trap - ERR
+	# Detect bsdtar and GNU tar (in that order of preference)
+	TAR_CMD="$(command -v bsdtar)"
+	if [[ -z "$TAR_CMD" ]]; then
+		TAR_CMD="$(command -v tar)"
+	fi
 
-	    # Detect distfiles with obsolete checksum and purge them from the cache
-	    for f in ${!_file_idxs[@]}; do
-		    distfile="$srcdir/$f"
-		    for i in ${_file_idxs["$f"]}; do
-			    if [[ -f $distfile ]]; then
-				    cksum=${_checksums["$i"]}
-				    if [[ ${cksum:0:1} = @ ]]; then
-					    cksum=${cksum:1}
-					    filesum=$(contents_cksum "$distfile")
-				    else
-					    filesum=$(${XBPS_DIGEST_CMD} "$distfile")
-				    fi
-				    if [[ $cksum = $filesum ]]; then
-					    dfgood=$((dfgood + 1))
-				    else
-					    inode=$(stat "$distfile" --printf "%i")
-					    msg_warn "$pkgver: wrong checksum found for ${curfile} - purging\n"
-					    find ${XBPS_SRCDISTDIR} -inum ${inode} -delete -print
-				    fi
-			    fi
-			    dfcount=$((dfcount + 1))
-		    done
-	    done
+	# Detect distfiles with obsolete checksum and purge them from the cache
+	for f in ${!_file_idxs[@]}; do
+		distfile="$srcdir/$f"
+		for i in ${_file_idxs["$f"]}; do
+			if [[ -f $distfile ]]; then
+				cksum=${_checksums["$i"]}
+				if [[ ${cksum:0:1} = @ ]]; then
+					cksum=${cksum:1}
+					filesum=$(contents_cksum "$distfile")
+				else
+					filesum=$(${XBPS_DIGEST_CMD} "$distfile")
+				fi
+				if [[ $cksum = $filesum ]]; then
+					dfgood=$((dfgood + 1))
+				else
+					inode=$(stat_inode "$distfile")
+					msg_warn "$pkgver: wrong checksum found for ${curfile} - purging\n"
+					find ${XBPS_SRCDISTDIR} -inum ${inode} -delete -print
+				fi
+			fi
+			dfcount=$((dfcount + 1))
+		done
+	done
 
-	    # We're done, if all distfiles were found and had good checksums
-	    [[ $dfcount -eq $dfgood ]] && return
+	# We're done, if all distfiles were found and had good checksums
+	[[ $dfcount -eq $dfgood ]] && return
 
-	    # Download missing distfiles and verify their checksums
-	    for curfile in ${!_file_idxs[@]}; do
-		    distfile="$srcdir/$curfile"
-		    set -- ${_file_idxs["$curfile"]}
-		    i="$1"
+	# Download missing distfiles and verify their checksums
+	for curfile in ${!_file_idxs[@]}; do
+		distfile="$srcdir/$curfile"
+		set -- ${_file_idxs["$curfile"]}
+		i="$1"
 
-		    # If file lock cannot be acquired wait until it's available.
-		    while ! flock -w 1 "${distfile}.part" true; do
-			    msg_warn "$pkgver: ${curfile} is already being downloaded, waiting for 1s ...\n"
-		    done
+		# If file lock cannot be acquired wait until it's available.
+		while ! flock -w 1 "${distfile}.part" true; do
+			msg_warn "$pkgver: ${curfile} is already being downloaded, waiting for 1s ...\n"
+		done
 
-		    if [[ -f "$distfile" ]]; then
-			    continue
-		    fi
+		if [[ -f "$distfile" ]]; then
+			continue
+		fi
 
-		    # If distfile does not exist, try to link to it.
-		    if link_cksum "$curfile" "$distfile" "${_checksums[$i]}"; then
-			    continue
-		    fi
+		# If distfile does not exist, try to link to it.
+		if link_cksum "$curfile" "$distfile" "${_checksums[$i]}"; then
+			continue
+		fi
 
-		    # If distfile does not exist, download it from a mirror location.
-		    if try_mirrors "$curfile" "$distfile" "${_checksums[$i]}" "${_distfiles[$i]}"; then
-			    continue
-		    fi
+		# If distfile does not exist, download it from a mirror location.
+		if try_mirrors "$curfile" "$distfile" "${_checksums[$i]}" "${_distfiles[$i]}"; then
+			continue
+		fi
 
-		    if ! try_urls "$curfile"; then
-			    msg_error "$pkgver: failed to fetch '$curfile'.\n"
-		    fi
-	    done
+		if ! try_urls "$curfile"; then
+			msg_error "$pkgver: failed to fetch '$curfile'.\n"
+		fi
+	done
 
-	    unset TAR_CMD
+	unset TAR_CMD
 
-	    if [[ $errors -gt 0 ]]; then
-		    msg_error "$pkgver: couldn't verify distfiles, exiting...\n"
-	    fi
+	if [[ $errors -gt 0 ]]; then
+		msg_error "$pkgver: couldn't verify distfiles, exiting...\n"
+	fi
 	fi
 }
