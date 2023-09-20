@@ -1,9 +1,3 @@
-+wrksrc=$pkgname
-+configure_args="-Dwerror=false"
--depends="${pkgname}-terminfo>=${version}_${revision} libutempter"
-+depends="${pkgname}-terminfo>=${version}_${revision}"
--changelog="https://codeberg.org/dnkl/foot/raw/branch/master/CHANGELOG.md"
-+changelog="https://codeberg.org/dnkl/foot/src/branch/master/CHANGELOG.md"
 +PGO=partial
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
 +conflicts="foot>=0"

@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway
-version=d952ce4
+version=b3519c2
 revision=1
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"

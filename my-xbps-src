@@ -359,6 +359,7 @@ update_my_pkgs() {
             '!' -name 'meson-*' \
             '!' -name 'ninja-*' \
             '!' -name 'wayland-protocols-*' \
+            '!' -name 'wireplumber-elogind-*' \
             -name '*.xbps' \
         )
         local command_to_install="sudo xdowngrade $to_install"

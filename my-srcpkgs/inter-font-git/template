@@ -11,24 +11,22 @@ homepage="https://github.com/rsms/inter"
 font_dirs="/usr/share/fonts/TTF"
 
 _my_field_repo=https://github.com/rsms/inter.git
-_my_field_skip_version=177be11
+_my_field_skip_version=234e702
 conflicts="inter-font>=0"
 hostmakedepends+=" git"
 pkgname+=-git
 replaces="inter-font>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove???
-hostmakedepends+=" ttfautohint"
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
-#   # TODO remove
-#   # https://github.com/rsms/inter/issues/470#issuecomment-1224785644
-#   post_patch() {
-#   	sed -i 's@$(PWD)/build/venv/lib/python/site-packages/ttfautohint@-m ttfautohint@' Makefile
-#   }
+# # TODO remove me
+# makedepends+=" nghttp2-devel libssh2-devel"
+# 
+# # TODO remove
+# # https://github.com/rsms/inter/issues/470#issuecomment-1224785644
+# hostmakedepends+=" ttfautohint"
+# post_patch() {
+# 	sed -i 's@$(PWD)/build/venv/lib/python/site-packages/ttfautohint@-m ttfautohint@' Makefile
+# }
 
 do_install() {
 	vmkdir usr/share/fonts/OTF
