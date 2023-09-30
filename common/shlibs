@@ -531,7 +531,6 @@ libicutest.so.73 icu-libs-73.2_1
 libaspell.so.15 libaspell-0.60.8_2
 libpspell.so.15 libaspell-0.60.8_2
 libenchant-2.so.2 enchant2-2.2.3_1
-libgconf-2.so.4 GConf-2.32.0_1
 libpackagekit-glib2.so.18 PackageKit-1.1.12_1
 libpsl.so.5 libpsl-0.20.2_1
 libsoup-2.4.so.1 libsoup-2.34.0_1
@@ -827,8 +826,7 @@ libclutter-gtk-1.0.so.0 clutter-gtk-1.1.2_1
 libchamplain-0.12.so.0 libchamplain-0.12.5_2
 libchamplain-gtk-0.12.so.0 libchamplain-0.12.5_2
 libshumate-1.0.so.1 libshumate-1.0.0_1
-libvpx.so.6 libvpx6-1.8.0_1
-libvpx.so.7 libvpx7-1.11.0_1
+libvpx.so.8 libvpx-1.13.0_1
 libatspi.so.0 at-spi2-core-1.91.91_1
 libatk-bridge-2.0.so.0 at-spi2-atk-2.6.0_1
 libvte-2.91.so.0 vte3-0.68.0_1
@@ -2978,7 +2976,7 @@ libPocoCrypto.so.94 poco-1.12.4_1
 libPtex.so ptex-2.3.2_1
 libopenblas.so.0 openblas-0.2.19_1
 librtaudio.so.6 rtaudio-5.1.0_1
-librtmidi.so.5 rtmidi-4.0.0_1
+librtmidi.so.7 rtmidi-6.0.0_1
 libbiblesync.so.2.1.0 biblesync-2.1.0_1
 libbac-9.4.2.so bacula-common-9.4.2_4
 libbaccfg-9.4.2.so bacula-common-9.4.2_4
@@ -3405,8 +3403,8 @@ libmed.so.11 libmed-4.0.0_1
 libeog.so eog-3.28.0_4
 libfreexl.so.1 freexl-1.0.5_1
 libgeos_c.so.1 geos-3.9.0_1
-libpapi.so.5 papi-5.6.0_1
-libpfm.so.4 papi-5.6.0_1
+libpapi.so.7 papi-7.0.1_1
+libpfm.so.4 libpfm4-4.13.0_1
 libfifechan.so.0.1.5 fifechan-0.1.5_1
 libfifechan_sdl.so.0.1.5 fifechan-0.1.5_1
 libfifechan_opengl.so.0.1.5 fifechan-0.1.5_1
