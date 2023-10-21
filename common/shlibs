@@ -2614,7 +2614,7 @@ libdcadec.so.0 dcadec-0.2.0_1
 libcmark.so.0 cmark-0.24.1_1
 libvidstab.so.1.1 libvidstab-1.1.0_1
 libxdo.so.3 xdotool-3.20150503.1_1
-libabigail.so.2 libabigail-2.3_1
+libabigail.so.3 libabigail-2.4_1
 libgnome-games-support-1.so.3 libgnome-games-support-1.4.0_1
 libKDevCMakeCommon.so.510 kdevelop-22.12.1_1
 libKDevClangPrivate.so.510 kdevelop-22.12.1_1
@@ -3420,7 +3420,7 @@ libhtmlcxx.so.3 htmlcxx-0.86_1
 libcss_parser_pp.so.0 htmlcxx-0.86_1
 libcss_parser.so.0 htmlcxx-0.86_1
 libaom.so.3 libaom-3.4.0_1
-libre.so.12 re-2.10.0_1
+libre.so.18 re-3.6.0_1
 libtpms.so.0 libtpms-0.9.0_1
 libswtpm_libtpms.so.0 libswtpm-0.6.1_1
 libspandsp.so.2 spandsp-0.0.6_1
@@ -3433,7 +3433,6 @@ libspa-jack.so libspa-jack-0.3.6_1
 libspa-v4l2.so libspa-v4l2-0.3.6_1
 libspa-videoconvert.so libspa-videoconvert-0.3.6_1
 libspa-vulkan.so libspa-vulkan-0.3.6_1
-librem.so.4 rem-2.10.0_1
 libshp.so.1 shapelib-1.4.1_1
 libantlr3c.so libantlr3c-3.4_1
 libbzrtp.so.0 bzrtp-1.0.6_1
