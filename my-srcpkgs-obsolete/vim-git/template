@@ -1,6 +1,6 @@
 # Template file for 'vim'
 pkgname=vim
-version=0b8b145
+version=2a281cc
 revision=1
 create_wrksrc=required
 hostmakedepends="gettext glib-devel pkg-config"

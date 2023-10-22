@@ -1,6 +1,6 @@
 # Template file for 'LGOGDownloader'
 pkgname=LGOGDownloader-git
-version=cdc3569
+version=89724cd
 revision=1
 build_style=cmake
 hostmakedepends="pkg-config"

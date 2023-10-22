@@ -42,6 +42,11 @@
 -	./configure ${configure_args} ${args} ${nohuge_args} --disable-xim --enable-gui=no --with-x=no
 +	./configure ${configure_args} ${args} ${nohuge_args} --disable-xim --enable-gui=no --with-x=no \
 +		${normal_extra_args}
+-			--enable-rubyinterp --enable-luainterp --enable-terminal \
+-			--with-python3-stable-abi=3.12
++			--enable-rubyinterp --enable-luainterp --enable-terminal
+-				--enable-terminal --with-python3-stable-abi=3.12
++				--enable-terminal
 -vim-common_package() {
 +vim-common-git_package() {
 +

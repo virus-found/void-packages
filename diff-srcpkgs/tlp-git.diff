@@ -7,9 +7,6 @@
 +replaces="tlp>=0"
 +unset checksum distfiles wrksrc
 +
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
 -tlp-rdw_package() {
 +tlp-rdw-git_package() {
 -	depends="tlp NetworkManager"
@@ -18,4 +15,5 @@
 +	conflicts="tlp-rdw>=0"
 +	replaces="tlp-rdw>=0"
 -		vmove etc/NetworkManager/dispatcher.d/99tlp-rdw-nm
++		#vmove etc/NetworkManager/dispatcher.d/99tlp-rdw-nm
 +		vmove usr/lib/NetworkManager/dispatcher.d/99tlp-rdw-nm
