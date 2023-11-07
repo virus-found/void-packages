@@ -31,9 +31,9 @@
 +#pkgname+=-git
 +_my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 +conflicts="wlroots>=0"
-+hostmakedepends+=" git libdisplay-info"
++hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/hwids/}
-+makedepends+=" hwids"
++makedepends+=" hwids libdisplay-info-devel"
 +replaces="wlroots>=0"
 +unset checksum distfiles wrksrc
 +

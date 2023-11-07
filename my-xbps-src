@@ -381,6 +381,8 @@ cleanup() {
 
     _chapter 'perform cleanup'
     sudo xbps-remove -Oo
+    # line below might help if cleanup fails
+    #rm -rf masterdir/
     ./xbps-src clean
     ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
     ./xbps-src remove-autodeps

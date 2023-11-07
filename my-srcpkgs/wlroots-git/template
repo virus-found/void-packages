@@ -1,6 +1,6 @@
 # Template file for 'wlroots'
 pkgname=wlroots-git
-version=47bf87a
+version=5de9e1a
 revision=1
 build_style=meson
 # Follow upstream packaging recommendations:
@@ -25,9 +25,9 @@ checksum=83e9a11605f23d4bf781ab1947089483d9ec3f7e9ba65398e0609593b77d44aa
 #pkgname+=-git
 _my_field_repo=https://gitlab.freedesktop.org/wlroots/wlroots.git
 conflicts="wlroots>=0"
-hostmakedepends+=" git libdisplay-info"
+hostmakedepends+=" git"
 hostmakedepends=${hostmakedepends/hwids/}
-makedepends+=" hwids"
+makedepends+=" hwids libdisplay-info-devel"
 replaces="wlroots>=0"
 unset checksum distfiles wrksrc
 

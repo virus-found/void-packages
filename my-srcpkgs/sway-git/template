@@ -1,6 +1,6 @@
 # Template file for 'sway'
 pkgname=sway
-version=4326a26
+version=020a572
 revision=1
 build_style=meson
 configure_args="-Dwerror=false -Db_ndebug=false"
@@ -27,9 +27,6 @@ makedepends=${makedepends/wlroots-devel/wlroots-devel-git}
 pkgname+=-git
 replaces="sway>=0"
 unset checksum distfiles wrksrc
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
 
 post_install() {
 	vlicense LICENSE
