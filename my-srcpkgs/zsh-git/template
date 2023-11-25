@@ -1,6 +1,6 @@
 # Template file for 'zsh'
 pkgname=zsh
-version=985cc5a
+version=fbec213
 revision=1
 build_style=gnu-configure
 make_build_target="all info"
@@ -27,6 +27,7 @@ register_shell="/bin/zsh /usr/bin/zsh"
 lib32disabled=yes
 conf_files="/etc/zsh/*"
 
+#_my_field_repo=https://git.code.sf.net/p/zsh/code
 _my_field_repo=git://git.code.sf.net/p/zsh/code
 conflicts="zsh>=0"
 hostmakedepends+=" git"

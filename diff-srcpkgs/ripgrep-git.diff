@@ -5,6 +5,11 @@
 +replaces="ripgrep>=0"
 +unset checksum distfiles wrksrc
 +
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
+-	vinstall complete/_rg 0644 usr/share/zsh/site-functions
++	#vinstall complete/_rg 0644 usr/share/zsh/site-functions
+-	vman rg.1
+-	vinstall rg.bash 0644 usr/share/bash-completion/completions rg
+-	vinstall rg.fish 0644 usr/share/fish/vendor_completions.d
++	#vman rg.1
++	#vinstall rg.bash 0644 usr/share/bash-completion/completions rg
++	#vinstall rg.fish 0644 usr/share/fish/vendor_completions.d

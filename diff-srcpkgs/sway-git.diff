@@ -9,9 +9,6 @@
 +replaces="sway>=0"
 +unset checksum distfiles wrksrc
 +
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
 -	vbin contrib/grimshot
 -	vman contrib/grimshot.1
 -}

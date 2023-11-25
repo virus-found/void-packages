@@ -1,6 +1,6 @@
 # Template file for 'ripgrep'
 pkgname=ripgrep
-version=7099e17
+version=a2907db
 revision=1
 build_style=cargo
 configure_args="--features=pcre2"
@@ -20,16 +20,13 @@ pkgname+=-git
 replaces="ripgrep>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 post_install() {
 	vlicense LICENSE-MIT
 	vlicense UNLICENSE
 
-	vinstall complete/_rg 0644 usr/share/zsh/site-functions
+	#vinstall complete/_rg 0644 usr/share/zsh/site-functions
 	cd "target/${RUST_TARGET}/release/build/ripgrep-"*/out
-	vman rg.1
-	vinstall rg.bash 0644 usr/share/bash-completion/completions rg
-	vinstall rg.fish 0644 usr/share/fish/vendor_completions.d
+	#vman rg.1
+	#vinstall rg.bash 0644 usr/share/bash-completion/completions rg
+	#vinstall rg.fish 0644 usr/share/fish/vendor_completions.d
 }

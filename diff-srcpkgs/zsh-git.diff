@@ -1,3 +1,4 @@
++#_my_field_repo=https://git.code.sf.net/p/zsh/code
 +_my_field_repo=git://git.code.sf.net/p/zsh/code
 +conflicts="zsh>=0"
 +hostmakedepends+=" git"
