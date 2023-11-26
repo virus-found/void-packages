@@ -21,6 +21,7 @@ etc/conf
 etc/conf.*
 etc/virtual
 etc/xbps.d/custom
+etc/repo-keys
 
 # including virus-found/void-packages stuff below
 !/diff-srcpkgs
