@@ -171,7 +171,7 @@ libxslt.so.1 libxslt-1.1.24_1
 libstartup-notification-1.so.0 startup-notification-0.10_1
 libwnck-3.so.0 libwnck-2.91.90_1
 libnl.so.1 libnl-1.1_1
-libnl-3.so.200 libnl3-3.2.1_1
+libnl-3.so.200 libnl3-3.2.22_1
 libnl-route-3.so.200 libnl3-3.2.1_1
 libnl-idiag-3.so.200 libnl3-3.2.28_1
 libnl-nf-3.so.200 libnl3-3.2.1_1
@@ -345,7 +345,7 @@ libMagickCore-7.Q16HDRI.so.10 libmagick-7.1.0.10_1
 libMagickWand-7.Q16HDRI.so.10 libmagick-7.1.0.10_1
 libMagick++-7.Q16HDRI.so.5 libmagick-7.0.11.1_1
 libltdl.so.7 libltdl-2.2.6_1
-libpoppler.so.130 libpoppler-23.08.0_1
+libpoppler.so.133 libpoppler-23.12.0_1
 libpoppler-glib.so.8 poppler-glib-0.18.2_1
 libpoppler-cpp.so.0 poppler-cpp-0.18.2_1
 libpoppler-qt5.so.1 poppler-qt5-0.31.0_1
