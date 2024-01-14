@@ -1,6 +1,6 @@
-# Template file for 'linux6.6'
-pkgname=linux6.6
-version=6.6.11
+# Template file for 'linux6.7'
+pkgname=linux6.7
+version=6.7.0
 revision=1
 short_desc="Linux kernel and modules (${version%.*} series)"
 maintainer="Duncaen <duncaen@voidlinux.org>"
@@ -8,13 +8,12 @@ license="GPL-2.0-only"
 homepage="https://www.kernel.org"
 distfiles="${KERNEL_SITE}/kernel/v${version%%.*}.x/linux-${version%.*}.tar.xz"
 
-if [ "${version##*.}" != 0 ]; then
-	distfiles+=" ${KERNEL_SITE}/kernel/v${version%%.*}.x/patch-${version}.xz"
-	skip_extraction="patch-${version}.xz"
-fi
+# if [ "${version##*.}" != 0 ]; then
+# 	distfiles+=" ${KERNEL_SITE}/kernel/v${version%%.*}.x/patch-${version}.xz"
+# 	skip_extraction="patch-${version}.xz"
+# fi
 
-checksum="d926a06c63dd8ac7df3f86ee1ffc2ce2a3b81a2d168484e76b5b389aba8e56d0
- 2283b5c40057ba48e3e24390ef71931a9713ec783d37e13de5c9f47a6a47d5df"
+checksum=ef31144a2576d080d8c31698e83ec9f66bf97c677fa2aaf0d5bbb9f3345b1069
 python_version=3
 
 # XXX Restrict archs until a proper <arch>-dotconfig is available in FILESDIR.
@@ -67,6 +66,9 @@ post_patch() {
 	# avoid the strip wrapper, its used to copy the objects to a new location
 	# and required to avoid absolute relocations.
 	vsed -e "s|\$(STRIP) \(--strip-debug -o \$@ \$<;\)|/usr/bin/${STRIP} \1|" -i drivers/firmware/efi/libstub/Makefile
+
+	# parallel pahole crashes on i686, do one job for now
+	vsed -i "s/\(\$(pahole-flags-y)\)/\1 --jobs=1/" -i scripts/Makefile.btf
 }
 
 do_configure() {
@@ -320,7 +322,7 @@ do_install() {
 	rm -f ${DESTDIR}/lib
 }
 
-linux6.6-headers_package() {
+linux6.7-headers_package() {
 	preserve=yes
 	nostrip=yes
 	noshlibprovides=yes
@@ -331,7 +333,7 @@ linux6.6-headers_package() {
 	}
 }
 
-linux6.6-dbg_package() {
+linux6.7-dbg_package() {
 	preserve=yes
 	nostrip=yes
 	noverifyrdeps=yes
