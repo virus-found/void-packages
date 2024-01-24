@@ -53,6 +53,7 @@ libcidn.so.1 glibc-2.38_1
 libmvec.so.1 glibc-2.38_1
 libcddgmp.so.0 cddlib-0.94m_1
 libcdd.so.0 cddlib-0.94m_1
+libcowsql.so.0 cowsql-1.15.4_1
 libz.so.1 zlib-1.2.3_1
 libb2.so.1 libb2-0.98.1_1
 libbz2.so.1 bzip2-1.0.5_1
@@ -3820,7 +3821,7 @@ libigraph.so.3 igraph-0.10.2_1
 libgtk-layer-shell.so.0 gtk-layer-shell-0.1.0_1
 librdkafka.so.1 librdkafka-1.4.4_3
 librdkafka++.so.1 librdkafka-1.4.4_3
-libraft.so.2 raft-0.13.0_1
+libraft.so.0 raft-0.18.2_1
 libmdnsd.so.1 libmdnsd-0.9_1
 libosdGPU.so.3.4.3 OpenSubdiv-3.4.3_1
 libosdCPU.so.3.4.3 OpenSubdiv-3.4.3_1
