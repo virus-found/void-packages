@@ -1550,9 +1550,6 @@ libdovecot-compression.so.0 dovecot-2.3.13_3
 libdovecot-sql.so.0 dovecot-2.3.13_3
 libdovecot-storage.so.0 dovecot-2.3.13_3
 libdovecot-lda.so.0 dovecot-2.3.13_3
-libwiretap.so.13 libwireshark-4.0.0_1
-libwireshark.so.16 libwireshark-4.0.0_1
-libwsutil.so.14 libwireshark-4.0.0_1
 libKPim5ContactEditor.so.5 akonadi-contacts-23.04.0_1
 libKPim5AkonadiContact.so.5 akonadi-contacts-23.04.0_1
 libKF5Prison.so.5 prison-5.43.0_1
@@ -2939,7 +2936,6 @@ libspectrum.so.8 libspectrum-1.2.2_1
 libbearssl.so.0 bearssl-0.3_1
 libXfont2.so.2 libXfont2-2.0.1_1
 libqalculate.so.22 libqalculate-3.20.1_1
-libweston-9.so.0 weston-9.0.0_1
 libostree-1.so.1 ostree-2023.1_1
 librhash.so.1 rhash-1.4.4_1
 libserialport.so.0 libserialport-0.1.1_1
