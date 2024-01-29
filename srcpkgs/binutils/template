@@ -11,7 +11,6 @@ license="GPL-3.0-or-later"
 homepage="http://www.gnu.org/software/binutils/"
 distfiles="${GNU_SITE}/binutils/binutils-${version}.tar.xz"
 checksum=ae9a5789e23459e59606e6714723f2d3ffc31c03174191ef0d015bdf06007450
-nocross=temporarily
 
 build_options="all_targets"
 desc_option_all_targets="Enable all supported targets"
@@ -48,6 +47,8 @@ do_configure() {
 	if [ "$CROSS_BUILD" ]; then
 		# we don't want --with-sysroot=${XBPS_CROSS_BASE} like gnu-configure
 		conf+=" --host=${XBPS_CROSS_TRIPLET} --with-build-sysroot=${XBPS_CROSS_BASE}"
+
+		vsed -e '/PKG_CONFIG_SYSROOT_DIR/d' -i ${XBPS_WRAPPERDIR}/${XBPS_CROSS_TRIPLET}-pkg-config
 	fi
 
 	# gprofng currently only supports x86 and aarch64 glibc.
@@ -108,6 +109,7 @@ do_configure() {
 		--with-system-zlib \
 		--with-mmap \
 		--with-pic \
+		--with-zstd \
 		$conf
 }
 
