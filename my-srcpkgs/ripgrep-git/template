@@ -1,6 +1,6 @@
 # Template file for 'ripgrep'
 pkgname=ripgrep
-version=a2907db
+version=9b42af9
 revision=1
 build_style=cargo
 configure_args="--features=pcre2"

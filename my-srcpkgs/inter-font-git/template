@@ -20,12 +20,12 @@ unset checksum distfiles wrksrc
 
 # TODO see https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=nerd-fonts-inter
 
-# # TODO remove
-# # https://github.com/rsms/inter/issues/470#issuecomment-1224785644
+# TODO remove
+# https://github.com/rsms/inter/issues/470#issuecomment-1224785644
 hostmakedepends+=" ttfautohint"
-# post_patch() {
-# 	sed -i 's@$(PWD)/build/venv/lib/python/site-packages/ttfautohint@-m ttfautohint@' Makefile
-# }
+post_patch() {
+	sed -i 's@$(PWD)/build/venv/lib/python/site-packages/ttfautohint@-m ttfautohint@' Makefile
+}
 
 do_install() {
 	vmkdir usr/share/fonts/OTF

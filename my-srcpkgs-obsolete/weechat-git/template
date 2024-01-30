@@ -24,8 +24,6 @@ lib32disabled=yes
 
 subpackages="weechat-aspell weechat-devel weechat-ruby weechat-python weechat-tcl weechat-lua weechat-perl"
 
-# TODO remove line below also in neovim-git
-#makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
 # causes msg_error "Build-time cyclic dependency$last,${XBPS_DEPENDS_CHAIN##*,$last,} detected.\n"
 #pkgname+=-git
 _my_field_ignore=1

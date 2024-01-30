@@ -8,15 +8,13 @@
 +replaces="libsixel>=0"
 +unset checksum distfiles wrksrc
 +
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
 +libsixel-devel-git_package() {
 +
 +	conflicts="libsixel-devel>=0"
 +	replaces="libsixel-devel>=0"
 -		vmove "usr/lib/*.a"
 +		#vmove "usr/lib/*.a"
++		vmove "usr/lib/*.a" || true
 -libsixel-util_package() {
 +libsixel-util-git_package() {
 +

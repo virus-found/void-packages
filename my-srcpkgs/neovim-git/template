@@ -1,25 +1,24 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=0d7cc5e
+version=4ffc20c
 revision=1
 build_style=cmake
 build_helper="qemu"
-configure_args="-DCMAKE_BUILD_TYPE=Release -DCOMPILE_LUA=OFF"
-hostmakedepends="pkg-config gettext gperf LuaJIT lua51-lpeg lua51-mpack"
+configure_args="-DCOMPILE_LUA=OFF -DPREFER_LUA=$(vopt_if luajit OFF ON)"
+hostmakedepends="gettext lua51-lpeg lua51-mpack lua51-BitOp
+ $(vopt_if luajit LuaJIT lua51)"
 makedepends="libtermkey-devel libuv-devel libvterm-devel msgpack-devel
- LuaJIT-devel libluv-devel tree-sitter-devel"
+ libluv-devel tree-sitter-devel $(vopt_if luajit LuaJIT-devel lua51-devel)"
 short_desc="Fork of Vim aiming to improve user experience, plugins and GUIs"
-maintainer="Steve Prybylski <sa.prybylx@gmail.com>"
-license="Apache-2.0, custom:Vim"
+maintainer="Marcin Puc <tranzystorek.io@protonmail.com>"
+license="Apache-2.0, Vim"
 homepage="https://neovim.io"
-distfiles="https://github.com/neovim/neovim/archive/v${version}.tar.gz"
-checksum=505e3dfb71e2f73495c737c034a416911c260c0ba9fd2092c6be296655be4d18
+distfiles="https://github.com/neovim/neovim/archive/refs/tags/v${version}.tar.gz"
+checksum=148356027ee8d586adebb6513a94d76accc79da9597109ace5c445b09d383093
 
-# TODO remove line below also in weechat-git
-#makedepends+=" jsoncpp-devel libuv-devel rhash-devel"
-_my_field_ignore=1
 _my_field_repo=https://github.com/neovim/neovim.git
 build_helper=${build_helper/qemu/}
+configure_args+=" -DCMAKE_BUILD_TYPE=Release"
 conflicts="neovim>=0"
 hostmakedepends+=" git"
 makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
@@ -27,8 +26,12 @@ pkgname+=-git
 replaces="neovim>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
+build_options=luajit
+
+case "$XBPS_TARGET_MACHINE" in
+	riscv64*) build_options_default="" ;;
+	*) build_options_default="luajit" ;;
+esac
 
 alternatives="
  vi:vi:/usr/bin/nvim
@@ -38,9 +41,14 @@ alternatives="
  vim:vim:/usr/bin/nvim
  vim:vim.1:/usr/share/man/man1/nvim.1"
 
+# They want assertion
+CFLAGS=-UNDEBUG
+
 pre_configure() {
 	vsed -i runtime/CMakeLists.txt \
 		-e "s|\".*/bin/nvim|\${CMAKE_CROSSCOMPILING_EMULATOR} &|g"
+	vsed -i src/nvim/po/CMakeLists.txt \
+		-e "s|\$<TARGET_FILE:nvim|\${CMAKE_CROSSCOMPILING_EMULATOR} &|g"
 }
 
 post_install() {

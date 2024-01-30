@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot
-version=242767d
+version=44c0cf5
 revision=1
 build_style=meson
 hostmakedepends="pkg-config scdoc wayland-devel"
@@ -13,7 +13,7 @@ license="MIT"
 homepage="https://codeberg.org/dnkl/foot"
 changelog="https://codeberg.org/dnkl/foot/raw/branch/master/CHANGELOG.md"
 distfiles="https://codeberg.org/dnkl/foot/archive/${version}.tar.gz"
-checksum=65006a0643ec185a0e24578365e2e7469ddeba6bd543645a15d9bbb5ec501670
+checksum=0e02af376e5f4a96eeb90470b7ad2e79a1d660db2a7d1aa772be43c7db00e475
 conf_files="/etc/xdg/foot/foot.ini"
 
 PGO=partial
@@ -29,9 +29,6 @@ pkgname+=-git
 replaces="foot>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 # steps only for PGO
 # taken from https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=foot-git
 do_build() {
@@ -40,8 +37,8 @@ do_build() {
 		. build \
 		--prefix=/usr \
 		--wrap-mode=nodownload \
-		-Dterminfo=disabled \
 		-Dthemes=false
+		#-Dterminfo=disabled \
 }
 
 post_install() {

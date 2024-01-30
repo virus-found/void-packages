@@ -11,9 +11,6 @@
 +replaces="foot>=0"
 +unset checksum distfiles wrksrc
 +
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
 +# steps only for PGO
 +# taken from https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=foot-git
 +do_build() {
@@ -22,8 +19,8 @@
 +		. build \
 +		--prefix=/usr \
 +		--wrap-mode=nodownload \
-+		-Dterminfo=disabled \
 +		-Dthemes=false
++		#-Dterminfo=disabled \
 +}
 +
 +
