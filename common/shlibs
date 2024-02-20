@@ -3467,7 +3467,7 @@ libwx_gtk3u_richtext-3.2.so.0 wxWidgets-gtk3-3.2.2.1_1
 libwx_gtk3u_stc-3.2.so.0 wxWidgets-gtk3-3.2.2.1_1
 libwx_gtk3u_webview-3.2.so.0 wxWidgets-gtk3-3.2.2.1_1
 libwx_gtk3u_xrc-3.2.so.0 wxWidgets-gtk3-3.2.2.1_1
-libtepl-6.so.2 tepl-6.4.0_1
+libtepl-6.so.4 tepl-6.8.0_1
 libnomacsCore.so.3 nomacs-3.10.2_4
 libaudit.so.1 libaudit-2.8.4_1
 libauparse.so.0 libauparse-2.8.4_1
@@ -3584,7 +3584,9 @@ libqhttpengine.so.1 qhttpengine-1.0.1_1
 libqmdnsengine.so.0 qmdnsengine-0.1.0_1
 libyang.so.1 libyang-1.0r5_1
 libhtp.so.2 libhtp-0.5.30_1
-libgedit-44.so gedit-44.0_1
+libgedit-46.so gedit-46.1_1
+libgedit-amtk-5.so.0 libgedit-amtk-5.8.0_1
+libgedit-gtksourceview-300.so.0 libgedit-gtksourceview-299.0.5_1
 libchewing.so.3 libchewing-0.5.1_1
 libdwarves.so.1 pahole-1.12_1
 libdwarves_emit.so.1 pahole-1.12_1
