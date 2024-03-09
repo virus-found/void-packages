@@ -1771,9 +1771,9 @@ libmate-desktop-2.so.17 mate-desktop-1.8.0_1
 libmarco-private.so.2 libmarco-1.22.2_1
 libmate-menu.so.2 mate-menus-1.8.0_1
 libcaja-extension.so.1 libcaja-1.8.1_1
-libmatekbd.so.4 libmatekbd-1.8.0_1
+libmatekbd.so.6 libmatekbd-1.28.0_1
+libmatekbdui.so.6 libmatekbd-1.28.0_1
 libmatemixer.so.0 libmatemixer-1.10.0_1
-libmatekbdui.so.4 libmatekbd-1.8.0_1
 libmate-window-settings.so.1 libmate-control-center-1.8.1_1
 libmateweather.so.1 libmateweather-1.8.0_1
 libmate-panel-applet-4.so.1 libmate-panel-1.8.0_1
@@ -2234,6 +2234,8 @@ libqca-qt6.so.2 qca-qt6-2.3.8_1
 libqt5keychain.so.1 qtkeychain-qt5-0.7.0_1
 libphonon4qt5.so.4 phonon-qt5-4.8.3_1
 libphonon4qt5experimental.so.4 phonon-qt5-4.8.3_1
+libphonon4qt6.so.4 phonon-4.12.0_1
+libphonon4qt6experimental.so.4 phonon-4.12.0_1
 libtelepathy-qt5.so.0 telepathy-qt5-0.9.5_1
 libtelepathy-qt5-service.so.1 telepathy-qt5-0.9.8_1
 libtelepathy-qt5-farstream.so.0 telepathy-qt5-farstream-0.9.5_1
@@ -2584,6 +2586,8 @@ liborcus-mso-0.18.so.0 liborcus-0.18.1_1
 liborcus-0.18.so.0 liborcus-0.18.1_1
 liborcus-spreadsheet-model-0.18.so.0 liborcus-0.18.1_1
 libnumbertext-1.0.so.0 libnumbertext-1.0.4_1
+libzmf-0.0.so.0 libzmf-0.0.2_1
+libzxcvbn.so.0 zxcvbn-c-2.5_1
 libGeneratedSaxParser.so opencollada-0.0.20160223_1
 libMathMLSolver.so opencollada-0.0.20160223_1
 libOpenCOLLADABaseUtils.so opencollada-0.0.20160223_1
@@ -4131,6 +4135,7 @@ libsyncthingmodel.so.12 syncthingtray-1.4.13_1
 libsyncthingconnector.so.12 syncthingtray-1.4.13_1
 libglibutil.so.1 libglibutil-1.0.64_1
 libgbinder.so.1 libgbinder-1.1.20_1
+libgxml-0.20.so.2.0.2 gxml-0.20.3_1
 libsunpinyin.so.3 libsunpinyin-3.0.0rc2_1
 libtpm2-totp.so.0 libtpm2-totp-0.3.0_1
 libmujs.so.1.2.0 mujs-1.2.0_2
@@ -4289,3 +4294,4 @@ libunicode_ucd.so.0.4 libunicode-0.4.0_1
 libunicode_loader.so.0.4 libunicode-0.4.0_1
 force-stage.so.0.1 void-force-stage-0.1_1
 libliftoff.so.0 libliftoff-0.4.1_1
+libscfg.so libscfg-0.1.1_1
