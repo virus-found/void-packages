@@ -1,0 +1,20 @@
+-go_import_path="github.com/darkhz/bluetuith"
+-depends="bluez dbus"
+-short_desc="TUI bluetooth manager"
+-maintainer="Bnyro <bnyro@tutanota.com>"
++makedepends="ncurses-devel"
++short_desc="TUI-based bluetooth manager"
++maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+-homepage="https://darkhz.github.io/bluetuith"
++homepage="https://github.com/darkhz/bluetuith"
+-post_install() {
+-	vlicense LICENSE
+-}
++_my_field_repo=https://github.com/darkhz/bluetuith.git
++conflicts="bluetuith>=0"
++depends="dbus bluez"
++go_import_path="github.com/darkhz/bluetuith"
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="bluetuith>=0"
++unset checksum distfiles wrksrc

@@ -1,19 +1,19 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=67bb70c
+version=ac817bc
 revision=1
-wrksrc="$pkgname"
 build_style=python3-module
+make_check_args="-k not(download)"
 hostmakedepends="python3-setuptools"
 depends="python3"
-checkdepends="python3-pytest flake8 python3-nose"
+checkdepends="python3-pytest-xdist"
 short_desc="CLI program to download videos from YouTube and other sites"
-maintainer="Michal Vasilek <michal@vasilek.cz>"
+maintainer="classabbyamp <void@placeviolette.net>"
 license="Unlicense"
 homepage="https://github.com/yt-dlp/yt-dlp"
 changelog="https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/Changelog.md"
-distfiles="https://github.com/yt-dlp/yt-dlp/releases/download/$version/yt-dlp.tar.gz"
-checksum=675ff266e9400c47bb4df947ab3e7d5e9d4c362abcadd2c61ba341e86590f1df
+distfiles="https://github.com/yt-dlp/yt-dlp/releases/download/${version}/yt-dlp.tar.gz"
+checksum=5408fe5d12cd1c430ee10346770e3d60baad5c63a38b41c8967005e4956780a7
 
 _my_field_repo=https://github.com/yt-dlp/yt-dlp.git
 conflicts="yt-dlp>=0"
@@ -22,9 +22,6 @@ pkgname+=-git
 replaces="yt-dlp>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
-do_check() {
-	PYTHON=/usr/bin/python3 make offlinetest
-}
+# TMP check upstream updates incorporating these changes
+build_style=python3-pep517
+hostmakedepends+=" hatchling"

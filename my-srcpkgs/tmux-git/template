@@ -1,6 +1,6 @@
 # Template file for 'tmux'
 pkgname=tmux
-version=ea7136f
+version=0a8571b
 revision=1
 build_style=gnu-configure
 configure_args="--enable-utempter"

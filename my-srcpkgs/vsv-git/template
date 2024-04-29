@@ -1,6 +1,6 @@
 # Template file for 'vsv'
 pkgname=vsv
-version=33e5a27
+version=0103e67
 revision=1
 build_style=cargo
 depends="psmisc"

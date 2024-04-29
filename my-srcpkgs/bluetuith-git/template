@@ -1,18 +1,19 @@
 # Template file for 'bluetuith'
 pkgname=bluetuith
-version=f3c3587
+version=dd21a9c
 revision=1
 build_style=go
-makedepends="ncurses-devel"
-short_desc="TUI-based bluetooth manager"
-maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+go_import_path="github.com/darkhz/bluetuith"
+depends="bluez dbus"
+short_desc="TUI bluetooth manager"
+maintainer="Bnyro <bnyro@tutanota.com>"
 license="MIT"
-homepage="https://github.com/darkhz/bluetuith"
+homepage="https://darkhz.github.io/bluetuith"
+distfiles="https://github.com/darkhz/bluetuith/archive/refs/tags/v${version}.tar.gz"
+checksum=2a02f51c53668fa3171e642e25f268fc50fbb2438f764956fb7cd46fb786083d
 
 _my_field_repo=https://github.com/darkhz/bluetuith.git
 conflicts="bluetuith>=0"
-depends="dbus bluez"
-go_import_path="github.com/darkhz/bluetuith"
 hostmakedepends+=" git"
 pkgname+=-git
 replaces="bluetuith>=0"

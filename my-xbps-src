@@ -1,16 +1,27 @@
 #!/bin/bash
 # vim: set ts=4 sw=4 et:
+
+# -e exit on any error (work around with ||true)
+# -u exit on unset variables, prevents here rm $masterdir/1/2/3 to be run as rm /1/2/3
 set -eu
 
 # Get cwd of this script
 # https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
-cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" 2>/dev/null
-[[ $cwd ]] && cd $cwd
+XBPS_DISTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)" 2>/dev/null
+[[ $XBPS_DISTDIR ]] && cd $XBPS_DISTDIR
 
 # Define paths
-templates_dir=srcpkgs
-custom_templates_dir=my-srcpkgs
-custom_template_diffs_dir=diff-srcpkgs
+XBPS_SRCPKGDIR=srcpkgs
+XBPS_UNOFFICIAL_SRCPKGDIR=my-srcpkgs
+XBPS_DIFF_SRCPKGDIR=diff-srcpkgs
+XBPS_MACHINE=$(xbps-uhelper -C /dev/null arch)
+XBPS_MASTERDIR="$XBPS_DISTDIR/masterdir-$XBPS_MACHINE"
+XBPS_HOSTDIR=hostdir
+XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
+XBPS_DESTDIR=$XBPS_MASTERDIR/destdir
+XBPS_BUILDDIR=$XBPS_MASTERDIR/builddir
+XBPS_REPOSITORY=$XBPS_HOSTDIR/binpkgs
+XBPS_UNOFFICIAL_REPOSITORY=my-binpkgs
 
 l="------------------------------------------------------------------------------"
 
@@ -91,10 +102,10 @@ _chapter_question_build_fail_continue() {
 
 _sync_my_pkgs() {
     (
-        cd $custom_templates_dir
+        cd $XBPS_UNOFFICIAL_SRCPKGDIR
 
         # Remove obsolete symlinks of custom packages
-        find ../$templates_dir -maxdepth 1 -xtype l -exec rm -iv {} +
+        find ../$XBPS_SRCPKGDIR -maxdepth 1 -xtype l -exec rm -iv {} +
         # TODO becomes replaced with rsync
         # Remove obsolete symlinks among supplementary files
         find . -xtype l -exec rm -iv {} +
@@ -105,9 +116,9 @@ _sync_my_pkgs() {
         local custom_package
         for custom_package in *
         do
-            local relpath_custom=../$custom_templates_dir/$custom_package
-            local relpath_custom_link=../$templates_dir/$custom_package
-            local relpath_original=../$templates_dir/${custom_package%-git}
+            local relpath_custom=../$XBPS_UNOFFICIAL_SRCPKGDIR/$custom_package
+            local relpath_custom_link=../$XBPS_SRCPKGDIR/$custom_package
+            local relpath_original=../$XBPS_SRCPKGDIR/${custom_package%-git}
 
             # Create symlinks of custom packages
             ln -svn $relpath_custom $relpath_custom_link 2>/dev/null || true
@@ -171,24 +182,24 @@ update_my_pkgs() {
         local force=true
         local mypkgs=$@
     else
-        cd $custom_templates_dir
+        cd $XBPS_UNOFFICIAL_SRCPKGDIR
         # Omit symlinks
         # -printf '%P\n' erases leftmost dir from output
-        local mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n') || cd $cwd
-        cd $cwd
+        local mypkgs=$(find . -maxdepth 1 -mindepth 1 ! -type l -printf '%P\n') || cd $XBPS_DISTDIR
+        cd $XBPS_DISTDIR
     fi
 
-    rm -rf masterdir/{builddir,destdir}/
+    rm -rf $XBPS_DESTDIR $XBPS_BUILDDIR
 
-    rm -rf hostdir/binpkgs/
-    mkdir -p hostdir/binpkgs/
+    rm -rf $XBPS_REPOSITORY
+    mkdir -p $XBPS_REPOSITORY
 
     # registering packages from my-binpkgs
-    cp -pv my-binpkgs/*.xbps hostdir/binpkgs/ 2>/dev/null || true
-    xbps-rindex -a hostdir/binpkgs/*.xbps 2>/dev/null || true
+    cp -pv $XBPS_UNOFFICIAL_REPOSITORY/*.xbps $XBPS_REPOSITORY 2>/dev/null || true
+    xbps-rindex -a $XBPS_REPOSITORY/*.xbps 2>/dev/null || true
 
     rm -f /tmp/my-xbps-log
-    mkdir -p masterdir/repos/
+    mkdir -p $XBPS_MASTERDIR/repos/
 
     _update_system
 
@@ -213,7 +224,7 @@ update_my_pkgs() {
     local p
     for p in $mypkgs
     do
-        template=$templates_dir/$p/template
+        template=$XBPS_SRCPKGDIR/$p/template
         [[ -f $template ]] || { echo "=> ${0##*/}: expected $(pwd)/$template to be a file" ; return 1 ; }
         unset _my_field_autoinstall _my_field_repo _my_field_repo_branch _my_field_repo_commit _my_field_skip_version
         # workaround for some variables possible missing in templates
@@ -292,13 +303,13 @@ update_my_pkgs() {
         # g log --pretty=short -n2 . << wip
 
         # Define and check original template
-        local original_template=$templates_dir/${p%-git}/template
+        local original_template=$XBPS_SRCPKGDIR/${p%-git}/template
         if [[ -e $original_template && $original_template != $template ]]
         then
             diff --ignore-blank-lines --old-line-format=-%L --new-line-format=+%L --unchanged-line-format= \
                 <(grep -vE '^version|^revision|^distfiles|^checksum' $original_template) \
                 <(grep -vE '^version|^revision|^distfiles|^checksum' $template) \
-                > $custom_template_diffs_dir/$p.diff || true
+                > $XBPS_DIFF_SRCPKGDIR/$p.diff || true
         fi
 
         # Remove skip before build
@@ -311,10 +322,10 @@ update_my_pkgs() {
         case "$p" in
             # Only e.g. wlroots* and tree-sitter* are removed, need to remove proper subpackages from template
             $previous1* )
-                rm -f hostdir/binpkgs/$previous1*
+                rm -f $XBPS_REPOSITORY/$previous1*
                 ;;
             $previous2* )
-                rm -f hostdir/binpkgs/$previous2*
+                rm -f $XBPS_REPOSITORY/$previous2*
                 ;;
         esac
 
@@ -329,10 +340,10 @@ update_my_pkgs() {
 
         local built=true
 
-        if [[ ${git:-} = true && -e masterdir/builddir/$p-$upstream_rev ]]
+        if [[ ${git:-} = true && -e $XBPS_BUILDDIR/$p-$upstream_rev ]]
         then
             (
-                cd masterdir/builddir/$p-$upstream_rev
+                cd $XBPS_BUILDDIR/$p-$upstream_rev
 
                 local log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit $version..$upstream_rev 2>/dev/null || true)
                 if [[ $log ]]
@@ -351,7 +362,7 @@ update_my_pkgs() {
     if [[ ${built:-} ]]
     then
         # TODO don't hardcode these rules, read them from a template
-        local to_install=$(find hostdir/binpkgs \
+        local to_install=$(find $XBPS_REPOSITORY \
             '!' -name '*-dbg-*' \
             '!' -name '*-devel-*' \
             '!' -name 'libdrm-test-progs-*' \
@@ -382,12 +393,12 @@ cleanup() {
     _chapter 'perform cleanup'
     sudo xbps-remove -Oo
     # line below might help if cleanup fails
-    #rm -rf masterdir/
+    #rm -rf $XBPS_MASTERDIR
     ./xbps-src clean
     ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
     ./xbps-src remove-autodeps
     ./xbps-src zap
-    rm -rf hostdir/sources/
+    rm -rf $XBPS_SRCDISTDIR
     ./xbps-src binary-bootstrap
     _chapter 'cleanup success'
 }
