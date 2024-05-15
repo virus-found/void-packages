@@ -5,7 +5,3 @@
 +pkgname+=-git
 +replaces="yt-dlp>=0"
 +unset checksum distfiles wrksrc
-+
-+# TMP check upstream updates incorporating these changes
-+build_style=python3-pep517
-+hostmakedepends+=" hatchling"

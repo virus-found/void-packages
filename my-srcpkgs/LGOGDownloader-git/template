@@ -1,20 +1,32 @@
 # Template file for 'LGOGDownloader'
-pkgname=LGOGDownloader-git
-version=1866f4c
+pkgname=LGOGDownloader
+version=07eeff4
 revision=1
 build_style=cmake
+configure_args="$(vopt_bool qt USE_QT_GUI)"
 hostmakedepends="pkg-config"
 makedepends="htmlcxx-devel tinyxml2-devel libcurl-devel rhash-devel
- jsoncpp-devel boost-devel openssl-devel zlib-devel"
+ jsoncpp-devel boost-devel openssl-devel zlib-devel
+ $(vopt_if qt "qt5-webengine-devel qt5-declarative-devel
+ qt5-webchannel-devel qt5-location-devel")"
 short_desc="Open source downloader for GOG.com games that uses the GOG.com API"
 maintainer="RunningDroid <runningdroid@zoho.com>"
 license="WTFPL"
 homepage="https://github.com/Sude-/lgogdownloader"
+distfiles="https://github.com/Sude-/lgogdownloader/archive/v${version}.tar.gz"
+checksum=01c9556287d5f49662c2219365b9d306482e8efadc805c3dbb9381d5110df719
+
+build_options="qt"
+desc_option_qt="Include QT WebEngine to support solving captchas"
+
 _my_field_repo=https://github.com/Sude-/lgogdownloader.git
 conflicts="LGOGDownloader>=0"
 hostmakedepends+=" git"
+makedepends=${makedepends/htmlcxx-devel/libtidy5-devel}
+pkgname+=-git
 replaces="LGOGDownloader>=0"
+unset checksum distfiles wrksrc
 
-if [ "$XBPS_TARGET_NO_ATOMIC8" ]; then
-	makedepends+=" libatomic-devel"
+if [ -z "$CROSS_BUILD" ]; then
+	hostmakedepends+=" help2man"
 fi
