@@ -1,7 +1,7 @@
 +_my_field_repo=https://github.com/Sude-/lgogdownloader.git
 +conflicts="LGOGDownloader>=0"
 +hostmakedepends+=" git"
-+makedepends+=" libtidy5-devel"
++makedepends=${makedepends/htmlcxx-devel/libtidy5-devel}
 +pkgname+=-git
 +replaces="LGOGDownloader>=0"
 +unset checksum distfiles wrksrc
