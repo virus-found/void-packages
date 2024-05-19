@@ -1,18 +1,18 @@
 # Template file for 'qtermwidget'
-pkgname=qtermwidget
-version=1.4.0
+pkgname=qtermwidget-qt6
+version=2.0.0
 revision=1
 build_style=cmake
-hostmakedepends="lxqt-build-tools qt5-qmake qt5-host-tools"
-makedepends="qt5-tools-devel"
+hostmakedepends="lxqt-build-tools qt6-base qt6-tools"
+makedepends="qt6-base-devel"
 short_desc="Terminal widget for QTerminal"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Helmut Pozimski <helmut@pozimski.eu>"
 license="GPL-2.0-or-later"
 homepage="https://lxqt-project.org"
 distfiles="https://github.com/lxqt/qtermwidget/archive/${version}.tar.gz"
-checksum=f0de18a8fb61ac7bde4b052c962bd3934a6f9c4fa3fd35aae3ddd833fd3b8b60
+checksum=571863546aa7cbad915394892e347b64ef6ee4d9cf8fd4ddcf43745a1226cf7e
 
-qtermwidget-devel_package() {
+qtermwidget-qt6-devel_package() {
 	short_desc+=" - development files"
 	depends="${sourcepkg}>=${version}_${revision}"
 	pkg_install() {
