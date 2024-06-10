@@ -587,7 +587,6 @@ libverto-k5ev.so.0 mit-krb5-libs-1.8_1
 libmenu-cache.so.3 menu-cache-1.0.0_1
 libupower-glib.so.3 libupower-glib3-0.99.3_1
 libcanberra.so.0 libcanberra-0.23_1
-libcanberra-gtk.so.0 libcanberra-gtk-0.30_6
 libcanberra-gtk3.so.0 libcanberra-gtk3-0.30_6
 libgtop-2.0.so.11 libgtop-2.38.0_1
 librarian.so.0 rarian-0.8.1_1
@@ -4333,9 +4332,9 @@ libopensmtpd.so.0 libopensmtpd-0.7_1
 libiio.so.0 libiio-0.23_1
 libqtforkawesome.so.1 qtforkawesome-0.1.0_1
 libqtquickforkawesome.so.1 qtforkawesome-0.1.0_1
-libsyncthingwidgets.so.14 syncthingtray-1.5.3_1
-libsyncthingmodel.so.14 syncthingtray-1.5.3_1
-libsyncthingconnector.so.14 syncthingtray-1.5.3_1
+libsyncthingwidgets.so.15 syncthingtray-1.5.4_1
+libsyncthingmodel.so.15 syncthingtray-1.5.4_1
+libsyncthingconnector.so.15 syncthingtray-1.5.4_1
 libglibutil.so.1 libglibutil-1.0.64_1
 libgbinder.so.1 libgbinder-1.1.20_1
 libgxml-0.20.so.2.0.2 gxml-0.20.3_1
