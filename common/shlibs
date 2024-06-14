@@ -1023,6 +1023,7 @@ libparserutils.so.0 libparserutils-0.1.1_1
 libwapcaplet.so.0 libwapcaplet-0.1.0_1
 libcss.so.0 libcss-0.1.1_1
 libhubbub.so.0 libhubbub-0.1.1_1
+libhs.so.5 vectorscan-5.4.11_1
 liblutok.so.3 lutok-0.4_1
 libmtdev.so.1 mtdev-1.1.2_1
 libcryptsetup.so.12 libcryptsetup-2.3.4_2
@@ -1111,9 +1112,9 @@ libmowgli-2.so.0 libmowgli-2.1.3_8
 libgts-0.7.so.5 gts-0.7.6_1
 libguess.so.1 libguess-1.1_1
 libaudcore.so.5 audacious-base-4.3.1_1
-libaudgui.so.5 audacious-base-4.3.1_1
+libaudgui.so.6 audacious-base-4.3.1_1
 libaudtag.so.3 audacious-base-4.3.1_1
-libaudqt.so.2 audacious-base-4.3.1_1
+libaudqt.so.3 audacious-base-4.3.1_1
 libgstreamer-1.0.so.0 gstreamer1-1.0.0_1
 libgstbase-1.0.so.0 gstreamer1-1.0.0_1
 libgstcontroller-1.0.so.0 gstreamer1-1.0.0_1
@@ -1372,8 +1373,8 @@ libkdexoauth2.so.3 libkgapi-24.02.0_1
 libqoauth.so.2 qoauth-qt5-2.0.0_1
 libIrrlicht.so.1.8 irrlicht-1.8_1
 libsnappy.so.1 snappy-1.1.0_1
-libbenchmark.so.1 benchmark-1.5.5_1
-libbenchmark_main.so.1 benchmark-1.5.5_1
+libbenchmark.so.0 benchmark-1.8.4_1
+libbenchmark_main.so.0 benchmark-1.8.4_1
 libbemenu.so.0 bemenu-0.6.5_1
 libKTorrent6.so.6 libktorrent-24.02.0_1
 libvncserver.so.1 libvncserver-0.9.13_2
@@ -2559,9 +2560,9 @@ libcsound64.so.6.0 csound-6.05.0_1
 libcsnd6.so.6.0 csound-6.05.0_1
 libfko.so.3 libfko-2.6.9_1
 libvterm.so.0 libvterm-0.3_1
-libboinc_opencl.so.7 boinc-7.16.16_2
-libboinc_api.so.7 boinc-7.16.16_2
-libboinc_graphics2.so.7 boinc-7.16.16_2
+libboinc_opencl.so.8 boinc-8.0.2_1
+libboinc_api.so.8 boinc-8.0.2_1
+libboinc_graphics2.so.8 boinc-8.0.2_1
 libsynfig.so.0 synfig-1.0.1_1
 libhidapi-hidraw.so.0 hidapi-0.8.0rc1_1
 libhidapi-libusb.so.0 hidapi-0.8.0rc1_1
