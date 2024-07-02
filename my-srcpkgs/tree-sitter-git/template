@@ -1,6 +1,6 @@
 # Template file for 'tree-sitter'
 pkgname=tree-sitter-git
-version=20b4353
+version=9d1ac21
 revision=1
 build_style=cargo
 make_install_args="--path=cli"
@@ -8,8 +8,9 @@ short_desc="Parser generator tool and incremental parsing library"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="MIT"
 homepage="https://tree-sitter.github.io"
-distfiles="https://github.com/tree-sitter/tree-sitter/archive/v${version}.tar.gz"
-checksum=b355e968ec2d0241bbd96748e00a9038f83968f85d822ecb9940cbe4c42e182e
+changelog="https://raw.githubusercontent.com/tree-sitter/tree-sitter/master/CHANGELOG.md"
+distfiles="https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${version}.tar.gz"
+checksum=e2b687f74358ab6404730b7fb1a1ced7ddb3780202d37595ecd7b20a8f41861f
 make_check=no # tests require generating fixtures from remote repositories
 
 #pkgname+=-git
@@ -18,11 +19,6 @@ conflicts="tree-sitter>=0"
 hostmakedepends+=" git"
 replaces="tree-sitter>=0"
 unset checksum distfiles wrksrc
-
-post_patch() {
-	# fixes an indexmap error when cross compiling
-	cargo update --package autocfg --precise 1.1.0
-}
 
 post_build() {
 	# Build libtree-sitter, since do_build builds the tree-sitter CLI.

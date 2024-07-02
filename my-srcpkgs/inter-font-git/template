@@ -11,7 +11,7 @@ homepage="https://github.com/rsms/inter"
 font_dirs="/usr/share/fonts/TTF"
 
 _my_field_repo=https://github.com/rsms/inter.git
-_my_field_skip_version=bde6fa1
+_my_field_skip_version=66647c0
 conflicts="inter-font>=0"
 hostmakedepends+=" git"
 pkgname+=-git
@@ -19,6 +19,7 @@ replaces="inter-font>=0"
 unset checksum distfiles wrksrc
 
 # TODO see https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=nerd-fonts-inter
+# :%!curl -s 'https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=nerd-fonts-inter'
 
 # TODO remove
 # https://github.com/rsms/inter/issues/470#issuecomment-1224785644
