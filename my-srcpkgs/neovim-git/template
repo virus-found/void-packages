@@ -1,6 +1,6 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=4618711
+version=12c9791
 revision=1
 # as per https://github.com/neovim/neovim/blob/master/cmake.deps/deps.txt
 _treesitter_c_version=0.21.0
@@ -57,6 +57,7 @@ build_helper=${build_helper/qemu/}
 configure_args+=" -DCMAKE_BUILD_TYPE=Release"
 conflicts="neovim>=0"
 hostmakedepends+=" git"
+makedepends+=" libutf8proc-devel"
 makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 pkgname+=-git
 replaces="neovim>=0"
@@ -88,11 +89,11 @@ post_extract() {
 	done
 }
 
-pre_configure() {
-	# build bundled treesitter parsers
-	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
-	cmake --build .deps
-}
+#pre_configure() {
+#	# build bundled treesitter parsers
+#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
+#	cmake --build .deps
+#}
 
 post_install() {
 	vlicense LICENSE.txt

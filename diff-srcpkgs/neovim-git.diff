@@ -1,11 +1,23 @@
--changelog="https://github.com/neovim/neovim/releases"
-+
 +_my_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
 +configure_args+=" -DCMAKE_BUILD_TYPE=Release"
 +conflicts="neovim>=0"
 +hostmakedepends+=" git"
++makedepends+=" libutf8proc-devel"
 +makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 +pkgname+=-git
 +replaces="neovim>=0"
++unset _treesitter_c_version _treesitter_lua_version _treesitter_vim_version _treesitter_vimdoc_version _treesitter_query_version _treesitter_python_version _treesitter_bash_version _treesitter_markdown_version
 +unset checksum distfiles wrksrc
++unset skip_extraction
++
+-pre_configure() {
+-	# build bundled treesitter parsers
+-	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
+-	cmake --build .deps
+-}
++#pre_configure() {
++#	# build bundled treesitter parsers
++#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
++#	cmake --build .deps
++#}
