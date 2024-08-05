@@ -400,6 +400,8 @@ libpostproc.so.57 libpostproc6-6.0_1
 libavcodec.so.60 libavcodec6-6.0_1
 libavutil.so.58 libavutil6-6.0_1
 libavfilter.so.9 libavfilter6-6.0_1
+libdispatch.so libdispatch-5.10.1_1
+libBlocksRuntime.so libdispatch-5.10.1_1
 libavdevice.so.58 libavdevice-4.0_1
 libavformat.so.58 libavformat-4.0_1
 libswscale.so.5 libswscale-4.0_1
@@ -412,6 +414,7 @@ libavfilter.so.7 libavfilter-4.0_1
 libSDL-1.2.so.0 SDL-1.2.14_1
 libSDL_image-1.2.so.0 SDL_image-1.2.10_1
 libx264.so.157 x264-20190507.2245_1
+libopenh264.so.7 openh264-2.4.1_1
 libxvidcore.so.4 xvidcore-1.2.2_1
 libtag.so.1 taglib-1.6.1_1
 libtag-extras.so.1 taglib-extras-1.0.1_1
@@ -456,6 +459,7 @@ libparted.so.2 libparted-3.1_1
 libparted-fs-resize.so.0 libparted-3.1_1
 libntfs-3g.so.89 ntfs-3g-2021.8.22_1
 libruby.so.3.3 ruby-3.3.2_1
+libada.so.2 ada-2.9.0_1
 librw.so.0 rankwidth-0.9_1
 libKSysGuardFormatter.so.2 libksysguard-6.0.0_1
 libKSysGuardSensorFaces.so.2 libksysguard-6.0.0_1
@@ -986,16 +990,10 @@ libyajl.so.2 yajl-2.0.1_1
 libconfuse.so.2 confuse-3.2.1_1
 liblldb.so.18.1 liblldb18-18.1.8_1
 liblldb.so.17 liblldb17-17.0.6_3
-liblldb.so.15 lldb15-15.0.7_4
 libclang.so.18.1 libclang18-18.1.8_1
 libclang.so.17 libclang17-17.0.6_1
-libclang.so.15 libclang15-15.0.7_4
 libclang-cpp.so.18.1 libclang-cpp18-18.1.8_1
 libclang-cpp.so.17 libclang-cpp17-17.0.6_1
-libclang-cpp.so.15 libclang-cpp15-15.0.7_4
-libLLVM-11.so libllvm11-11.0.0_1
-libLLVM-12.so libllvm12-12.0.0_1
-libLLVM-15.so libllvm15-15.0.7_4
 libLLVM-17.so libllvm17-17.0.6_1
 libLLVM.so.18.1 libllvm18-18.1.8_1
 libLLVMSPIRVLib.so.18.1 SPIRV-LLVM-Translator-18.1.2_1
@@ -1344,6 +1342,7 @@ libunwind-setjmp.so.0 libunwind-1.5.0_3
 libmicrohttpd.so.12 libmicrohttpd-0.9.73_1
 libmicrodns.so.1 libmicrodns-0.2.0_1
 libgit2.so.1.7 libgit2-1.7.2_1
+libgit2.so.1.8 libgit2-1.8-1.8.1_1
 libgit2-glib-1.0.so.0 libgit2-glib-1.2.0_1
 libagg.so.2 agg-2.5_1
 libzzip-0.so.13 zziplib-0.13.62_1
@@ -1385,8 +1384,8 @@ libkdexoauth2.so.3 libkgapi-24.02.0_1
 libqoauth.so.2 qoauth-qt5-2.0.0_1
 libIrrlicht.so.1.8 irrlicht-1.8_1
 libsnappy.so.1 snappy-1.1.0_1
-libbenchmark.so.0 benchmark-1.8.4_1
-libbenchmark_main.so.0 benchmark-1.8.4_1
+libbenchmark.so.1 benchmark-1.8.5_1
+libbenchmark_main.so.1 benchmark-1.8.5_1
 libbemenu.so.0 bemenu-0.6.5_1
 libKTorrent6.so.6 libktorrent-24.02.0_1
 libvncserver.so.1 libvncserver-0.9.13_2
@@ -1961,7 +1960,7 @@ libQt6Xdg.so.4 libqtxdg-4.0.0_1
 libQt6XdgIconLoader.so.4 libqtxdg-4.0.0_1
 libqwt-qt5.so.6.2 qwt-6.2.0_2
 libqwt-qt6.so.6.2 qwt-qt6-6.2.0_2
-libKF6BreezeIcons.so.6 breeze-icons-6.3.0_1
+libKF6BreezeIcons.so.6 libbreeze-icons-6.3.0_2
 libKF6Archive.so.6 kf6-karchive-6.0.0_1
 libKF6Attica.so.6 kf6-attica-6.0.0_1
 libKF6AuthCore.so.6 kf6-kauth-6.0.0_1
@@ -2270,10 +2269,10 @@ libFcitx5Config.so.6 libfcitx5-5.0.5_1
 libFcitx5GClient.so.2 fcitx5-gtk-5.0.4_1
 libFcitx5Qt5DBusAddons.so.1 fcitx5-qt5-5.0.3_1
 libFcitx5Qt5WidgetsAddons.so.2 fcitx5-qt5-5.0.3_1
-libdruntime-ldc-debug-shared.so.101 ldc-runtime-1.31.0_1
-libdruntime-ldc-shared.so.101 ldc-runtime-1.31.0_1
-libphobos2-ldc-shared.so.101 ldc-runtime-1.31.0_1
-libphobos2-ldc-debug-shared.so.101 ldc-runtime-1.31.0_1
+libdruntime-ldc-debug-shared.so.109 ldc-runtime-1.39.0_1
+libdruntime-ldc-shared.so.109 ldc-runtime-1.39.0_1
+libphobos2-ldc-shared.so.109 ldc-runtime-1.39.0_1
+libphobos2-ldc-debug-shared.so.109 ldc-runtime-1.39.0_1
 libFcitx5Qt6DBusAddons.so.1 fcitx5-qt6-5.1.4_1
 libFcitx5Qt6WidgetsAddons.so.2 fcitx5-qt6-5.1.4_1
 libmarblewidget-qt5.so.28 marble5-17.12.2_1
@@ -2503,8 +2502,6 @@ libsybdb.so.5 freetds-0.95.19_1
 libqqwing.so.2 qqwing-1.3.4_1
 libiniparser.so.4 iniparser-4.2.4_1
 libzita-resampler.so.1 zita-resampler-1.3.0_1
-libmlt.so.6 mlt-6.4.1_1
-libmlt++.so.3 mlt-6.4.1_1
 libmlt++-7.so.7 mlt7-7.0.1_1
 libmlt-7.so.7 mlt7-7.0.1_1
 libunibilium.so.4 unibilium-2.0.0_1
@@ -3036,6 +3033,7 @@ libCGAL.so.13 cgal-4.10_1
 libCGAL_Core.so.13 cgal-4.10_1
 libCGAL_ImageIO.so.14 cgal-4.14_1
 libqscintilla2_qt5.so.15 qscintilla-qt5-2.11_1
+libqscintilla2_qt6.so.15 qscintilla-qt6-2.14.1_1
 liblxpanel.so.0 lxpanel-0.9.3_1
 libuim.so.8 uim-1.8.6_1
 libuim-scm.so.0 uim-1.8.6_1
@@ -3278,7 +3276,7 @@ libKF6TextEmoticonsCore.so.1 ktextaddons-1.5.3_2
 libKF6TextGrammarCheck.so.1 ktextaddons-1.5.3_2
 libKF6TextTranslator.so.1 ktextaddons-1.5.3_2
 libKF6TextUtils.so.1 ktextaddons-1.5.3_2
-libz3.so z3-4.6.0_2
+libz3.so libz3-4.13.0_2
 libngspice.so.0 ngspice-35_1
 libvulkan.so.1 vulkan-loader-1.0.57.0_1
 libembb_mtapi_cpp.so embb-1.0.0_3
@@ -3551,7 +3549,7 @@ libhtmlcxx.so.3 htmlcxx-0.86_1
 libcss_parser_pp.so.0 htmlcxx-0.86_1
 libcss_parser.so.0 htmlcxx-0.86_1
 libaom.so.3 libaom-3.4.0_1
-libre.so.23 re-3.11.0_1
+libre.so.26 re-3.14.0_1
 libtpms.so.0 libtpms-0.9.0_1
 libswtpm_libtpms.so.0 libswtpm-0.6.1_1
 libspandsp.so.2 spandsp-0.0.6_1
@@ -3682,7 +3680,7 @@ libcaf_core.so.0.18.0 zeek-4.0.0_1
 libcaf_io.so.0.18.0 zeek-4.0.0_1
 libcaf_openssl.so.0.18.0 zeek-4.0.0_1
 libbinpac.so.0 zeek-3.2.4_2
-libllhttp.so.1 llhttp-1.0.1_1
+libllhttp.so.9.2 llhttp-9.2.1_1
 libpinyin.so.15 libpinyin-2.8.1_1
 libzhuyin.so.15 libzhuyin-2.8.1_1
 libuhd.so.4.6.0 uhd-4.6.0.0_1
@@ -4209,10 +4207,10 @@ libec.so.10 eclib-20220621_1
 libsymmetrica.so.2 symmetrica-3.0.1_1
 libLfunction.so.1 lcalc-2.0.4_1
 liblrcalc.so.2 lrcalc-2.1_1
-libwayland-client++.so.0 libwaylandpp-0.2.8_1
-libwayland-cursor++.so.0 libwaylandpp-0.2.8_1
-libwayland-egl++.so.0 libwaylandpp-0.2.8_1
-libwayland-client-extra++.so.0 libwaylandpp-0.2.8_1
+libwayland-client++.so.1 libwaylandpp-1.0.0_1
+libwayland-cursor++.so.1 libwaylandpp-1.0.0_1
+libwayland-egl++.so.1 libwaylandpp-1.0.0_1
+libwayland-client-extra++.so.1 libwaylandpp-1.0.0_1
 libspdlog.so.1.11 libspdlog-1.11.0_1
 libmd.so.0 libmd-1.0.3_1
 libldacBT_abr.so.2 ldacBT-2.0.2.3_1
@@ -4529,3 +4527,5 @@ libopenrazer.so.0 libopenrazer-0.2.0_1
 libstaroffice-0.0.so.0 libstaroffice-0.0.7_1
 libbox2d.so.2 box2d-2.4.1_1
 libhwy.so.1 highway-1.2.0_1
+libscenefx.so.1 scenefx-0.1_1
+libnng.so.1 nng-1.5.2_1
