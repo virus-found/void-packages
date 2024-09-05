@@ -7,7 +7,12 @@
 +makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 +pkgname+=-git
 +replaces="neovim>=0"
-+unset _treesitter_c_version _treesitter_lua_version _treesitter_vim_version _treesitter_vimdoc_version _treesitter_query_version _treesitter_python_version _treesitter_bash_version _treesitter_markdown_version
++unset _treesitter_c_version
++unset _treesitter_lua_version
++unset _treesitter_markdown_version
++unset _treesitter_query_version
++unset _treesitter_vim_version
++unset _treesitter_vimdoc_version
 +unset checksum distfiles wrksrc
 +unset skip_extraction
 +
