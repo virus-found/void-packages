@@ -1,0 +1,14 @@
+-pkgname=libutf8proc
++pkgname=libutf8proc-git
++_my_field_repo=https://github.com/JuliaStrings/utf8proc.git
++configure_args+=" -DCMAKE_BUILD_TYPE=Release"
++conflicts="libutf8proc>=0"
++hostmakedepends+=" git"
++replaces="libutf8proc>=0"
++unset checksum distfiles wrksrc
++
+-libutf8proc-devel_package() {
++libutf8proc-devel-git_package() {
++
++	conflicts="libutf8proc-devel>=0"
++	replaces="libutf8proc-devel>=0"
