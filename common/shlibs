@@ -1408,7 +1408,7 @@ libgda-xslt-5.0.so.4 libgda-5.2.9_4
 libamtk-5.so.0 amtk-5.0.0_1
 libdevhelp-3.so.6 devhelp-libs-3.30.0_1
 libunistring.so.2 libunistring-0.9.4_1
-libguile-2.2.so.1 libguile-2.2.7_1
+libguile-3.0.so.1 libguile-3.0.10_1
 libopts.so.25 libopts-5.18.4_6
 libanjuta-3.so.0 anjuta-3.8.4_1
 libgmlib.so.1 gmtk-1.0.8_1
@@ -3780,7 +3780,7 @@ librlottie.so.0 rlottie-0.0.20160709_1
 libdocopt.so.0 docopt.cpp-0.6.3_1
 libfstrm.so.0 fstrm-0.5.0_1
 libfreecell-solver.so.0 libfreecell-solver-5.10.0_1
-libknot.so.14 libknot-3.3.1_1
+libknot.so.15 libknot-3.4.0_1
 libdnssec.so.9 libknot-3.2.0_1
 libzscanner.so.4 libknot-3.1.0_1
 libkres.so.9 knot-resolver-4.0.0_1
