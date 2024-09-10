@@ -1,3 +1,5 @@
+-maintainer="Andrew J. Hesford <ajh@sideband.org>"
++maintainer="Isaac Freund <mail@isaacfreund.com>"
 +PGO=partial
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
 +conflicts="foot>=0"
@@ -6,7 +8,6 @@
 +export CXXFLAGS+=" -O3"
 +hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/wayland-devel/}
-+makedepends=${makedepends/libutf8proc-devel/}
 +pkgname+=-git
 +replaces="foot>=0"
 +unset checksum distfiles wrksrc
