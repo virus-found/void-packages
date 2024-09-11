@@ -1,6 +1,4 @@
--maintainer="Andrew J. Hesford <ajh@sideband.org>"
-+maintainer="Isaac Freund <mail@isaacfreund.com>"
-+PGO=partial
++PGO=auto
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
 +conflicts="foot>=0"
 +depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
@@ -8,6 +6,7 @@
 +export CXXFLAGS+=" -O3"
 +hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/wayland-devel/}
++makedepends=${makedepends/libutf8proc-devel/}
 +pkgname+=-git
 +replaces="foot>=0"
 +unset checksum distfiles wrksrc
@@ -21,7 +20,7 @@
 +		--prefix=/usr \
 +		--wrap-mode=nodownload \
 +		-Dthemes=false
-+		#-Dterminfo=disabled \
++		#-Dterminfo=disabled
 +}
 +
 +

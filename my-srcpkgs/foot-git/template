@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot
-version=c41f55c
+version=1925593
 revision=1
 build_style=meson
 hostmakedepends="pkg-config scdoc wayland-devel"
@@ -24,6 +24,7 @@ export CFLAGS+=" -O3"
 export CXXFLAGS+=" -O3"
 hostmakedepends+=" git"
 hostmakedepends=${hostmakedepends/wayland-devel/}
+makedepends=${makedepends/libutf8proc-devel/}
 pkgname+=-git
 replaces="foot>=0"
 unset checksum distfiles wrksrc
