@@ -1,4 +1,4 @@
-+PGO=partial
++PGO=auto
 +_my_field_repo=https://codeberg.org/dnkl/foot.git
 +conflicts="foot>=0"
 +depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
@@ -20,7 +20,7 @@
 +		--prefix=/usr \
 +		--wrap-mode=nodownload \
 +		-Dthemes=false
-+		#-Dterminfo=disabled \
++		#-Dterminfo=disabled
 +}
 +
 +
