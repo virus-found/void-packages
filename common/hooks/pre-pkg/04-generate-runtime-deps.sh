@@ -94,7 +94,7 @@ hook() {
     # INFO crutch against
     # find: warning: ‘-name’ matches against basenames only, but the given pattern contains a directory separator (‘/’), thus the expression will evaluate to false all the time.  Did you mean ‘-wholename’?
     # SONAME: /usr/lib/lua/5.1/lpeg.so <-> UNKNOWN PKG PLEASE FIX!
-    verify_deps=${verify_deps/\/usr\/lib\/lua\/5.1\/lpeg.so/}
+    #verify_deps=${verify_deps/\/usr\/lib\/lua\/5.1\/lpeg.so/}
 
     #
     # Add required run time packages by using required shlibs resolved

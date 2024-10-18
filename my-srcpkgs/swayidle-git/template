@@ -1,6 +1,6 @@
 # Template file for 'swayidle'
 pkgname=swayidle
-version=49d200e
+version=f13cefa
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind -Dwerror=false"
