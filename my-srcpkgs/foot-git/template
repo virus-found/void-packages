@@ -1,6 +1,6 @@
 # Template file for 'foot'
 pkgname=foot
-version=e891abd
+version=4afb946
 revision=1
 build_style=meson
 hostmakedepends="pkg-config scdoc wayland-devel"
