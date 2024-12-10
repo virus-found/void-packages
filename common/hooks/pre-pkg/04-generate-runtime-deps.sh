@@ -41,7 +41,7 @@ store_pkgdestdir_rundeps() {
                     _curdep="${_curdep}>=0"
                 fi
                 printf "%s " "${_curdep}"
-            done > "${PKGDESTDIR}/rdeps"
+            done > "${XBPS_STATEDIR}/${pkgname}-rdeps"
         fi
 }
 
@@ -154,6 +154,6 @@ hook() {
     store_pkgdestdir_rundeps
 
     if [ -n "${sorequires}" ]; then
-        echo "${sorequires}" | xargs -n1 | sort | xargs > ${PKGDESTDIR}/shlib-requires
+        echo "${sorequires}" | xargs -n1 | sort | xargs > ${XBPS_STATEDIR}/${pkgname}-shlib-requires
     fi
 }
