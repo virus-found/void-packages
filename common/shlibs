@@ -2383,6 +2383,7 @@ libjreen-qt5.so.1 jreen-1.3.0_1
 libzen.so.0 libzen-0.4.31_1
 libmediainfo.so.0 libmediainfo-0.7.75_1
 libnghttp2.so.14 nghttp2-1.43.0_2
+libnghttp3.so.9 nghttp3-1.7.0_1
 librom1394.so.0 libavc1394-0.5.4_1
 libavc1394.so.0 libavc1394-0.5.4_1
 libiec61883.so.0 libiec61883-1.2.0_1
@@ -2792,6 +2793,7 @@ libsmpeg2-2.0.so.0 smpeg2-2.0.0_1
 libedac.so.1 libedac-0.18_1
 libxlsreader.so.8 libxls-1.6.1_1
 libR.so R-4.0.2_1
+libmarkdown.so.2 libmarkdown2-2.2.7d_1
 libmarkdown.so.3 discount-3.0.0d_1
 libkeystone.so.0 keystone-0.9_1
 libmate-slab.so.0 libmate-control-center-1.14.0_2
@@ -4549,3 +4551,6 @@ libflashrom.so.1 flashrom-1.4.0_1
 libpyside6.so.6.7 libpyside6-6.7.2_1
 libpyside6qml.so.6.7 libpyside6-6.7.2_1
 libshiboken6.so.6.7 libshiboken6-6.7.2_1
+libopencore-amrnb.so.0 opencore-amr-0.1.6_1
+libopencore-amrwb.so.0 opencore-amr-0.1.6_1
+libilbc.so.3 libilbc-3.0.4_1
