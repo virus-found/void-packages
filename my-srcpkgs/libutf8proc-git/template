@@ -1,6 +1,6 @@
 # Template file for 'libutf8proc'
 pkgname=libutf8proc-git
-version=3de4596
+version=a1b99da
 revision=1
 build_style=cmake
 configure_args="-DBUILD_SHARED_LIBS=ON"

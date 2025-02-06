@@ -1,6 +1,6 @@
 # Template file for 'libsixel'
 pkgname=libsixel-git
-version=490ec15
+version=37026b0
 revision=1
 build_style=meson
 hostmakedepends="pkg-config"
