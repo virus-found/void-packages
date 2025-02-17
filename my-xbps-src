@@ -317,17 +317,9 @@ update_my_pkgs() {
 
         # Remove previously built versions of these packages
         # Usually they come from my-binpkgs dir
-        local previous1=wlroots
-        local previous2=tree-sitter
-        case "$p" in
-            # Only e.g. wlroots* and tree-sitter* are removed, need to remove proper subpackages from template
-            $previous1* )
-                rm -f $XBPS_REPOSITORY/$previous1*
-                ;;
-            $previous2* )
-                rm -f $XBPS_REPOSITORY/$previous2*
-                ;;
-        esac
+        #
+        # Only e.g. wlroots* and tree-sitter* (etc) are removed, need to remove proper subpackages from template
+        [[ "$p" =~ (wlroots|tree-sitter|libutf8proc) ]] && rm -f $XBPS_REPOSITORY/$p*
 
         # Build
         if ! ./xbps-src -C pkg $p
