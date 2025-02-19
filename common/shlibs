@@ -4198,6 +4198,7 @@ libtree-sitter.so.0.25 tree-sitter-git-0_1
 #libtree-sitter.so.0.29 tree-sitter-git-0_1
 #libtree-sitter.so.0.30 tree-sitter-git-0_1
 #libtree-sitter.so.0.31 tree-sitter-git-0_1
+libtree-sitter.so.0.25 tree-sitter-0.25.2_1
 libplanarity.so.0 planarity-3.0.1.1_1
 libgap.so.9 gap-4.13.0_1
 libgtkdatabox.so.1 gtkdatabox3-1.0.0_1
