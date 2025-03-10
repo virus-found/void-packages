@@ -1,15 +1,27 @@
+-build_helper=qemu
+-hostmakedepends="pkg-config"
++hostmakedepends="ruby-asciidoctor pkg-config"
+-changelog="https://raw.githubusercontent.com/BurntSushi/ripgrep/master/CHANGELOG.md"
+-post_patch() {
+-	rm -f .cargo/config.toml   # tries to do weird things on musl
+-}
 +_my_field_repo=https://github.com/BurntSushi/ripgrep.git
 +conflicts="ripgrep>=0"
 +hostmakedepends+=" git"
 +pkgname+=-git
 +replaces="ripgrep>=0"
 +unset checksum distfiles wrksrc
-+
--	vinstall complete/_rg 0644 usr/share/zsh/site-functions
-+	#vinstall complete/_rg 0644 usr/share/zsh/site-functions
+-	local _rg=${DESTDIR}/usr/bin/rg
+-
+-	vtargetrun ${_rg} --generate man > rg.1
 -	vman rg.1
--	vinstall rg.bash 0644 usr/share/bash-completion/completions rg
--	vinstall rg.fish 0644 usr/share/fish/vendor_completions.d
+-
+-	for _shell in bash fish zsh; do
+-		vtargetrun ${_rg} --generate complete-${_shell} > rg.${_shell}
+-		vcompletion rg.${_shell} ${_shell} rg
+-	done
++	#vinstall complete/_rg 0644 usr/share/zsh/site-functions
++	cd "target/${RUST_TARGET}/release/build/ripgrep-"*/out
 +	#vman rg.1
 +	#vinstall rg.bash 0644 usr/share/bash-completion/completions rg
 +	#vinstall rg.fish 0644 usr/share/fish/vendor_completions.d

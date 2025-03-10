@@ -1,11 +1,10 @@
-+# TODO change to this later
-+#makedepends+=" libutf8proc-devel"
 +_my_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
 +configure_args+=" -DCMAKE_BUILD_TYPE=Release"
 +conflicts="neovim>=0"
++depends+=" libutf8proc"
 +hostmakedepends+=" git"
-+makedepends+=" libutf8proc-devel-git"
++makedepends+=" libutf8proc-devel"
 +makedepends=${makedepends/tree-sitter-devel/tree-sitter-devel-git}
 +pkgname+=-git
 +replaces="neovim>=0"

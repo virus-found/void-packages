@@ -1,6 +1,6 @@
 # Template file for 'tmux'
 pkgname=tmux
-version=9a37748
+version=882fb4d
 revision=1
 build_style=gnu-configure
 configure_args="--enable-utempter --enable-sixel"
