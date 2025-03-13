@@ -1,6 +1,6 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=05c8023
+version=4432a93
 revision=1
 build_style=python3-pep517
 make_check_args="-k not(download)"
