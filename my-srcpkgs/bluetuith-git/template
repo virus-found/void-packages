@@ -1,6 +1,6 @@
 # Template file for 'bluetuith'
 pkgname=bluetuith
-version=2a02b2c
+version=1043bb8
 revision=1
 build_style=go
 go_import_path="github.com/darkhz/bluetuith"
