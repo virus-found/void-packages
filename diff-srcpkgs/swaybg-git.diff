@@ -1,9 +1,11 @@
 +_my_field_repo=https://github.com/swaywm/swaybg.git
 +conflicts="swaybg>=0"
++hostmakedepends=${hostmakedepends/wayland-devel/}
 +pkgname+=-git
 +replaces="swaybg>=0"
 +unset checksum distfiles wrksrc
++hostmakedepends+=" git"
 +
 +# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
++#makedepends+=" nghttp2-devel libssh2-devel"
 +
