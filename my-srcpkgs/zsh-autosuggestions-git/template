@@ -1,6 +1,6 @@
 # Template file for 'zsh-autosuggestions'
 pkgname=zsh-autosuggestions
-version=0e810e5
+version=85919cd
 revision=1
 build_style=gnu-makefile
 depends="zsh"

@@ -1,6 +1,6 @@
 # Template file for 'font-3270'
 pkgname=font-3270
-version=e39ba82
+version=e0fa742
 revision=1
 wrksrc="3270font-${version}"
 build_style=gnu-makefile
