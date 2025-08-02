@@ -1,6 +1,6 @@
 # Template file for 'zsh'
 pkgname=zsh
-version=f5abf18
+version=33aafec
 revision=1
 build_style=gnu-configure
 make_build_target="all info"

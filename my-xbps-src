@@ -3,7 +3,7 @@
 
 # -e exit on any error (work around with ||true)
 # -u exit on unset variables, prevents here rm $masterdir/1/2/3 to be run as rm /1/2/3
-set -eu
+set -euo pipefail
 
 # Get cwd of this script
 # https://stackoverflow.com/questions/59895/get-the-source-directory-of-a-bash-script-from-within-the-script-itself
