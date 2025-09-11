@@ -21,9 +21,6 @@ pkgname+=-git
 replaces="swaylock>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 post_install() {
 	vlicense LICENSE
 }

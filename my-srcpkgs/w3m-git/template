@@ -34,9 +34,6 @@ replaces="w3m>=0"
 unset LDFLAGS
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 post_patch() {
 	rm -f Bonus/oldconfigure.sh
 	vsed -i -e 's,/usr/local/bin,/usr/bin,g' \

@@ -18,6 +18,3 @@ hostmakedepends+=" git"
 pkgname+=-git
 replaces="wl-clipboard>=0"
 unset checksum distfiles wrksrc
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"

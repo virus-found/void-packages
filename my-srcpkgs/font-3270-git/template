@@ -1,6 +1,6 @@
 # Template file for 'font-3270'
 pkgname=font-3270
-version=e0fa742
+version=3fe26f3
 revision=1
 wrksrc="3270font-${version}"
 build_style=gnu-makefile
@@ -21,9 +21,6 @@ hostmakedepends+=" git"
 pkgname+=-git
 replaces="font-3270>=0"
 unset checksum distfiles wrksrc
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
 
 do_install() {
 	vmkdir usr/share/fonts/TTF

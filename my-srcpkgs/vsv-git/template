@@ -19,9 +19,6 @@ pkgname+=-git
 replaces="vsv>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 post_install() {
 	vman man/vsv.8
 	vlicense LICENSE

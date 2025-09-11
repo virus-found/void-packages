@@ -15,9 +15,6 @@ pkgname+=-git
 replaces="rainbarf>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 do_install() {
 	vbin rainbarf
 }

@@ -19,9 +19,6 @@ pkgname+=-git
 replaces="zsh-syntax-highlighting>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 do_install() {
 	make install SHARE_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git} DOC_DIR=${DESTDIR}/usr/share/zsh/plugins/${pkgname%-git}/doc
 	vinstall ${pkgname%-git}.plugin.zsh 644 usr/share/zsh/plugins/${pkgname%-git}

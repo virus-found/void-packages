@@ -1,0 +1,31 @@
+# Template file for 'steamtinkerlaunch'
+pkgname=steamtinkerlaunch
+version=8550ab2
+revision=1
+short_desc="Power-user Steam launcher and compatibility-tool helper (git)"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="GPL-3.0-only"
+homepage="https://github.com/sonic2kk/steamtinkerlaunch"
+depends="gawk unzip wget xdotool xprop xrandr xwininfo xxd yad procps-ng"
+
+_my_field_repo=https://github.com/sonic2kk/steamtinkerlaunch.git
+conflicts="steamtinkerlaunch>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="steamtinkerlaunch>=0"
+unset checksum distfiles wrksrc
+
+pre_build() {
+	sed -i \
+		-e 's|^PREFIX := /usr|PREFIX := $(DESTDIR)/usr|' \
+		-e "s|share/doc/steamtinkerlaunch|share/doc/${pkgname}|" \
+		-e '/sed "s:^PREFIX=/d' \
+		Makefile
+}
+
+do_install() {
+	vbin ${pkgname/-git/}
+	vmkdir usr/share/${pkgname/-git/}/lang
+	vcopy lang/english.txt usr/share/${pkgname/-git/}/lang
+	vlicense LICENSE
+}

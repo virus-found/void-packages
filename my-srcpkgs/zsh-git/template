@@ -1,6 +1,6 @@
 # Template file for 'zsh'
 pkgname=zsh
-version=33aafec
+version=3cd363c
 revision=1
 build_style=gnu-configure
 make_build_target="all info"
@@ -37,9 +37,6 @@ make_install_args=${make_install_args/install.info/}
 pkgname+=-git
 replaces="zsh>=0"
 unset checksum distfiles wrksrc
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
 
 post_patch() {
 	# Set correct keymap path

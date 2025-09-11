@@ -1,6 +1,6 @@
 # Template file for 'swayidle'
 pkgname=swayidle
-version=f13cefa
+version=71005e9
 revision=1
 build_style=meson
 configure_args="-Dlogind-provider=elogind -Dwerror=false"
@@ -20,9 +20,6 @@ hostmakedepends+=" git"
 pkgname+=-git
 replaces="swayidle>=0"
 unset checksum distfiles wrksrc
-
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
 
 post_install() {
 	vlicense LICENSE

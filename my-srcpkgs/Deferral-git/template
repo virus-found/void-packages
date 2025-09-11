@@ -15,9 +15,6 @@ pkgname+=-git
 replaces="Deferral>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 do_install() {
     vmkdir usr/share/fonts/TTF
     vcopy fonts/*.ttf usr/share/fonts/TTF

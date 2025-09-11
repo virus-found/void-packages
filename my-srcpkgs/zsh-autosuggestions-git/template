@@ -19,9 +19,6 @@ pkgname+=-git
 replaces="zsh-autosuggestions>=0"
 unset checksum distfiles wrksrc
 
-# TODO remove me
-makedepends+=" nghttp2-devel libssh2-devel"
-
 do_install() {
 	vinstall zsh-autosuggestions.zsh 644 usr/share/zsh/plugins/zsh-autosuggestions
 	vinstall zsh-autosuggestions.plugin.zsh 644 usr/share/zsh/plugins/zsh-autosuggestions
