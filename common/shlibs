@@ -579,11 +579,7 @@ libgmic.so.3 libgmic-3.5.3_1
 libcgmic.so.3 libgmic-3.5.3_1
 libexiv2.so.28 exiv2-0.28.1_1
 libKF5Holidays.so.5 kholidays-5.47.0_1
-libPhabricatorHelpers.so.5 purpose-5.48.0_1
-libKF5PurposeWidgets.so.5 purpose-5.48.0_1
-libKF5Purpose.so.5 purpose-5.48.0_1
 libKF6PulseAudioQt.so.5 pulseaudio-qt-1.5_1
-libReviewboardHelpers.so.5 purpose-5.48.0_1
 libecpg_compat.so.3 postgresql-libs-17.1_1
 libecpg.so.6 postgresql-libs-17.1_1
 libpgtypes.so.3 postgresql-libs-17.1_1
@@ -2734,7 +2730,6 @@ libvapoursynth.so vapoursynth-R32_2
 libvapoursynth-script.so.0 vapoursynth-R32_1
 libtwolame.so.0 twolame-0.3.13_1
 libsignon-plugins.so.1 signond-8.61_2
-libsignon-qt5.so.1 signond-8.61_2
 libsignon-qt6.so.1 signond-8.61_2
 libsignon-plugins-common.so.1 signond-8.61_2
 libsignon-extension.so.1 signond-8.61_2
@@ -2811,7 +2806,6 @@ libutilspp.so.0 curlpp-0.7.3_2
 libcurlpp.so.1 curlpp-0.8.1_1
 libtcd.so.1 libtcd-2.2.7.r2_1
 libaccounts-glib.so.0 libaccounts-glib-1.26_1
-libaccounts-qt5.so.1 libaccounts-qt5-1.14_1
 libaccounts-qt6.so.1 libaccounts-qt6-1.17_1
 libshotwell-plugin-dev-1.0.so.0 shotwell-0.30.0_1
 libshotwell-plugin-common.so.0 shotwell-0.30.0_1
@@ -2894,10 +2888,6 @@ libKF5Activities.so.5 kactivities5-5.26.0_1
 libKF5TextEditor.so.5 ktexteditor-5.26.0_1
 libKF5Plasma.so.5 plasma-framework-5.26.0_1
 libKF5PlasmaQuick.so.5 plasma-framework-5.26.0_1
-libKF5People.so.5 kpeople-5.26.0_1
-libKF5PeopleBackend.so.5 kpeople-5.36.0_1
-libKF5PeopleWidgets.so.5 kpeople-5.36.0_1
-libKF5FileMetaData.so.3 kfilemetadata5-5.26.0_1
 libKF5ActivitiesStats.so.1 kactivities5-stats-5.26.0_1
 libKF5Runner.so.5 krunner-5.26.0_1
 libKF5JS.so.5 kjs-5.26.0_1
@@ -3663,7 +3653,6 @@ libOGDF.so libogdf-2018.03_1
 libCOIN.so libogdf-2018.03_1
 librocksdb.so.7 rocksdb-7.4.5_1
 libfrr.so.0 libfrr-6.0_1
-libkaccounts.so.2 kaccounts-integration-20.04.3_1
 libkaccounts6.so.2 kf6-kaccounts-integration-24.02.0_1
 libfrrospfapiclient.so.0 libfrrospfapiclient-6.0_1
 liborocos-kdl.so.1.5 orocos-kdl-1.5.1_1
@@ -3677,11 +3666,11 @@ libqhttpengine.so.1 qhttpengine-1.0.1_1
 libqmdnsengine.so.0 qmdnsengine-0.1.0_1
 libyang.so.1 libyang-1.0r5_1
 libhtp.so.2 libhtp-0.5.30_1
-libgedit-48.1.so gedit-48.1_1
+libgedit-48.2.so gedit-48.2_1
 libgedit-amtk-5.so.0 libgedit-amtk-5.8.0_1
 libgedit-gtksourceview-300.so.3 libgedit-gtksourceview-299.4.0_1
 libgedit-gfls-1.so.0 libgedit-gfls-0.1.0_1
-libgedit-tepl-6.so.2 libgedit-tepl-6.12.0_1
+libgedit-tepl-6.so.3 libgedit-tepl-6.13.0_1
 libchewing.so.3 libchewing-0.5.1_1
 libdwarves.so.1 pahole-1.12_1
 libdwarves_emit.so.1 pahole-1.12_1
