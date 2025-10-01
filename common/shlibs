@@ -639,7 +639,6 @@ libxtables.so.12 iptables-1.6.1_1
 libip4tc.so.2 iptables-1.8.3_1
 libipq.so.0 iptables-1.4.7_1
 libnm.so.0 libnm-1.0.0_1
-libKF5ItemModels.so.5 kitemmodels-5.26.0_1
 libboost_context.so.1.89.0 libboost_context-1.89.0_1
 libboost_coroutine.so.1.89.0 libboost_coroutine-1.89.0_1
 libboost_container.so.1.89.0 libboost_container-1.89.0_1
@@ -2172,6 +2171,8 @@ libQt6JsonRpc.so.6 qt6-languageserver-6.8.1_1
 libQt6LanguageServer.so.6 qt6-languageserver-6.8.1_1
 libQt6WebView.so.6 qt6-webview-6.8.1_1
 libQt6WebViewQuick.so.6 qt6-webview-6.8.1_1
+libQt6DataVisualization.so.6 qt6-datavis3d-6.8.2_1
+libQt6DataVisualizationQml.so.6 qt6-datavis3d-6.8.2_1
 libQCoro6Core.so.0 qcoro-qt6-0.10.0_1
 libQCoro6DBus.so.0 qcoro-qt6-0.10.0_1
 libQCoro6Network.so.0 qcoro-qt6-0.10.0_1
@@ -2252,11 +2253,9 @@ libwvbase.so.4.6 wvstreams-4.6.1_20
 libwvutils.so.4.6 wvstreams-4.6.1_20
 libwvstreams.so.4.6 wvstreams-4.6.1_20
 libespeak-ng.so.1 libespeak-ng-1.50_1
-libKF5Plotting.so.5 kplotting-5.26.0_1
 libpgf.so.6 libpgf-6.14.12_1
 libqhull_r.so.8.0 libqhull-2020.2_1
 libqhull.so.8.0 libqhull-2020.2_1
-libKF5NetworkManagerQt.so.6 networkmanager-qt5-5.26.0_1
 libFcitx5Utils.so.2 libfcitx5-5.0.5_1
 libFcitx5Core.so.7 libfcitx5-5.0.5_1
 libFcitx5Config.so.6 libfcitx5-5.0.5_1
@@ -4513,3 +4512,9 @@ libsquashfuse.so.0 squashfuse-0.6.1_1
 libsquashfuse_ll.so.0 squashfuse-0.6.1_1
 libSDL3_ttf.so.0 SDL3_ttf-3.2.2_1
 libp11.so.3 libp11-0.4.16_1
+libkddockwidgets-qt6.so.2.2 kddockwidgets-2.2.5_1
+libqcustomplot-qt6.so.2 qcustomplot-2.1.1_1
+libkgraphviewer.so.0 kgraphviewer-2.5.0_1
+libwcs.so.8 wcslib-8.4_1
+libstellarsolver6.so.2 stellarsolver-2.7_1
+libXISF.so.0 libxisf-0.2.9_1
