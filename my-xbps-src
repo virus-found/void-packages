@@ -380,6 +380,8 @@ update_my_pkgs() {
 }
 
 cleanup() {
+    nix-collect-garbage -d || true # cleans up lot's of space TODO does not belong here
+
     _update_void_packages
 
     _chapter 'perform cleanup'
@@ -423,3 +425,9 @@ esac
 # avoid writing git versions to templates, store them elsewhere
 # use 'global' vars, and make 'local' by default
 # first check for all updates, show them, let me choose what to build, then do system updates and build
+# support 32bit builds
+#     now do manually with
+#     make current bootstrap 32bit instead of 64
+#     ./xbps-src -a i686 binary-bootstrap (or -A ?)
+#     build package, e.g. mesa
+#     ./xbps-src -a i686 -N pkg mesa

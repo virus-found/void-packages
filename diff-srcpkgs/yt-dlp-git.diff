@@ -1,7 +1,62 @@
-+
+-# XXX: keep python3-yt-dlp-ejs in sync with pyproject.toml
+-_ejs_ver=0.3.1
+-depends="python3-Brotli python3-certifi python3-mutagen python3-pycryptodomex
+- python3-urllib3 python3-requests python3-websockets"
+-checkdepends="python3-pytest-xdist python3-Brotli python3-certifi python3-mutagen
+- python3-pycryptodomex python3-urllib3 python3-requests python3-websockets"
++depends="python3-Brotli python3-certifi python3-mutagen python3-requests python3-websockets"
++checkdepends="python3-pytest-xdist $depends"
+-if [ "$XBPS_WORDSIZE" -eq "$XBPS_TARGET_WORDSIZE" ]; then
+-	# nodejs can only be built for this platform combination
+-	depends+=" python3-yt-dlp-ejs>=${_ejs_ver}_1<=${_ejs_ver}_9999"
+-	checkdepends+=" python3-yt-dlp-ejs"
+-fi
 +_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
++#_my_field_repo=https://github.com/Grub4K/yt-dlp.git
++#_my_field_repo_branch=feat/jsc-deno
+-post_install() {
+-	cat <<- "EOF" > youtube-dl
+-	#!/bin/sh
+-	exec yt-dlp --compat-options youtube-dl "$@"
+-	EOF
+-	vbin youtube-dl
+-}
 +conflicts="yt-dlp>=0"
 +hostmakedepends+=" git"
 +pkgname+=-git
 +replaces="yt-dlp>=0"
 +unset checksum distfiles wrksrc
+-youtube-dl_package() {
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" (transitional compatibility package)"
+-	pkg_install() {
+-		vmove usr/bin/youtube-dl
+-	}
+-}
+-
+-python3-youtube-dl_package() {
+-	depends="${sourcepkg}>=${version}_${revision}"
+-	short_desc+=" (transitional dummy package)"
+-	metapackage=yes
+-}
++#post_install() {
++#	cat <<- "EOF" > youtube-dl
++#	#!/bin/sh
++#	exec yt-dlp --compat-options youtube-dl "$@"
++#	EOF
++#	vbin youtube-dl
++#}
++#
++#youtube-dl_package() {
++#	depends="${sourcepkg}>=${version}_${revision}"
++#	short_desc+=" (transitional compatibility package)"
++#	pkg_install() {
++#		vmove usr/bin/youtube-dl
++#	}
++#}
++#
++#python3-youtube-dl_package() {
++#	depends="${sourcepkg}>=${version}_${revision}"
++#	short_desc+=" (transitional dummy package)"
++#	metapackage=yes
++#}

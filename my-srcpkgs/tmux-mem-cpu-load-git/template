@@ -1,0 +1,24 @@
+# Template file for 'tmux-mem-cpu-load'
+pkgname=tmux-mem-cpu-load
+version=6549a6c
+revision=1
+build_style=cmake
+depends="tmux"
+short_desc="A CPU, RAM and load monitor for use with tmux"
+maintainer="Orphaned <orphan@voidlinux.org>"
+license="Apache-2.0"
+homepage="https://github.com/thewtex/tmux-mem-cpu-load"
+distfiles="https://github.com/thewtex/tmux-mem-cpu-load/archive/v${version}.tar.gz"
+checksum=a773994e160812a964abc7fc4e8ec16b7d9833edb0a66e5c67f287c7c5949ecb
+
+_my_field_repo=https://github.com/thewtex/tmux-mem-cpu-load.git
+conflicts="tmux-mem-cpu-load>=0"
+depends=${depends/tmux/tmux-git}
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="tmux-mem-cpu-load>=0"
+unset checksum distfiles wrksrc
+
+post_install() {
+	vlicense LICENSE
+}

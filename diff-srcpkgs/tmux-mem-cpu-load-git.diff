@@ -1,0 +1,8 @@
++_my_field_repo=https://github.com/thewtex/tmux-mem-cpu-load.git
++conflicts="tmux-mem-cpu-load>=0"
++depends=${depends/tmux/tmux-git}
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="tmux-mem-cpu-load>=0"
++unset checksum distfiles wrksrc
++

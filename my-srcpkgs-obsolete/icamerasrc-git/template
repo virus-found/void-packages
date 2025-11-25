@@ -1,0 +1,29 @@
+# Template file for 'icamerasrc'
+pkgname=icamerasrc
+version=4fb31db
+revision=1
+build_style=gnu-configure
+configure_args="--prefix=/usr --enable-gstdrmformat=yes"
+hostmakedepends="autoconf automake libtool pkg-config"
+makedepends="gstreamer1-devel gst-plugins-base1-devel gstreamer-vaapi gst-plugins-bad1-devel libdrm-devel libva-devel ipu6-camera-hal"
+depends="ipu6-camera-hal"
+short_desc="GStreamer src element for Intel IPU6 (git, slim-API branch)"
+maintainer="Your Name <you@voidlinux.org>"
+license="Apache-2.0"
+homepage="https://github.com/intel/icamerasrc"
+repository=nonfree # needs proprietary libipu6alg at run-time
+
+_my_field_repo=https://github.com/intel/icamerasrc.git
+_my_field_repo_branch=icamerasrc_slim_api
+conflicts="icamerasrc>=0"
+depends="ipu6-camera-hal-git"
+hostmakedepends+=" git"
+makedepends=${makedepends/ipu6-camera-hal/ipu6-camera-hal-git}
+pkgname+=-git
+replaces="icamerasrc>=0"
+unset checksum distfiles wrksrc
+
+pre_configure() {
+        export CHROME_SLIM_CAMHAL=ON
+        ./autogen.sh
+}

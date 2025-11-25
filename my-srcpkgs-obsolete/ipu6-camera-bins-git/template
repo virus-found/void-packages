@@ -1,0 +1,44 @@
+# Template file for 'ipu6-camera-bins'
+pkgname=ipu6-camera-bins
+version=30e8766
+revision=1
+archs="x86_64"
+repository=nonfree
+short_desc="Intel IPU6 firmware blobs and proprietary ISP userspace libs"
+maintainer="Your Name <you@voidlinux.org>"
+license="Proprietary"
+homepage="https://github.com/intel/ipu6-camera-bins"
+
+_my_field_repo=https://github.com/intel/ipu6-camera-bins.git
+conflicts="ipu6-camera-bins>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="ipu6-camera-bins>=0"
+unset checksum distfiles wrksrc
+
+do_install() {
+        vcopy lib              usr/
+        vcopy include          usr/include
+        vcopy lib/pkgconfig    usr/lib/pkgconfig
+
+        # ld.so search path
+        vmkdir etc/ld.so.conf.d
+        cat <<'EOF' >${DESTDIR}/etc/ld.so.conf.d/ipu6-camera.conf
+/usr/lib/ipu6
+/usr/lib/ipu6ep
+/usr/lib/ipu6epmtl
+EOF
+
+        # flat copies of the libs that live inside the sub-dirs
+        for d in ipu6 ipu6ep ipu6epmtl; do
+            for f in ${DESTDIR}/usr/lib/$d/lib*.so*; do
+                ln -sfr "$f" "${DESTDIR}/usr/lib/$(basename "$f")"
+            done
+        done
+
+        # ─── NEW: un-versioned symlinks expected by the linker ───
+        for so in ${DESTDIR}/usr/lib/lib*.so.*; do
+            base=${so%.so.*}.so
+            [ -e "$base" ] || ln -sfr "$so" "$base"
+        done
+}

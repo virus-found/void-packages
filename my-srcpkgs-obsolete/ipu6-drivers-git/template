@@ -1,0 +1,39 @@
+# Template file for 'ipu6-drivers'
+pkgname=ipu6-drivers
+version=69b2fde
+revision=1
+archs="x86_64* i686*"
+wrksrc="ipu6-drivers"
+hostmakedepends="dkms pkg-config"
+depends="dkms"
+short_desc="Out-of-tree Intel IPU6 + MIPI sensor kernel drivers (DKMS)"
+maintainer="Your Name <you@voidlinux.org>"
+license="GPL-2.0-only"
+homepage="https://github.com/intel/ipu6-drivers"
+
+_my_field_repo=https://github.com/intel/ipu6-drivers.git
+conflicts="ipu6-drivers>=0"
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="ipu6-drivers>=0"
+unset checksum distfiles wrksrc
+
+do_install() {
+	local dest=/usr/src/ipu6-drivers-${version}
+	vmkdir "${dest}"
+	cp -rT "${wrksrc}" "${DESTDIR}/${dest}"
+
+	if [ -f "${DESTDIR}/${dest}/dkms.conf" ]; then
+		vsed -i -e "s/^PACKAGE_VERSION=.*/PACKAGE_VERSION=\"${version}\"/" \
+       	       	       -e '$aCONFIG_VIDEO_AR0234=y' \
+       	       	       "${DESTDIR}/${dest}/dkms.conf"
+	fi
+
+	vmkdir usr/lib/modules-load.d
+	cat <<-EOF > ${DESTDIR}/usr/lib/modules-load.d/ipu6-drivers.conf
+	ipu6-isys
+	ipu6-psys
+	EOF
+}
+
+do_build() { :; }

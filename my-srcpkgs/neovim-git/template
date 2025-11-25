@@ -1,6 +1,6 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=0923ba3
+version=e82aef2
 revision=1
 # as per https://github.com/neovim/neovim/blob/master/cmake.deps/deps.txt
 _treesitter_c_version=0.23.4

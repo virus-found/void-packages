@@ -1,0 +1,34 @@
+# Template file for 'ipu6-camera-hal'
+pkgname=ipu6-camera-hal
+version=c933525
+revision=1
+build_style=cmake
+configure_args="
+  -DCMAKE_BUILD_TYPE=Release
+  -DCMAKE_INSTALL_PREFIX=/usr
+  -DUSE_PG_LITE_PIPE=ON
+  -DBUILD_CAMHAL_ADAPTOR=ON
+  -DBUILD_CAMHAL_PLUGIN=ON
+  -DIPU_VERSIONS=ipu6;ipu6ep;ipu6epmtl
+  -DCMAKE_INSTALL_LIBDIR=lib
+"
+hostmakedepends="pkg-config ninja"
+makedepends="libdrm-devel expat-devel gstreamer1-devel gst-plugins-base1-devel ipu6-camera-bins"
+depends="ipu6-camera-bins"
+short_desc="Intel IPU6 userspace Camera HAL"
+maintainer="Your Name <you@voidlinux.org>"
+license="Apache-2.0"
+homepage="https://github.com/intel/ipu6-camera-hal"
+
+_my_field_repo=https://github.com/intel/ipu6-camera-hal.git
+conflicts="ipu6-camera-hal>=0"
+depends="ipu6-camera-bins-git"
+hostmakedepends+=" git"
+makedepends=${makedepends/ipu6-camera-bins/ipu6-camera-bins-git}
+pkgname+=-git
+replaces="ipu6-camera-hal>=0"
+unset checksum distfiles wrksrc
+
+pre_configure() {
+        export LDFLAGS="${LDFLAGS} -L/usr/lib/ipu6 -L/usr/lib/ipu6ep -L/usr/lib/ipu6epmtl"
+}

@@ -1,24 +1,46 @@
 # Template file for 'droidcam-obs-plugin'
 pkgname=droidcam-obs-plugin
-version=2.4.0
+version=2.4.2
 revision=1
 build_style=gnu-makefile
 make_use_env=yes
 make_build_args="ALLOW_STATIC=no"
+hostmakedepends="pkg-config"
 makedepends="obs-devel libusbmuxd-devel libjpeg-turbo-devel
- ffmpeg6-devel libimobiledevice-devel"
+ ffmpeg6-devel libimobiledevice-devel simde"
 short_desc="DroidCam OBS Source"
 maintainer="Michael Aldridge <maldridge@voidlinux.org>"
 license="GPL-2.0-only"
 homepage="https://github.com/dev47apps/droidcam-obs-plugin"
 distfiles="https://github.com/dev47apps/droidcam-obs-plugin/archive/refs/tags/$version.tar.gz"
-checksum=55ffb07ca4c55d1018bfabb3029f7ac86622cfbcb05120edad62031da3f6fbc4
+checksum=d7f3adfa134db79808336441258352b523a4f002e31f5a53c7570cc3b075a319
+
+post_extract() {
+    # Fix pkg-config names for Void Linux in all Makefiles
+    find . -name "Makefile" -exec sed -i 's/libusbmuxd/libusbmuxd-2.0/g' {} +
+    find . -name "Makefile" -exec sed -i 's/libimobiledevice/libimobiledevice-1.0/g' {} +
+
+    # Fix undefined variables error when building with ALLOW_STATIC=no
+    # These variables are only defined if USB_DLOPEN is enabled
+    sed -i 's/idevice_dll = NULL;/\/\/ idevice_dll = NULL;/g' src/device_discovery.cc
+    sed -i 's/usbmuxd_dll = NULL;/\/\/ usbmuxd_dll = NULL;/g' src/device_discovery.cc
+
+    # Explicitly link required libraries to fix undefined symbols.
+    # Appending to Makefile avoids shell quoting issues in make_build_args.
+    echo "LDD_LIBS += -limobiledevice-1.0 -lusbmuxd-2.0 -lturbojpeg" >> Makefile
+}
 
 pre_build() {
-	mkdir -p build
-	export INCLUDES="-I$XBPS_CROSS_BASE/usr/include/obs"
+    mkdir -p build
+    export INCLUDES="-I$XBPS_CROSS_BASE/usr/include/obs"
 }
 
 do_install() {
-	vinstall build/droidcam-obs.so 0644 usr/lib/obs-plugins/
+    vinstall build/droidcam-obs.so 0644 usr/lib/obs-plugins/
+
+    # Install locale files if they exist
+    if [ -d "data/locale" ]; then
+        vmkdir usr/share/obs/obs-plugins/droidcam-obs
+        vcopy "data/locale" usr/share/obs/obs-plugins/droidcam-obs/
+    fi
 }

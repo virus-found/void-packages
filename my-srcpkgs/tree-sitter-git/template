@@ -1,6 +1,6 @@
 # Template file for 'tree-sitter'
 pkgname=tree-sitter-git
-version=56325d2
+version=f6d17fd
 revision=1
 build_style=cargo
 make_install_args="--path=cli"
@@ -17,6 +17,7 @@ _my_field_repo=https://github.com/tree-sitter/tree-sitter.git
 conflicts="tree-sitter>=0"
 hostmakedepends+=" git"
 make_install_args=${make_install_args/--path=cli/--path=crates/cli}
+makedepends+=" clang19"
 replaces="tree-sitter>=0"
 unset checksum distfiles wrksrc
 
