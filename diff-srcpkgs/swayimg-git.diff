@@ -1,5 +1,6 @@
+-configure_args="-D version=${version}"
 - libpng-devel librsvg-devel libwebp-devel libexif-devel tiff-devel
-- libopenexr-devel libjxl-devel"
+- libopenexr-devel libjxl-devel libdrm-devel"
 + libpng-devel librsvg-devel libwebp-devel libexif-devel"
 -maintainer="voidbert <humbertogilgomes@protonmail.com>"
 +maintainer="Subhaditya Nath <sn03.general@gmail.com>"
@@ -8,6 +9,3 @@
 +hostmakedepends+=" git"
 +pkgname+=-git
 +unset checksum distfiles wrksrc
-+
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"

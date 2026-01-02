@@ -1,3 +1,10 @@
+-makedepends="gdbm-devel pcre2-devel libcap-devel ncurses-devel"
++makedepends="gdbm-devel pcre-devel libcap-devel ncurses-devel"
+-homepage="https://www.zsh.org"
++homepage="http://www.zsh.org"
+-if [ "$CROSS_BUILD" ]; then
+-	configure_args+=" PCRE_CONFIG=$XBPS_CROSS_BASE/usr/bin/pcre2-config"
+-fi
 +#_my_field_repo=https://git.code.sf.net/p/zsh/code
 +_my_field_repo=git://git.code.sf.net/p/zsh/code
 +conflicts="zsh>=0"
@@ -8,15 +15,25 @@
 +pkgname+=-git
 +replaces="zsh>=0"
 +unset checksum distfiles wrksrc
-+
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
-+
 -	vsed -i -e 's,/etc/service,/var/service,g' Completion/Unix/Command/_runit
 +	#vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
 +	#	Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
 -	vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
 -		Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
+-
+-	# "Workaround" failing tests
+-	case "$XBPS_TARGET_MACHINE" in
+-		x86_64-musl)
+-			rm -f Test/A03quoting.ztst
+-			rm -f Test/B03print.ztst
+-			rm -f Test/E02xtrace.ztst
+-			rm -f Test/V09datetime.ztst
+-			;;
+-	esac
+-}
+-
+-pre_configure() {
+-	autoreconf -fi
 +	# Skip docs
 +	echo '
 +all: ;

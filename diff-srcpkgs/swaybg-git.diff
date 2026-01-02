@@ -6,6 +6,3 @@
 +unset checksum distfiles wrksrc
 +hostmakedepends+=" git"
 +
-+# TODO remove me
-+#makedepends+=" nghttp2-devel libssh2-devel"
-+

@@ -380,7 +380,7 @@ update_my_pkgs() {
 }
 
 cleanup() {
-    nix-collect-garbage -d || true # cleans up lot's of space TODO does not belong here
+    #nix-collect-garbage -d || true # cleans up lot's of space TODO does not belong here
 
     _update_void_packages
 

@@ -1,6 +1,6 @@
 # Template file for 'LGOGDownloader'
 pkgname=LGOGDownloader
-version=f947b51
+version=f555f11
 revision=1
 build_style=cmake
 configure_args="$(vopt_bool qt USE_QT_GUI)"

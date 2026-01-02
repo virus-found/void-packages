@@ -1,6 +1,6 @@
 # Template file for 'tree-sitter'
 pkgname=tree-sitter-git
-version=f6d17fd
+version=dd60d5c
 revision=1
 build_style=cargo
 make_install_args="--path=cli"
