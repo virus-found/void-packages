@@ -11,7 +11,7 @@ makedepends="rust attr-devel keyutils-devel libaio-devel libblkid-devel
  liblz4-devel libscrypt-devel libsodium-devel eudev-libudev-devel liburcu-devel
  libuuid-devel libzstd-devel zlib-devel"
 short_desc="Userspace tools for bcachefs"
-maintainer="Leah Neukirchen <leah@vuxu.org>"
+maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-only"
 homepage="https://bcachefs.org/"
 distfiles="https://github.com/koverstreet/bcachefs-tools/archive/refs/tags/v${version}.tar.gz"
