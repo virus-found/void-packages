@@ -1,9 +1,9 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=442c90d
+version=bf4dfff
 revision=1
 # XXX: keep python3-yt-dlp-ejs in sync with pyproject.toml
-_ejs_ver=0.4.0
+_ejs_ver=0.5.0
 build_style=python3-pep517
 make_check_args="-k not((download)or(test_socks))"
 hostmakedepends="hatchling"
@@ -17,17 +17,20 @@ license="Unlicense"
 homepage="https://github.com/yt-dlp/yt-dlp"
 changelog="https://raw.githubusercontent.com/yt-dlp/yt-dlp/master/Changelog.md"
 distfiles="https://github.com/yt-dlp/yt-dlp/releases/download/${version}/yt-dlp.tar.gz>yt-dlp-$version.tar.gz"
-checksum=e4edd01abd229f646b8280209d462785c2d0929f7612fb24740fa528e5eff433
-
-_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
-conflicts="yt-dlp>=0"
-hostmakedepends+=" git"
-pkgname+=-git
-replaces="yt-dlp>=0"
-unset checksum distfiles wrksrc
+checksum=3655cb66b0edf6accb2361e886b1399c7dad3be5fa4434ac6d0fdbfc07718867
+replaces="python3-youtube-dl>=0"
 
 if [ "$XBPS_WORDSIZE" -eq "$XBPS_TARGET_WORDSIZE" ]; then
 	# nodejs can only be built for this platform combination
 	depends+=" python3-yt-dlp-ejs>=${_ejs_ver}_1<=${_ejs_ver}_9999"
 	checkdepends+=" python3-yt-dlp-ejs"
 fi
+
+_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
+conflicts="yt-dlp>=0"
+depends+=" python3-yt-dlp-ejs"
+depends=${depends%python3-yt-dlp-ejs*}
+hostmakedepends+=" git"
+pkgname+=-git
+replaces="yt-dlp>=0"
+unset checksum distfiles wrksrc _ejs_ver

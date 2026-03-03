@@ -9,6 +9,3 @@
 +pkgname+=-git
 +replaces="font-3270>=0"
 +unset checksum distfiles wrksrc
-+
-+# TODO remove me
-+makedepends+=" nghttp2-devel libssh2-devel"
