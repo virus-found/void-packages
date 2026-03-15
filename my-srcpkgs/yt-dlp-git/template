@@ -1,9 +1,9 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=b8058cd
+version=e68afb2
 revision=1
 # XXX: keep python3-yt-dlp-ejs in sync with pyproject.toml
-_ejs_ver=0.5.0
+_ejs_ver=0.7.0
 build_style=python3-pep517
 make_check_args="-k not((download)or(test_socks))"
 hostmakedepends="hatchling"
@@ -33,4 +33,4 @@ depends=${depends%python3-yt-dlp-ejs*}
 hostmakedepends+=" git"
 pkgname+=-git
 replaces="yt-dlp>=0"
-unset checksum distfiles wrksrc _ejs_ver
+unset checksum distfiles wrksrc

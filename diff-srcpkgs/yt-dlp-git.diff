@@ -1,10 +1,11 @@
-+_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
-+conflicts="yt-dlp>=0"
-+hostmakedepends+=" git"
-+pkgname+=-git
-+replaces="yt-dlp>=0"
-+unset checksum distfiles wrksrc
-+
+-post_extract() {
+-	if [ "$XBPS_WORDSIZE" -eq "$XBPS_TARGET_WORDSIZE" ]; then
+-		_req_ejs="$(grep -o '"yt-dlp-ejs==.*"' "$wrksrc/pyproject.toml" | sed -e 's/^.*==\(.*\)"$/\1/')"
+-		if [ "$_ejs_ver" != "$_req_ejs" ]; then
+-			msg_error "python3-yt-dlp-ejs version mismatch ($_ejs_ver != $_req_ejs): update python3-yt-dlp-ejs and \$_ejs_ver to match yt-dlp's pyproject.toml\n"
+-		fi
+-	fi
+-}
 -
 -post_install() {
 -	cat <<- "EOF" > youtube-dl
@@ -27,3 +28,11 @@
 -	short_desc+=" (transitional dummy package)"
 -	metapackage=yes
 -}
++_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
++conflicts="yt-dlp>=0"
++depends+=" python3-yt-dlp-ejs"
++depends=${depends%python3-yt-dlp-ejs*}
++hostmakedepends+=" git"
++pkgname+=-git
++replaces="yt-dlp>=0"
++unset checksum distfiles wrksrc

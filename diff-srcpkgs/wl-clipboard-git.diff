@@ -1,7 +1,0 @@
-+
-+_my_field_repo=https://github.com/bugaevc/wl-clipboard
-+conflicts="wl-clipboard>=0"
-+hostmakedepends+=" git"
-+pkgname+=-git
-+replaces="wl-clipboard>=0"
-+unset checksum distfiles wrksrc
