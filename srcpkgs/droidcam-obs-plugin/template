@@ -30,6 +30,8 @@ post_extract() {
     echo "LDD_LIBS += -limobiledevice-1.0 -lusbmuxd-2.0 -lturbojpeg" >> Makefile
 }
 
+broken="does not build with obs 32.1.0"
+
 pre_build() {
     mkdir -p build
     export INCLUDES="-I$XBPS_CROSS_BASE/usr/include/obs"
