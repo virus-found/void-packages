@@ -1,6 +1,6 @@
 # Template file for 'yt-dlp'
 pkgname=yt-dlp
-version=9f0fc9a
+version=165ee77
 revision=1
 # XXX: keep python3-yt-dlp-ejs in sync with pyproject.toml
 _ejs_ver=0.8.0

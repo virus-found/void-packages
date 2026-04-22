@@ -1,3 +1,33 @@
++# as per https://github.com/neovim/neovim/blob/master/cmake.deps/deps.txt
++_treesitter_c_version=0.24.1
++_treesitter_lua_version=0.5.0
++_treesitter_vim_version=0.8.1
++_treesitter_vimdoc_version=4.1.0
++_treesitter_query_version=0.8.0
++_treesitter_markdown_version=0.5.3
+-depends="tree-sitter-c tree-sitter-lua tree-sitter-markdown tree-sitter-query
+- tree-sitter-vim tree-sitter-vimdoc"
++ https://github.com/tree-sitter/tree-sitter-c/archive/refs/tags/v${_treesitter_c_version}.tar.gz>treesitter_c_${_treesitter_c_version}.tar.gz
++ https://github.com/tree-sitter-grammars/tree-sitter-lua/archive/refs/tags/v${_treesitter_lua_version}.tar.gz>treesitter_lua_${_treesitter_lua_version}.tar.gz
++ https://github.com/tree-sitter-grammars/tree-sitter-vim/archive/refs/tags/v${_treesitter_vim_version}.tar.gz>treesitter_vim_${_treesitter_vim_version}.tar.gz
++ https://github.com/neovim/tree-sitter-vimdoc/archive/refs/tags/v${_treesitter_vimdoc_version}.tar.gz>treesitter_vimdoc_${_treesitter_vimdoc_version}.tar.gz
++ https://github.com/tree-sitter-grammars/tree-sitter-query/archive/refs/tags/v${_treesitter_query_version}.tar.gz>treesitter_query_${_treesitter_query_version}.tar.gz
++ https://github.com/tree-sitter-grammars/tree-sitter-markdown/archive/refs/tags/v${_treesitter_markdown_version}.tar.gz>treesitter_markdown_${_treesitter_markdown_version}.tar.gz"
++ b66c5043e26d84e5f17a059af71b157bcf202221069ed220aa1696d7d1d28a7a
++ a34cc70abfd8d2d4b0fabf01403ea05f848e1a4bc37d8a4bfea7164657b35d31
++ 90019d12d2da0751c027124f27f5335babf069a050457adaed53693b5e9cf10a
++ 76b65e5bee9ff78eb21256619b1995aac4d80f252c19e1c710a4839481ded09e
++ fe8c712880a529d454347cd4c58336ac2db22243bae5055bdb5844fb3ea56192
++ e0fdb2dca1eb3063940122e1475c9c2b069062a638c95939e374c5427eddee9f"
++
++skip_extraction="
++ treesitter_c_${_treesitter_c_version}.tar.gz
++ treesitter_lua_${_treesitter_lua_version}.tar.gz
++ treesitter_vim_${_treesitter_vim_version}.tar.gz
++ treesitter_vimdoc_${_treesitter_vimdoc_version}.tar.gz
++ treesitter_query_${_treesitter_query_version}.tar.gz
++ treesitter_markdown_${_treesitter_markdown_version}.tar.gz"
++
 +_my_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
 +configure_args+=" -DCMAKE_BUILD_TYPE=Release"
@@ -16,14 +46,18 @@
 +unset _treesitter_vimdoc_version
 +unset checksum distfiles wrksrc
 +unset skip_extraction
++post_extract() {
++	for _distfile in ${skip_extraction}; do
++		vsrcextract -C .deps/build/src/${_distfile%_*} ${_distfile}
++	done
++}
 +
--pre_configure() {
--	# build bundled treesitter parsers
--	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
--	cmake --build .deps
--}
 +#pre_configure() {
 +#	# build bundled treesitter parsers
-+#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
++#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_EXISTING_SRC_DIR=ON -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
 +#	cmake --build .deps
 +#}
++
+-
+-	# put system-provided tree-sitter grammars on runtimepath
+-	ln -s "../../../lib/tree-sitter" "${DESTDIR}/usr/share/nvim/runtime/parser"

@@ -1,14 +1,14 @@
 # Template file for 'neovim'
 pkgname=neovim
-version=2df2e72
+version=558204d
 revision=1
 # as per https://github.com/neovim/neovim/blob/master/cmake.deps/deps.txt
-_treesitter_c_version=0.23.4
-_treesitter_lua_version=0.3.0
-_treesitter_vim_version=0.5.0
-_treesitter_vimdoc_version=3.0.1
-_treesitter_query_version=0.5.1
-_treesitter_markdown_version=0.4.1
+_treesitter_c_version=0.24.1
+_treesitter_lua_version=0.5.0
+_treesitter_vim_version=0.8.1
+_treesitter_vimdoc_version=4.1.0
+_treesitter_query_version=0.8.0
+_treesitter_markdown_version=0.5.3
 build_style=cmake
 build_helper="qemu"
 configure_args="-DCOMPILE_LUA=OFF -DENABLE_TRANSLATIONS=ON -DPREFER_LUA=$(vopt_if luajit OFF ON)"
@@ -62,12 +62,8 @@ unset _treesitter_vimdoc_version
 unset checksum distfiles wrksrc
 unset skip_extraction
 
-build_options=luajit
-
-case "$XBPS_TARGET_MACHINE" in
-	armv6l|armv7l|riscv64*) build_options_default="" ;;
-	*) build_options_default="luajit" ;;
-esac
+build_options="luajit"
+build_options_default="luajit"
 
 alternatives="
  vi:vi:/usr/bin/nvim
@@ -88,7 +84,7 @@ post_extract() {
 
 #pre_configure() {
 #	# build bundled treesitter parsers
-#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
+#	cmake -S cmake.deps -B .deps -G Ninja -DUSE_EXISTING_SRC_DIR=ON -DUSE_BUNDLED=OFF -DUSE_BUNDLED_TS_PARSERS=ON
 #	cmake --build .deps
 #}
 
