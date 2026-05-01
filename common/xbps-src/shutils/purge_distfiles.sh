@@ -12,7 +12,7 @@ purge_distfiles() {
 	#
 	# Scan all templates for their current distfiles and checksums (hashes)
 	#
-	declare -A my_hashes
+	declare -A extras_hashes
 	templates=($(find srcpkgs -mindepth 1 -maxdepth 1 -type d -printf "srcpkgs/%f/template\n"))
 	max=${#templates[@]}
 	cur=0
@@ -26,11 +26,11 @@ purge_distfiles() {
 		pkg=${pkg%/*}
 		if [ ! -L "srcpkgs/$pkg" ]; then
 			checksum="$(grep -Ehrow [0-9a-f]{$HASHLEN} ${template}|sort|uniq|tr '\n' ' ')"
-			read -a _my_hashes <<< ${checksum}
+			read -a _extras_hashes <<< ${checksum}
 			i=0
-			while [ -n "${_my_hashes[$i]}" ]; do
-				hash="${_my_hashes[$i]}"
-				[ -z "${my_hashes[$hash]}" ] && my_hashes[$hash]=$template
+			while [ -n "${_extras_hashes[$i]}" ]; do
+				hash="${_extras_hashes[$i]}"
+				[ -z "${extras_hashes[$hash]}" ] && extras_hashes[$hash]=$template
 				i=$((i + 1))
 			done
 		fi
@@ -42,7 +42,7 @@ purge_distfiles() {
 		fi
 	done
 	echo
-	echo "Number of hashes    : ${#my_hashes[@]}"
+	echo "Number of hashes    : ${#extras_hashes[@]}"
 
 	#
 	# Collect inodes of all distfiles in $XBPS_SRCDISTDIR
@@ -76,7 +76,7 @@ purge_distfiles() {
 	for file in ${hashes[@]}; do
 		hash_distfile=${file##*/}
 		hash=${hash_distfile:0:$HASHLEN}
-		[ -n "${my_hashes[$hash]}" ] && continue
+		[ -n "${extras_hashes[$hash]}" ] && continue
 		inode=$(stat_inode "$file")
 		echo "Obsolete $hash (inode: $inode)"
 		( IFS="|"; for f in ${inodes[$inode]}; do rm -vf "$f"; rmdir "${f%/*}" 2>/dev/null; done )

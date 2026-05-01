@@ -1,0 +1,403 @@
+#!/bin/bash
+# vim: set ts=4 sw=4 et:
+
+# -e exit on any error (work around with ||true)
+# -u exit on unset variables, prevents here rm $masterdir/1/2/3 to be run as rm /1/2/3
+set -euo pipefail
+
+# resolve symlink to the actual repository directory
+XBPS_DISTDIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+cd "$XBPS_DISTDIR"
+
+# define paths
+XBPS_SRCPKGDIR=srcpkgs
+XBPS_EXTRA_SRCPKGDIR=extra-srcpkgs
+XBPS_DIFF_SRCPKGDIR=diff-srcpkgs
+XBPS_MACHINE=$(xbps-uhelper -C /dev/null arch)
+XBPS_MASTERDIR="$XBPS_DISTDIR/masterdir-$XBPS_MACHINE"
+XBPS_HOSTDIR=hostdir
+XBPS_SRCDISTDIR=$XBPS_HOSTDIR/sources
+XBPS_DESTDIR=$XBPS_MASTERDIR/destdir
+XBPS_BUILDDIR=$XBPS_MASTERDIR/builddir
+XBPS_REPOSITORY=$XBPS_HOSTDIR/binpkgs
+XBPS_EXTRA_REPOSITORY=extra-binpkgs
+VERSIONS_FILE="$XBPS_EXTRA_SRCPKGDIR/git-versions.csv"
+
+l="------------------------------------------------------------------------------"
+
+_chapter() {
+    echo "$l"
+    echo -e "$@"
+    echo "$l"
+}
+
+_chapter_question_build() {
+    [[ "${all:-}" == true ]] && return 0
+    [[ "${all:-}" == false ]] && return 1
+
+    echo "$l"
+
+    while true
+    do
+        echo -n "$* [y,n,a,s,i,q,?]? "
+        read -r answer
+
+        unset skip all
+        case ${answer:0:1} in
+            # proceed
+            y ) echo "$l" ; return 0 ;;
+            n ) echo "$l" ; return 1 ;;
+            # proceed with special var
+            a ) all=true ; echo "$l" ; return 0 ;;
+            # proceed with special var
+            s ) skip=true ; echo "$l" ; return 0 ;;
+            # proceed with special var
+            q ) echo "$l" ; cd "$cwd_before_main_script" ; exit 0 ;;
+            * ) echo '
+y - build now
+n - do not build
+s - skip version
+q - quit
+a - build all following updates
+? - print help
+'
+                ;;
+        esac
+    done
+}
+
+_chapter_question_build_fail_continue() {
+    echo "$l"
+
+    while true
+    do
+        echo -n "$p: skip this version [y,n,q]? "
+        read -r answer
+
+        case ${answer:0:1} in
+            y )
+                # skip
+                sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
+                echo "$p,$current_rev,$upstream_rev" >> "$VERSIONS_FILE"
+                echo "$l"
+                ;;
+            n )
+                echo "$l"
+                ;;
+            q )
+                echo "$l"
+                cd "$cwd_before_main_script"
+                exit 0
+                ;;
+            * )
+                # ask again
+                continue
+                ;;
+        esac
+        break
+    done
+}
+
+_sync_extra_pkgs() {
+    (
+        cd "$XBPS_EXTRA_SRCPKGDIR"
+
+        # remove obsolete symlinks of extra packages
+        find ../"$XBPS_SRCPKGDIR" -maxdepth 1 -xtype l -exec rm -iv {} +
+        # remove obsolete symlinks among supplementary files
+        find . -xtype l -exec rm -iv {} +
+        # remove empty dirs among supplementary files
+        find . -type d -empty -exec rm -riv {} +
+
+        local extra_package
+        for extra_package in *
+        do
+            local relpath_extra=../"$XBPS_EXTRA_SRCPKGDIR"/"$extra_package"
+            local relpath_extra_link=../"$XBPS_SRCPKGDIR"/"$extra_package"
+            local relpath_original=../"$XBPS_SRCPKGDIR"/${extra_package%-git}
+
+            # create symlinks of extra packages
+            ln -svn "$relpath_extra" "$relpath_extra_link" 2>/dev/null || true
+
+            if [[ -e "$relpath_original" && "$relpath_original" != "$relpath_extra_link" ]]
+            then
+                # rsync supplementary files to extra packages
+                rsync -a --exclude template --delete "$relpath_original/" "$extra_package"
+            fi
+        done
+    )
+}
+
+_update_void_packages() {
+    _chapter 'update void-packages'
+    git fetch --all --prune
+
+    mkdir -p "$XBPS_DIFF_SRCPKGDIR"
+    local p base_pkg diff_output
+    for p in $(find "$XBPS_EXTRA_SRCPKGDIR" -maxdepth 1 -mindepth 1 -type d -printf '%P\n' 2>/dev/null || true) ; do
+        base_pkg=${p%-git}
+        diff_output=$(git diff HEAD origin/master -- "srcpkgs/$base_pkg/template" 2>/dev/null || true)
+        if [[ -n "$diff_output" ]] ; then
+            echo -e "\n--- Upstream update for $base_pkg at $(date -R) ---" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
+            echo "$diff_output" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
+        fi
+    done
+
+    # true if nothing to stash
+    [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
+    if [[ "${do_stash:-}" == true ]] ; then
+        git stash push -m "$(date -R) automatic stash before rebase"
+    fi
+    GIT_MERGE_AUTOEDIT=no git merge origin/master
+    if [[ "${do_stash:-}" == true ]] ; then
+        git stash pop --index
+    fi
+}
+
+_update_system() {
+    _update_void_packages
+    _sync_extra_pkgs
+
+    _chapter 'update host pkgs'
+    sudo xbps-install -Suv
+    sudo xbps-remove -v -o
+    _chapter 'update build env'
+    ./xbps-src bootstrap-update
+}
+
+update_extra_pkgs() {
+    local extrapkgs
+    if [[ $* ]] ; then
+        local force=true
+        extrapkgs=$*
+    else
+        cd "$XBPS_EXTRA_SRCPKGDIR"
+        extrapkgs=$(find . -maxdepth 1 -mindepth 1 -type d -printf '%P\n') || cd "$XBPS_DISTDIR"
+        cd "$XBPS_DISTDIR"
+    fi
+
+    rm -rf "$XBPS_DESTDIR" "$XBPS_BUILDDIR"
+    rm -rf $XBPS_REPOSITORY
+    mkdir -p $XBPS_REPOSITORY
+
+    # registering packages from my-binpkgs
+    cp -pv "$XBPS_EXTRA_REPOSITORY/*.xbps" "$XBPS_REPOSITORY" 2>/dev/null || true
+    xbps-rindex -a $XBPS_REPOSITORY/*.xbps 2>/dev/null || true
+
+    touch "$VERSIONS_FILE"
+    local -a pkgs_to_build=()
+    local -A target_versions=()
+    local -A previous_versions=()
+
+    # top priority for these pkgs, as they are dependencies
+    #
+    # TODO improve by utilizing *depends fields from template themselves, now
+    # it's but a hardcode
+    case "$extrapkgs" in
+        *wlroots-git* )
+            extrapkgs="wlroots-git ${extrapkgs//wlroots-git/}"
+            ;;&
+        *tree-sitter-git* )
+            extrapkgs="tree-sitter-git ${extrapkgs//tree-sitter-git/}"
+            ;;
+    esac
+
+    _chapter "check for updates"
+    local p
+    for p in $extrapkgs
+    do
+        local template="$XBPS_EXTRA_SRCPKGDIR/$p/template"
+        [[ -f "$template" ]] || template="$XBPS_SRCPKGDIR/$p/template"
+        [[ -f "$template" ]] || { echo "=> ${0##*/}: expected file $(pwd)/$template" ; return 1 ; }
+
+        unset _extra_field_autoinstall _extra_field_repo _extra_field_repo_branch _extra_field_repo_commit git
+        # workaround for some variables possible missing in templates
+        set +u
+        source "$template" &>/dev/null || true
+        set -u
+
+        [[ -n ${_extra_field_repo:-} ]] && local git=true || local git=false
+
+        local stored_line
+        local current_rev
+        local skip_rev
+        stored_line=$(grep "^$p," "$VERSIONS_FILE" 2>/dev/null || true)
+        current_rev=$(echo "$stored_line" | cut -d',' -f2)
+        skip_rev=$(echo "$stored_line" | cut -d',' -f3)
+
+        if [[ "$git" == true ]] ; then
+            echo "=> ${0##*/}: check for updates $p"
+            if [ -z "${_extra_field_repo_commit:-}" ]
+            then
+                local upstream_rev_long
+                upstream_rev_long=$(git ls-remote "$_extra_field_repo" "$(test "${_extra_field_repo_branch:-}" && echo -n "$_extra_field_repo_branch" || echo -n HEAD)" | awk '{print $1}' | head -n1)
+                upstream_rev=${upstream_rev_long:0:7}
+            else
+                upstream_rev=${_extra_field_repo_commit:0:7}
+            fi
+        else
+            upstream_rev="$version" # sourced from template
+            [[ -z "$current_rev" ]] && current_rev="$version"
+        fi
+
+        if [[ "${force:-}" != true ]] ; then
+            if [[ "$upstream_rev" == "$current_rev" ]] || [[ "$upstream_rev" == "$skip_rev" ]] ; then
+                continue
+            fi
+        fi
+
+        _chapter_question_build "build $p $upstream_rev" || continue
+
+        if [[ "${force:-}" != true ]] && [[ "${skip:-}" == true ]] ; then
+            sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
+            echo "$p,$current_rev,$upstream_rev" >> "$VERSIONS_FILE"
+            continue
+        fi
+
+        pkgs_to_build+=("$p")
+        target_versions["$p"]="$upstream_rev"
+        previous_versions["$p"]="${current_rev:-$version}"
+    done
+
+    if (( ${#pkgs_to_build[@]} == 0 ))
+    then
+        _chapter 'nothing to update'
+        return 0
+    fi
+
+    _update_system
+
+    rm -rf "$XBPS_DESTDIR" "$XBPS_BUILDDIR" "$XBPS_REPOSITORY"
+    mkdir -p "$XBPS_REPOSITORY" "$XBPS_MASTERDIR/repos/"
+
+    cp -pv "$XBPS_EXTRA_REPOSITORY"/*.xbps "$XBPS_REPOSITORY" 2>/dev/null || true
+    xbps-rindex -a "$XBPS_REPOSITORY"/*.xbps 2>/dev/null || true
+    rm -f /tmp/extra-xbps-log
+
+    _chapter "build"
+
+    for p in "${pkgs_to_build[@]}"; do
+        local template="$XBPS_SRCPKGDIR/$p/template"
+        cp "$template" "/tmp/${p}_old"
+
+        local upstream_rev=${target_versions["$p"]}
+        sed -i "0,/^version/{s/^version=.*/version=$upstream_rev/}" "$template"
+
+        local base_pkg=${p%-git}
+        if [ "$base_pkg" != "$p" ]; then
+            grep -q "^provides=" "$template" || sed -i "/^pkgname=/a provides=\"$base_pkg-9999_1\"" "$template"
+            grep -q "^conflicts=" "$template" || sed -i "/^pkgname=/a conflicts=\"$base_pkg>=0\"" "$template"
+            grep -q "^replaces=" "$template" || sed -i "/^pkgname=/a replaces=\"$base_pkg>=0\"" "$template"
+        fi
+    done
+
+    restore_templates() {
+        local pkg
+        for pkg in ${pkgs_to_build[@]+"${pkgs_to_build[@]}"}; do
+            if [[ -f "/tmp/${pkg}_old" ]]; then
+                mv "/tmp/${pkg}_old" "$XBPS_SRCPKGDIR/$pkg/template" || true
+            fi
+        done
+        return 0
+    }
+    trap restore_templates EXIT SIGINT
+
+    local built_any=false
+    for p in "${pkgs_to_build[@]}"
+    do
+        upstream_rev=${target_versions["$p"]}
+        current_rev=${previous_versions["$p"]}
+
+        [[ "$p" =~ (wlroots|tree-sitter|libutf8proc) ]] && rm -f "$XBPS_REPOSITORY/${p}*"
+
+        if ! ./xbps-src -C pkg "$p"
+        then
+            _chapter_question_build_fail_continue
+            continue
+        fi
+
+        built_any=true
+        local skip_rev
+        skip_rev=$(grep "^$p," "$VERSIONS_FILE" 2>/dev/null | cut -d',' -f3 || true)
+        sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
+        echo "$p,$upstream_rev,$skip_rev" >> "$VERSIONS_FILE"
+
+        if [[ -e "$XBPS_BUILDDIR/$p-$upstream_rev" ]]; then
+            (
+                cd "$XBPS_BUILDDIR/${p}-$upstream_rev"
+                local log
+                log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' --abbrev-commit "$current_rev..$upstream_rev" 2>/dev/null || true)
+                if [[ -n "$log" ]]; then
+                    echo -e "$p\n\n$log\n\n" >> /tmp/extra-xbps-log
+                fi
+            )
+        fi
+    done
+
+    [[ -e /tmp/extra-xbps-log ]] && less /tmp/extra-xbps-log
+
+    if [[ "${built_any:-}" == true ]]; then
+        local to_install=()
+        # find files and load into array using null terminator for safety
+        while IFS= read -r -d '' file; do
+            to_install+=("$file")
+        done < <(find "$XBPS_REPOSITORY" \
+            '!' -name '*-dbg-*' \
+            '!' -name '*-devel-*' \
+            '!' -name 'libdrm-test-progs-*' \
+            '!' -name 'libdrm2-*' \
+            '!' -name 'meson-*' \
+            '!' -name 'ninja-*' \
+            '!' -name 'wayland-protocols-*' \
+            '!' -name 'wireplumber-elogind-*' \
+            -name '*.xbps' -print0)
+
+        if (( ${#to_install[@]} > 0 )); then
+            _chapter "sudo xdowngrade ${to_install[*]}"
+            sudo xdowngrade "${to_install[@]}"
+        fi
+    fi
+
+    # store non-required packages in the file
+    xbps-query -m | rev | cut -d - -f 2- | rev > ~/.xbps-manual-pkgs
+    # store restricted packages (both installed and not) in the file
+    grep -rl 'restricted=' srcpkgs/ | cut -d '/' -f2 > ~/.xbps-all-restricted-pkgs
+}
+
+cleanup() {
+    _update_void_packages
+    _chapter 'perform cleanup'
+    sudo xbps-remove -Oo
+    # line below might help if cleanup fails
+    #rm -rf $XBPS_MASTERDIR
+    ./xbps-src clean
+    ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
+    ./xbps-src remove-autodeps
+    ./xbps-src zap
+    rm -rf "$XBPS_SRCDISTDIR"
+    ./xbps-src binary-bootstrap
+    _chapter 'cleanup success'
+}
+
+#
+# Main switch
+#
+cwd_before_main_script=$(pwd)
+case ${1:-} in
+    up )
+        shift
+        declare -a extra_args=()
+        for arg in "$@"; do
+            [[ "$arg" == "-y" ]] && all=true || extra_args+=("$arg")
+        done
+        [[ ${#extra_args[@]} -gt 0 ]] && update_extra_pkgs "${extra_args[@]}" || update_extra_pkgs
+        ;;
+    cleanup )
+        cleanup
+        ;;
+    * )
+        echo "${0##*/}: invalid parameter ${1:-}"
+        cd "$cwd_before_main_script"
+        exit 1
+        ;;
+esac

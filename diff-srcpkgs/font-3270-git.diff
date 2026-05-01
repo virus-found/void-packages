@@ -2,8 +2,8 @@
 -maintainer="Orphaned <orphan@voidlinux.org>"
 +maintainer="Diogo Leal <diogo@diogoleal.com>"
 +
-+_my_field_repo=https://github.com/rbanffy/3270font.git
-+_my_field_repo_branch=develop
++_extras_field_repo=https://github.com/rbanffy/3270font.git
++_extras_field_repo_branch=develop
 +conflicts="font-3270>=0"
 +hostmakedepends+=" git"
 +pkgname+=-git

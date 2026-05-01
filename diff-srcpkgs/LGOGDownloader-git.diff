@@ -1,4 +1,4 @@
-+_my_field_repo=https://github.com/Sude-/lgogdownloader.git
++_extras_field_repo=https://github.com/Sude-/lgogdownloader.git
 +conflicts="LGOGDownloader>=0"
 +hostmakedepends+=" git"
 +makedepends=${makedepends/htmlcxx-devel/libtidy5-devel}

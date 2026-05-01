@@ -20,12 +20,15 @@
 !/xbps-src
 etc/conf
 etc/conf.*
+etc/repo-keys
 etc/virtual
 etc/xbps.d/custom
-etc/repo-keys
+extra-srcpkgs/git-versions.csv
+srcpkgs/git-versions.csv
 
 # including virus-found/void-packages stuff below
-!/diff-srcpkgs
+!/build-extra
+!/diff-srcpkgs/
 !/etc/conf
-!/my-srcpkgs
-!/my-srcpkgs-obsolete
+!/extra-srcpkgs-archive/
+!/extra-srcpkgs/

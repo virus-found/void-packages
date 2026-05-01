@@ -1,4 +1,4 @@
-+_my_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
++_extras_field_repo=https://github.com/zsh-users/zsh-syntax-highlighting.git
 +conflicts="zsh-syntax-highlighting>=0"
 +depends=${depends/zsh/}
 +hostmakedepends+=" git"

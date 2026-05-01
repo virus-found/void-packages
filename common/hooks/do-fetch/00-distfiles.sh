@@ -208,7 +208,7 @@ try_urls() {
 }
 
 hook() {
-	if [[ $_my_field_repo ]]
+	if [[ $_extra_field_repo ]]
 	then
 		local srcdir="$XBPS_BUILDDIR/$pkgname-$version"
 		local gitdir="/repos/$pkgname"
@@ -216,8 +216,8 @@ hook() {
 		if [[ ! -s $gitdir ]]
 		then
 			git clone \
-				$(test $_my_field_repo_branch && echo -n "-b $_my_field_repo_branch --single-branch") \
-				$_my_field_repo $gitdir
+				$(test $_extra_field_repo_branch && echo -n "-b $_extra_field_repo_branch --single-branch") \
+				$_extra_field_repo $gitdir
 		else
 			(
 				cd $gitdir
@@ -227,11 +227,11 @@ hook() {
 				git pull
 			)
 		fi
-		if [ -n $_my_field_repo_commit ]
+		if [ -n $_extra_field_repo_commit ]
 		then
 			(
 				cd $gitdir
-				git reset --hard $_my_field_repo_commit
+				git reset --hard $_extra_field_repo_commit
 			)
 		fi
 

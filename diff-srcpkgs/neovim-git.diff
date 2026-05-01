@@ -28,7 +28,7 @@
 + treesitter_query_${_treesitter_query_version}.tar.gz
 + treesitter_markdown_${_treesitter_markdown_version}.tar.gz"
 +
-+_my_field_repo=https://github.com/neovim/neovim.git
++_extras_field_repo=https://github.com/neovim/neovim.git
 +build_helper=${build_helper/qemu/}
 +configure_args+=" -DCMAKE_BUILD_TYPE=Release"
 +conflicts="neovim>=0"

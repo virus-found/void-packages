@@ -1,6 +1,6 @@
 -pkgname=tree-sitter
 +pkgname=tree-sitter-git
-+_my_field_repo=https://github.com/tree-sitter/tree-sitter.git
++_extras_field_repo=https://github.com/tree-sitter/tree-sitter.git
 +conflicts="tree-sitter>=0"
 +hostmakedepends+=" git"
 +make_install_args=${make_install_args/--path=cli/--path=crates/cli}

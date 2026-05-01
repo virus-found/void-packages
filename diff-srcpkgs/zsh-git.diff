@@ -5,8 +5,8 @@
 -if [ "$CROSS_BUILD" ]; then
 -	configure_args+=" PCRE_CONFIG=$XBPS_CROSS_BASE/usr/bin/pcre2-config"
 -fi
-+#_my_field_repo=https://git.code.sf.net/p/zsh/code
-+_my_field_repo=git://git.code.sf.net/p/zsh/code
++#_extras_field_repo=https://git.code.sf.net/p/zsh/code
++_extras_field_repo=git://git.code.sf.net/p/zsh/code
 +conflicts="zsh>=0"
 +hostmakedepends+=" git"
 +hostmakedepends=${hostmakedepends/texinfo/}

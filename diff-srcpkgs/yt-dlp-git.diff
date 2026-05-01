@@ -1,4 +1,4 @@
-+_my_field_repo=https://github.com/yt-dlp/yt-dlp.git
++_extras_field_repo=https://github.com/yt-dlp/yt-dlp.git
 +conflicts="yt-dlp>=0"
 +depends+=" python3-yt-dlp-ejs"
 +depends=${depends%python3-yt-dlp-ejs*}

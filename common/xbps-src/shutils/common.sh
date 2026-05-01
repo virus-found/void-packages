@@ -515,7 +515,7 @@ setup_pkg() {
         subpackages="$(get_subpkgs)"
     fi
 
-    if [ -h $XBPS_SRCPKGDIR/$basepkg ] && [ -h my-scrpkgs/$basepkg ]; then
+    if [ -h $XBPS_SRCPKGDIR/$basepkg ] && [ -h extra-scrpkgs/$basepkg ]; then
         # Source all subpkg environment setup snippets.
         for f in ${XBPS_COMMONDIR}/environment/setup-subpkg/*.sh; do
             source_file "$f"

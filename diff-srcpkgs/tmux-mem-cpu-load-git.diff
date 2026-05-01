@@ -1,4 +1,4 @@
-+_my_field_repo=https://github.com/thewtex/tmux-mem-cpu-load.git
++_extras_field_repo=https://github.com/thewtex/tmux-mem-cpu-load.git
 +conflicts="tmux-mem-cpu-load>=0"
 +depends=${depends/tmux/tmux-git}
 +hostmakedepends+=" git"

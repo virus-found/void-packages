@@ -1,5 +1,5 @@
 +PGO=auto
-+_my_field_repo=https://codeberg.org/dnkl/foot.git
++_extras_field_repo=https://codeberg.org/dnkl/foot.git
 +conflicts="foot>=0"
 +depends=${depends/${pkgname}-terminfo>=${version}_${revision}/foot-terminfo-git>=${version}_${revision}}
 +export CFLAGS+=" -O3"
