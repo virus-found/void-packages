@@ -6,3 +6,18 @@
 +replaces="LGOGDownloader>=0"
 +unset checksum distfiles wrksrc
 +
+
+--- Upstream update for LGOGDownloader at Fri, 01 May 2026 15:49:23 +0300 ---
+diff --git srcpkgs/LGOGDownloader/template srcpkgs/LGOGDownloader/template
+index 6cead03cc9d..a2cb698f00f 100644
+--- srcpkgs/LGOGDownloader/template
++++ srcpkgs/LGOGDownloader/template
+@@ -1,7 +1,7 @@
+ # Template file for 'LGOGDownloader'
+ pkgname=LGOGDownloader
+ version=3.18
+-revision=1
++revision=2
+ build_style=cmake
+ configure_args="$(vopt_bool qt USE_QT_GUI)"
+ hostmakedepends="pkg-config"

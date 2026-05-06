@@ -35,7 +35,7 @@ make_build_target=${make_build_target/info/}
 make_install_args=${make_install_args/install.info/}
 pkgname+=-git
 replaces="zsh>=0"
-revision=1
+#revision=1
 unset checksum distfiles wrksrc
 
 if [ "$CROSS_BUILD" ]; then
@@ -58,8 +58,8 @@ post_patch() {
 
 	vsed -i -e 's,/etc/service,/var/service,g' Completion/Unix/Command/_runit
 
-	vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
-		Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
+	#vsed -i -e 's,/etc/z,/etc/zsh/z,g' \
+	#	Doc/zsh.texi Doc/{zsh,zshall,zshoptions,zshmodules}.1
 
 	# "Workaround" failing tests
 	case "$XBPS_TARGET_MACHINE" in

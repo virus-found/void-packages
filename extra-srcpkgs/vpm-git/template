@@ -14,7 +14,7 @@ conflicts="vpm>=0"
 hostmakedepends+=" git"
 pkgname+=-git
 replaces="vpm>=0"
-revision=1
+#revision=1
 unset checksum distfiles wrksrc
 
 do_install() {

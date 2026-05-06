@@ -20,7 +20,7 @@ conflicts="font-3270>=0"
 hostmakedepends+=" git"
 pkgname+=-git
 replaces="font-3270>=0"
-revision=1
+#revision=1
 unset checksum distfiles wrksrc
 
 do_install() {

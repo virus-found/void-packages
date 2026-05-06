@@ -1,5 +1,5 @@
 # Template file for 'tree-sitter'
-pkgname=tree-sitter
+pkgname=tree-sitter-git
 version=0.25.10
 revision=2
 build_style=cargo
@@ -13,14 +13,12 @@ distfiles="https://github.com/tree-sitter/tree-sitter/archive/refs/tags/v${versi
 checksum=ad5040537537012b16ef6e1210a572b927c7cdc2b99d1ee88d44a7dcdc3ff44c
 make_check=no # tests require generating fixtures from remote repositories
 
-#makedepends+=" clang19"
 _extra_field_repo=https://github.com/tree-sitter/tree-sitter.git
 conflicts="tree-sitter>=0"
 hostmakedepends+=" git"
 make_install_args=${make_install_args/--path=cli/--path=crates/cli}
-pkgname+=-git
+makedepends+=" clang19" # Unable to find libclang: "couldn't find any valid shared libraries matching:
 replaces="tree-sitter>=0"
-revision=1
 unset checksum distfiles wrksrc
 
 post_build() {
