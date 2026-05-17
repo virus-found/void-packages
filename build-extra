@@ -25,7 +25,7 @@ VERSIONS_FILE="$XBPS_EXTRA_SRCPKGDIR/git-versions.csv"
 
 # force global init for exit trap visibility under set -u
 extrapkgs=""
-declare -a pkgs_to_build=()
+pkgs_to_build=()
 declare -A target_versions=()
 declare -A previous_versions=()
 
@@ -75,9 +75,9 @@ _chapter_question_build_fail_continue() {
                 # skip
                 sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
                 echo "$p,$current_rev,$upstream_rev" >> "$VERSIONS_FILE"
-                break ;;
-            n ) break ;;
-            q ) cd "$cwd_before_main_script" ; exit 0 ;;
+                return 0 ;;
+            n ) return 1 ;;
+            q ) exit 0 ;;
         esac
     done
 }
@@ -93,7 +93,6 @@ _sync_extra_pkgs() {
         # remove empty dirs among supplementary files
         find . -type d -empty -exec rm -riv {} +
 
-        local extra_package
         for extra_package in * ; do
             local relpath_extra=../"$XBPS_EXTRA_SRCPKGDIR"/"$extra_package"
             local relpath_extra_link=../"$XBPS_SRCPKGDIR"/"$extra_package"
@@ -115,10 +114,9 @@ _update_void_packages() {
     git fetch --all --prune
 
     mkdir -p "$XBPS_DIFF_SRCPKGDIR"
-    local p base_pkg diff_output
     for p in $(find "$XBPS_EXTRA_SRCPKGDIR" -maxdepth 1 -mindepth 1 -type d -printf '%P\n' 2>/dev/null || true) ; do
-        base_pkg=${p%-git}
-        diff_output=$(git diff HEAD origin/master -- "srcpkgs/$base_pkg/template" 2>/dev/null || true)
+        local base_pkg=${p%-git}
+        local diff_output=$(git diff HEAD origin/master -- "srcpkgs/$base_pkg/template" 2>/dev/null || true)
         if [[ -n "$diff_output" ]] ; then
             echo -e "\n--- Upstream update for $base_pkg at $(date -R) ---" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
             echo "$diff_output" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
@@ -164,8 +162,7 @@ update_extra_pkgs() {
         cd "$XBPS_DISTDIR"
     fi
 
-    rm -rf "$XBPS_DESTDIR" "$XBPS_BUILDDIR"
-    rm -rf "$XBPS_REPOSITORY"
+    rm -rf "$XBPS_DESTDIR" "$XBPS_BUILDDIR" "$XBPS_REPOSITORY"
     mkdir -p "$XBPS_REPOSITORY"
 
     # registering packages from extra-binpkgs
@@ -188,7 +185,7 @@ update_extra_pkgs() {
         local template="$XBPS_EXTRA_SRCPKGDIR/$p/template"
         [[ -f "$template" ]] || template="$XBPS_SRCPKGDIR/$p/template"
 
-        unset _extra_field_repo _extra_field_repo_branch _extra_field_repo_commit git
+        unset _extra_field_repo _extra_field_repo_branch _extra_field_repo_commit git version
         # workaround for some variables possible missing in templates
         set +u ; source "$template" &>/dev/null || true ; set -u
 
@@ -202,11 +199,11 @@ update_extra_pkgs() {
             local upstream_rev_long=$(git ls-remote "$_extra_field_repo" "$(test "${_extra_field_repo_branch:-}" && echo -n "$_extra_field_repo_branch" || echo -n HEAD)" | awk '{print $1}' | head -n1)
             upstream_rev=${upstream_rev_long:0:7}
         else
-            upstream_rev="$version"
+            upstream_rev="${version:-}"
         fi
 
         # store previous revision unconditionally so skipped dependencies can use it
-        previous_versions["$p"]="${current_rev:-$version}"
+        previous_versions["$p"]="${current_rev:-${version:-}}"
 
         if [[ "${force:-}" != true ]] ; then
             if [[ "$upstream_rev" == "$current_rev" ]] || [[ "$upstream_rev" == "$skip_rev" ]] ; then continue ; fi
@@ -230,6 +227,7 @@ update_extra_pkgs() {
 
     # set exit trap for template restoration
     trap restore_templates EXIT SIGINT
+    rm -f /tmp/extra-xbps-log
 
     _chapter "build"
     for p in $extrapkgs ; do
@@ -247,8 +245,12 @@ update_extra_pkgs() {
         ' "/tmp/${p}_old" > "$template"
 
         local base_pkg=${p%-git}
-        if [ "$base_pkg" != "$p" ]; then
-            grep -q "^provides=" "$template" || sed -i "/^pkgname=/a provides=\"$base_pkg-9999_1\"" "$template"
+        if [ "$base_pkg" != "$p" ] ; then
+            if grep -q "^provides=" "$template" ; then
+                sed -i "s/^provides=.*/provides=\"$base_pkg-9999_1\"/" "$template"
+            else
+                sed -i "/^pkgname=/a provides=\"$base_pkg-9999_1\"" "$template"
+            fi
             grep -q "^conflicts=" "$template" || sed -i "/^pkgname=/a conflicts=\"$base_pkg>=0\"" "$template"
             grep -q "^replaces=" "$template" || sed -i "/^pkgname=/a replaces=\"$base_pkg>=0\"" "$template"
         fi
@@ -263,8 +265,7 @@ update_extra_pkgs() {
         [[ "$p" =~ (wlroots|tree-sitter|libutf8proc) ]] && rm -f "$XBPS_REPOSITORY/${p}*"
 
         if ! ./xbps-src -C pkg "$p" ; then
-            _chapter_question_build_fail_continue
-            continue
+            _chapter_question_build_fail_continue || continue
         fi
 
         built_any=true
@@ -273,9 +274,12 @@ update_extra_pkgs() {
 
         if [[ -e "$XBPS_BUILDDIR/$p-$upstream_rev" ]] ; then
             ( cd "$XBPS_BUILDDIR/${p}-$upstream_rev"
-                local log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) <%an>' --abbrev-commit "$current_rev..$upstream_rev" 2>/dev/null || true)
-                if [[ -n "$log" ]] ; then
-                    echo -e "$p\n\n$log\n\n" >> /tmp/extra-xbps-log
+                # only compare if versions differ and current_rev is known
+                if [[ -n "$current_rev" && "$current_rev" != "$upstream_rev" ]] ; then
+                    local log=$(git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar) <%an>' --abbrev-commit "$current_rev..$upstream_rev" 2>/dev/null || true)
+                    if [[ -n "$log" ]] ; then
+                        echo -e "$p\n\n$log\n\n" >> /tmp/extra-xbps-log
+                    fi
                 fi )
         fi
     done
@@ -339,6 +343,7 @@ cwd_before_main_script=$(pwd)
 case ${1:-} in
     up )
         shift
+        extra_args=()
         for arg in "$@"; do
             [[ "$arg" == "-y" ]] && all=true || extra_args+=("$arg")
         done
