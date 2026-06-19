@@ -299,7 +299,6 @@ update_extra_pkgs() {
             '!' -name 'meson-*' \
             '!' -name 'ninja-*' \
             '!' -name 'python3-youtube-dl-git-*' \
-            '!' -name 'tree-sitter-cli-git-*' \
             '!' -name 'wayland-protocols-*' \
             '!' -name 'wireplumber-elogind-*' \
             '!' -name 'youtube-dl-git-*' \
