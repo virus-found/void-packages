@@ -215,7 +215,7 @@ hook() {
 
 		if [[ ! -s $gitdir ]]
 		then
-			git clone \
+			git -c gc.autoDetach=false clone \
 				$(test $_extra_field_repo_branch && echo -n "-b $_extra_field_repo_branch --single-branch") \
 				$_extra_field_repo $gitdir
 		else
@@ -224,10 +224,10 @@ hook() {
 
 				git checkout -- .
 				git clean -df
-				git pull
+				git -c gc.autoDetach=false pull
 			)
 		fi
-		if [ -n $_extra_field_repo_commit ]
+		if [ -n "$_extra_field_repo_commit" ]
 		then
 			(
 				cd $gitdir
