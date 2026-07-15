@@ -1,6 +1,6 @@
 # Template file for 'mcelog'
 pkgname=mcelog
-version=210
+version=211
 revision=1
 archs="i686* x86_64*"
 hostmakedepends="python3"
@@ -10,7 +10,7 @@ maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-only"
 homepage="http://www.mcelog.org/"
 distfiles="https://github.com/andikleen/mcelog/archive/v${version}.tar.gz"
-checksum=5760c1b433ca4caccf140d51490e2565d117a684942d9f6b4d79b6209465e11e
+checksum=744322b5154ce657758afd942a1fa7bf55879ae618c9274c67dd9333389c6b4f
 
 do_build() {
 	make CC=$CC CFLAGS="$CFLAGS $LDFLAGS" ${makejobs}
