@@ -111,11 +111,11 @@ libgmodule-2.0.so.0 glib-2.86.0_1
 libgio-2.0.so.0 glib-2.86.0_1
 libgobject-2.0.so.0 glib-2.86.0_1
 libgirepository-2.0.so.0 glib-2.86.0_1
-libwt.so.4.12.0 wt-4.12.0_1
-libwtdbo.so.4.12.0 wt-4.12.0_1
-libwtdbosqlite3.so.4.12.0 wt-4.12.0_1
-libwthttp.so.4.12.0 wt-4.12.0_1
-libwttest.so.4.12.0 wt-4.12.0_1
+libwt.so.4.13.3 wt-4.13.3_1
+libwtdbo.so.4.13.3 wt-4.13.3_1
+libwtdbosqlite3.so.4.13.3 wt-4.13.3_1
+libwthttp.so.4.13.3 wt-4.13.3_1
+libwttest.so.4.13.3 wt-4.13.3_1
 libatk-1.0.so.0 atk-1.26.0_1
 libpangocairo-1.0.so.0 pango-1.24.0_1
 libpangoft2-1.0.so.0 pango-1.24.0_1
@@ -1148,6 +1148,7 @@ librygel-server-2.8.so.0 librygel-0.42.0_1
 librygel-db-2.8.so.0 librygel-0.42.0_1
 libharfbuzz.so.0 libharfbuzz-5.1.0_1
 libharfbuzz-icu.so.0 libharfbuzz-5.1.0_1
+libharfbuzz-raster.so.0 libharfbuzz-14.2.1_1
 libharfbuzz-subset.so.0 libharfbuzz-5.1.0_1
 libharfbuzz-gobject.so.0 libharfbuzz-5.1.0_1
 libharfbuzz-cairo.so.0 libharfbuzz-7.1.0_1
