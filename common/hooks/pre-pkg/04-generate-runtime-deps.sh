@@ -93,20 +93,15 @@ hook() {
     depsftmp=$(mktemp) || exit 1
     find ${PKGDESTDIR} -type f -perm -u+w > $depsftmp 2>/dev/null
 
-    for f in ${shlib_requires}; do
-        verify_deps+=" ${f}"
-    done
-
     _shlibtmp=$(mktemp) || exit 1
     parse_shlib_needed 3>&1 >"$_shlibtmp" <"$depsftmp"
     rm -f "$depsftmp"
     verify_deps=$(sort <"$_shlibtmp" | uniq)
     rm -f "$_shlibtmp"
 
-    # INFO crutch against
-    # find: warning: ‘-name’ matches against basenames only, but the given pattern contains a directory separator (‘/’), thus the expression will evaluate to false all the time.  Did you mean ‘-wholename’?
-    # SONAME: /usr/lib/lua/5.1/lpeg.so <-> UNKNOWN PKG PLEASE FIX!
-    #verify_deps=${verify_deps/\/usr\/lib\/lua\/5.1\/lpeg.so/}
+    for f in ${shlib_requires}; do
+        verify_deps+=" ${f}"
+    done
 
     #
     # Add required run time packages by using required shlibs resolved
