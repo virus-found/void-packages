@@ -1,6 +1,6 @@
 # Template file for 'fish-shell'
 pkgname=fish-shell
-version=4.9.0
+version=4.9.2
 revision=1
 build_style=cmake
 build_helper="rust"
@@ -15,7 +15,7 @@ license="GPL-2.0-only"
 homepage="https://fishshell.com/"
 changelog="https://raw.githubusercontent.com/fish-shell/fish-shell/refs/heads/master/CHANGELOG.rst"
 distfiles="https://github.com/fish-shell/fish-shell/releases/download/${version}/fish-${version}.tar.xz"
-checksum=49d86d655cfcc82c7d13d66c6c30a3351600d44b40fb2b6218fbb8fb0e635122
+checksum=26b95769ce17a8962b220ba3f20771117dbfe9cb2c3ba6f4ed139e0cbfdf02b1
 register_shell="/bin/fish /usr/bin/fish"
 # some tests fail in ci, cba to hardcode skipping
 make_check=ci-skip
