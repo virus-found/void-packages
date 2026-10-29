@@ -1,0 +1,29 @@
+# Template file for 'netbird'
+pkgname=netbird
+version=0.77.0
+revision=1
+build_style=go
+build_helper="qemu"
+go_import_path="github.com/netbirdio/netbird"
+go_package="${go_import_path}/client"
+go_ldflags="-X ${go_import_path}/version.version=${version}"
+make_dirs="/etc/netbird 0755 root root /var/log/netbird 0755 root root"
+short_desc="WireGuard-based overlay network client"
+maintainer="Evgenii Burmentev <vir.found@gmail.com>"
+license="BSD-3-Clause"
+homepage="https://netbird.io"
+distfiles="https://github.com/netbirdio/netbird/archive/refs/tags/v${version}.tar.gz"
+checksum=f27f5f5f853b74891838a781eb7a18ba7475375cbf69e9f3bf5c3721a7f0a4c2
+
+do_install() {
+	vbin "${GOPATH}/bin/client" netbird
+}
+
+post_install() {
+	for sh in bash fish zsh; do
+		vtargetrun "${DESTDIR}/usr/bin/netbird" completion "$sh" > "netbird.${sh}"
+		vcompletion "netbird.${sh}" "$sh"
+	done
+	vlicense LICENSE
+	vsv netbird
+}

@@ -44,10 +44,10 @@ _chapter_question_build() {
     echo "$l"
 
     while true ; do
-        echo -n "$* [y,n,a,s,i,q,?]? "
+        echo -n "$* [y,n,a,i,q,?]? "
         read -r answer
 
-        unset skip all
+        unset ignore all
         case ${answer:0:1} in
             # proceed
             y ) echo "$l" ; return 0 ;;
@@ -55,10 +55,10 @@ _chapter_question_build() {
             # proceed with special var
             a ) all=true ; echo "$l" ; return 0 ;;
             # proceed with special var
-            s ) skip=true ; echo "$l" ; return 0 ;;
+            i ) ignore=true ; echo "$l" ; return 0 ;;
             # proceed with special var
             q ) echo "$l" ; cd "$cwd_before_main_script" ; exit 0 ;;
-            * ) echo 'y-build, n-no, s-skip, q-quit, a-all, ?-help' ;;
+            * ) echo 'y-build, n-no, a-all, i-ignore, q-quit, ?-help' ;;
         esac
     done
 }
@@ -67,17 +67,17 @@ _chapter_question_build_fail_continue() {
     echo "$l"
 
     while true ; do
-        echo -n "$p: skip this version [y,n,q]? "
+        echo -n "$p: ignore this version [y,n,q]? "
         read -r answer
 
         case ${answer:0:1} in
             y )
-                # skip
+                # ignore
                 sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
                 echo "$p,$current_rev,$upstream_rev" >> "$VERSIONS_FILE"
                 return 0 ;;
-            n ) return 1 ;;
-            q ) exit 0 ;;
+            n ) return 0 ;;
+            q ) cd "$cwd_before_main_script" ; exit 0 ;;
         esac
     done
 }
@@ -192,7 +192,7 @@ update_extra_pkgs() {
         [[ -n ${_extra_field_repo:-} ]] && local git=true || local git=false
         local stored_line=$(grep "^$p," "$VERSIONS_FILE" 2>/dev/null || true)
         local current_rev=$(echo "$stored_line" | cut -d',' -f2)
-        local skip_rev=$(echo "$stored_line" | cut -d',' -f3)
+        local ignore_rev=$(echo "$stored_line" | cut -d',' -f3)
 
         if [[ "$git" == true ]] ; then
             echo "=> checking $p"
@@ -202,14 +202,19 @@ update_extra_pkgs() {
             upstream_rev="${version:-}"
         fi
 
-        # store previous revision unconditionally so skipped dependencies can use it
+        # store previous revision unconditionally so ignored dependencies can use it
         previous_versions["$p"]="${current_rev:-${version:-}}"
 
         if [[ "${force:-}" != true ]] ; then
-            if [[ "$upstream_rev" == "$current_rev" ]] || [[ "$upstream_rev" == "$skip_rev" ]] ; then continue ; fi
+            if [[ "$upstream_rev" == "$current_rev" ]] || [[ "$upstream_rev" == "$ignore_rev" ]] ; then continue ; fi
         fi
 
         _chapter_question_build "build $p $upstream_rev" || continue
+        if [[ "${ignore:-}" == true ]] ; then
+            sed -i "/^$p,/d" "$VERSIONS_FILE" 2>/dev/null || true
+            echo "$p,$current_rev,$upstream_rev" >> "$VERSIONS_FILE"
+            continue
+        fi
 
         pkgs_to_build+=("$p")
         target_versions["$p"]="$upstream_rev"
@@ -265,7 +270,8 @@ update_extra_pkgs() {
         [[ "$p" =~ (wlroots|tree-sitter|libutf8proc) ]] && rm -f "$XBPS_REPOSITORY/${p}*"
 
         if ! ./xbps-src -C pkg "$p" ; then
-            _chapter_question_build_fail_continue || continue
+            _chapter_question_build_fail_continue
+            continue
         fi
 
         built_any=true
