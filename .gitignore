@@ -28,7 +28,6 @@ srcpkgs/git-versions.csv
 
 # including virus-found/void-packages stuff below
 !/build-extra
-!/diff-srcpkgs/
 !/etc/conf
 !/extra-srcpkgs-archive/
 !/extra-srcpkgs/

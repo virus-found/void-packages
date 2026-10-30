@@ -12,7 +12,6 @@ cd "$XBPS_DISTDIR"
 # define paths
 XBPS_SRCPKGDIR=srcpkgs
 XBPS_EXTRA_SRCPKGDIR=extra-srcpkgs
-XBPS_DIFF_SRCPKGDIR=diff-srcpkgs
 XBPS_MACHINE=$(xbps-uhelper -C /dev/null arch)
 XBPS_MASTERDIR="$XBPS_DISTDIR/masterdir-$XBPS_MACHINE"
 XBPS_HOSTDIR=hostdir
@@ -112,16 +111,6 @@ _sync_extra_pkgs() {
 _update_void_packages() {
     _chapter 'update void-packages'
     git fetch --all --prune
-
-    mkdir -p "$XBPS_DIFF_SRCPKGDIR"
-    for p in $(find "$XBPS_EXTRA_SRCPKGDIR" -maxdepth 1 -mindepth 1 -type d -printf '%P\n' 2>/dev/null || true) ; do
-        local base_pkg=${p%-git}
-        local diff_output=$(git diff HEAD origin/master -- "srcpkgs/$base_pkg/template" 2>/dev/null || true)
-        if [[ -n "$diff_output" ]] ; then
-            echo -e "\n--- Upstream update for $base_pkg at $(date -R) ---" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
-            echo "$diff_output" >> "$XBPS_DIFF_SRCPKGDIR/$p.diff"
-        fi
-    done
 
     # true if nothing to stash
     [[ -z $(git status --untracked-files=no --porcelain) ]] || local do_stash=true
@@ -330,14 +319,18 @@ cleanup() {
     _update_void_packages
     _chapter 'perform cleanup'
     sudo xbps-remove -Oo
-    # line below might help if cleanup fails
-    #rm -rf $XBPS_MASTERDIR
-    ./xbps-src clean
-    ./xbps-src clean-repocache || { ./xbps-src binary-bootstrap && ./xbps-src clean-repocache ; }
-    ./xbps-src remove-autodeps
+    [[ -d "$XBPS_BUILDDIR" ]] && chmod -R +wX "$XBPS_BUILDDIR"
     ./xbps-src zap
     rm -rf "$XBPS_SRCDISTDIR"
     ./xbps-src binary-bootstrap
+    # work around xbps-0.60.7 rpool/prop_array_remove thread race on unindexed local repos
+    unshare -cm --keep-caps bash -euo pipefail -c '
+        tmp=$(mktemp)
+        trap "rm -f \"$tmp\"" EXIT
+        echo 0 > "$tmp"
+        mount --bind "$tmp" /sys/devices/system/cpu/online
+        ./xbps-src clean-repocache
+    '
     _chapter 'cleanup success'
 }
 
